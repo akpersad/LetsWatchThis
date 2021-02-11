@@ -1,5 +1,6 @@
 const initialState = {
-	initialText: "Hello World"
+	initialText: "Hello World",
+	initialHash: {}
 };
 
 const appContainerReducer = (state = initialState, action) => {
