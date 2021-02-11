@@ -1,0 +1,682 @@
+/*
+====================================================
+
+* 	[Master Stylesheet]
+	
+	Theme Name :  
+	Version    :  
+	Author     :  
+	Author URI :  
+
+====================================================
+
+	TOC
+	
+	1. PRIMARY STYLES
+	2. COMMONS FOR PAGE DESIGN
+		JQUERY LIGHT BOX
+	3. MENU
+		MIDDLE AREA
+		BOTTOM AREA
+		DROPDOWN MENU STYLING
+		DROPDOWN SUBMENU
+		DROPDOWN HOVER 
+	4. SLIDER
+	5. STORY AREA
+	6. REMAINING TIME
+	7. WEDDING DETAILS AREA
+	8. WEDDING CEREMONY
+	9. CONTACT AREA
+	10. VIEW GALLERY
+	11. FOOTER
+
+====================================================
+
+/* ---------------------------------
+1. PRIMARY STYLES
+--------------------------------- */
+
+html {
+    font-size: 100%;
+    height: 100%;
+    touch-action: manipulation;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-wrap: break-word;
+    // padding-left: 10px;
+    // padding-right: 10px;
+}
+
+/* ---------------------------------
+2. COMMONS FOR PAGE DESIGN
+--------------------------------- */
+
+.btn {
+    padding: 15px 30px;
+    border-radius: 1px;
+    letter-spacing: 2px;
+    border: 1px solid #e45f74;
+    background: #e45f74;
+    color: #fff;
+}
+
+.btn:hover {
+    color: #e45f74;
+    background: none;
+}
+
+.btn-2 {
+    font-size: 0.9em;
+    padding: 15px 30px;
+    border-radius: 1px;
+    letter-spacing: 2px;
+    border: 1px solid #e45f74;
+}
+
+.btn-2:hover {
+    background: #e45f74;
+    color: #fff;
+}
+
+.border-btn {
+    font-size: 0.9em;
+    padding-bottom: 5px;
+    background: none;
+    color: inherit;
+    border: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.border-btn:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transition: all 0.3s;
+    background: #e45f74;
+}
+
+.border-btn:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transform: translateX(-130%);
+    transition: all 0.3s;
+    background: #e45f74;
+}
+
+.border-btn:hover:after {
+    transform: translateX(130%);
+}
+
+.border-btn:hover:before {
+    transform: translateX(0%);
+}
+
+.section {
+    padding: 100px 0 70px;
+}
+
+.section .heading {
+    padding-bottom: 40px;
+}
+
+.section .heading .icon {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #e45f74;
+}
+
+.section .heading .icon.color-white {
+    color: #fff;
+}
+
+.section .heading .heading-bottom {
+    margin-top: 20px;
+    display: inline-block;
+    width: 160px;
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+}
+
+.section .heading .heading-bottom .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -9px 0 0 -9px;
+}
+
+.section .heading .heading-bottom:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -0.5px;
+    height: 1px;
+    width: 60px;
+    background: #aaa;
+}
+
+.section .heading .heading-bottom:before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -0.5px;
+    height: 1px;
+    width: 60px;
+    background: #aaa;
+}
+
+.section .margin-bottom {
+    margin-bottom: 30px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.color-white {
+    color: #fff;
+}
+
+.display-table {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.display-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+::-webkit-input-placeholder {
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+::-moz-placeholder {
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+:-ms-input-placeholder {
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+:-moz-placeholder {
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+/* JQUERY LIGHT BOX */
+
+#flavorOverlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+#flavorLightbox {
+    display: none;
+}
+
+#flavorLightbox > img {
+    max-width: 90%;
+    max-height: 90%;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+#flavorLightboxClose {
+    font-size: 32px;
+    cursor: pointer;
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 666;
+    color: #fff;
+}
+
+.thumbnails {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    z-index: 600;
+    position: relative;
+    cursor: pointer;
+    position: absolute;
+    bottom: 50px;
+    width: 90%;
+}
+
+.thumbnails img {
+    height: 50px;
+    margin: 1px;
+    transition: 0.3s;
+}
+
+.thumbnails img:hover {
+    border: 2px solid #fff;
+}
+
+/* ---------------------------------
+3. MENU
+--------------------------------- */
+
+/* NAV ICON */
+
+.menu-nav-icon {
+    display: none;
+    height: 60px;
+    width: 50px;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    font-size: 1.8em;
+    color: #000;
+}
+
+/* ---------------------------------
+4. SLIDER
+--------------------------------- */
+
+.main-slider {
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    background-size: cover;
+    color: #fff;
+}
+
+.main-slider:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.slider-content .date {
+    margin: 10px 0 0;
+}
+
+.slider-content i {
+    line-height: 1;
+}
+
+.slider-content i.small-icon {
+    font-size: 2.5em;
+}
+
+.slider-content .title i {
+    transform: translateY(10px);
+    font-size: 0.8em;
+    color: #e45f74;
+}
+
+/* ---------------------------------
+5. STORY AREA
+--------------------------------- */
+
+.story-area {
+    position: relative;
+    z-index: 1;
+}
+
+.story-area:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+/* ---------------------------------
+6. REMAINING TIME
+--------------------------------- */
+
+/* ---------------------------------
+7. WEDDING DETAILS AREA
+--------------------------------- */
+
+.wedding-details {
+    overflow: hidden;
+    position: relative;
+}
+
+.wedding-details:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -0.5px;
+    width: 1px;
+    background: #ccc;
+}
+
+.w-detail {
+    width: 50%;
+    padding: 0 50px;
+    margin-bottom: 30px;
+    position: relative;
+    clear: both;
+    margin-top: -40px;
+}
+
+.w-detail:first-child {
+    margin-top: 0;
+}
+
+.w-detail:last-child {
+    margin-bottom: 0;
+}
+
+.w-detail:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 20px;
+    z-index: 1;
+    border: 1px solid #aaa;
+    background: #fff;
+}
+
+.w-detail.right {
+    text-align: left;
+    float: right;
+}
+
+.w-detail.right:after {
+    left: 0;
+    margin-left: -9px;
+}
+
+.w-detail.left {
+    text-align: right;
+    float: left;
+}
+
+.w-detail.left:after {
+    right: 0;
+    margin-right: -9px;
+}
+
+.w-detail .title {
+    margin: 10px 0;
+}
+
+.w-detail .icon {
+    font-size: 3.5em;
+    line-height: 1;
+    color: #e45f74;
+}
+
+/* ---------------------------------
+8. WEDDING CEREMONY
+--------------------------------- */
+
+.ceremony-area {
+    position: relative;
+    z-index: 1;
+
+    background-size: cover;
+    color: #fff;
+}
+
+.ceremony-area:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.ceremony .desc {
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+/* ---------------------------------
+9. CONTACT AREA
+--------------------------------- */
+
+.contact-area {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 1px 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.contact-area .contact-wrapper {
+    width: 50%;
+}
+
+.contact-area .map-area {
+    width: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.contact-area .phone {
+    margin: 10px 0;
+    font-size: 2em;
+    color: #e45f74;
+}
+
+/* ---------------------------------
+10. VIEW GALLERY
+--------------------------------- */
+
+.galery-area .gallery-btn {
+    margin-top: 30px;
+}
+
+/* ---------------------------------
+11. FOOTER
+--------------------------------- */
+
+/* Screens Resolution : 992px
+-------------------------------------------------------------------------- */
+@media only screen and (max-width: 1200px) {
+}
+
+/* Screens Resolution : 992px
+-------------------------------------------------------------------------- */
+@media only screen and (max-width: 992px) {
+    /* ---------------------------------
+	1. PRIMARY STYLES
+	--------------------------------- */
+
+    h1 {
+        font-size: 4em;
+    }
+    h2 {
+        font-size: 3em;
+    }
+    h3 {
+        font-size: 2em;
+    }
+
+    /* ---------------------------------
+	3. MENU
+	--------------------------------- */
+}
+
+/* Screens Resolution : 767px
+-------------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+    /* ---------------------------------
+	1. PRIMARY STYLES
+	--------------------------------- */
+
+    p {
+        line-height: 1.4;
+    }
+
+    h1 {
+        font-size: 3em;
+    }
+    h2 {
+        font-size: 2.5em;
+    }
+    h3 {
+        font-size: 1.8em;
+    }
+    h4 {
+        font-size: 1.5em;
+    }
+    h5 {
+        font-size: 1.2em;
+    }
+
+    /* ---------------------------------
+	2. COMMONS FOR PAGE DESIGN
+	--------------------------------- */
+
+    .section {
+        padding: 50px 0 20px;
+    }
+
+    .section .heading {
+        padding-bottom: 20px;
+    }
+
+    .section .heading .heading-bottom {
+        margin-top: 10px;
+    }
+
+    /* ---------------------------------
+	3. MENU
+	--------------------------------- */
+
+    /* NAV ICON */
+
+    .menu-nav-icon {
+        display: inline-block;
+        // float: right;
+    }
+
+    /* ---------------------------------
+	7. WEDDING DETAILS AREA
+	--------------------------------- */
+
+    .wedding-details {
+        margin-left: 15px;
+        overflow: visible;
+    }
+
+    .wedding-details:after {
+        left: 0;
+        margin-left: 0px;
+    }
+
+    .w-detail {
+        width: 100%;
+        padding: 0 0 0 30px;
+        margin: 0 0 30px;
+    }
+
+    .w-detail.left,
+    .w-detail.right {
+        text-align: left;
+        float: none;
+    }
+
+    .w-detail.right:after,
+    .w-detail.left:after {
+        left: 0;
+        margin-left: -9px;
+    }
+
+    /* ---------------------------------
+	9. CONTACT AREA
+	--------------------------------- */
+
+    .contact-area .contact-wrapper {
+        width: 100%;
+        float: none !important;
+    }
+
+    .contact-area .map-area {
+        height: 400px;
+        width: 100%;
+        position: static;
+    }
+
+    /* ---------------------------------
+	10. VIEW GALLERY
+	--------------------------------- */
+
+    .galery-area .gallery-btn {
+        margin-top: 10px;
+    }
+
+    /* ---------------------------------
+	11. FOOTER
+	--------------------------------- */
+
+    footer ul > li > a {
+        padding: 10px 7px;
+    }
+
+    footer .newsletter .email-area {
+        width: 90%;
+    }
+}
+
+/* Screens Resolution : 479px
+-------------------------------------------------------------------------- */
+@media only screen and (max-width: 479px) {
+    /* ---------------------------------
+	1. PRIMARY STYLES
+	--------------------------------- */
+
+    body {
+        font-size: 14px;
+    }
+}
+
+/* Screens Resolution : 359px
+-------------------------------------------------------------------------- */
+@media only screen and (max-width: 359px) {
+}
+
+/* Screens Resolution : 290px
+-------------------------------------------------------------------------- */
+@media only screen and (max-width: 290px) {
+}
