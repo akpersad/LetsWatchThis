@@ -9,7 +9,8 @@
     "lint": "eslint --fix --ext .js,.jsx .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "combine": "npm run build & npm run start",
-    "express": "node server.js & npm run combine"
+    "server": "node -r dotenv/config server.js",
+    "express": "npm run server & npm run combine"
   },
   "proxy": "http://localhost:5000",
   "crcf": [
@@ -62,12 +63,14 @@
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-react-views": "^0.11.0",
     "file-loader": "^5.1.0",
     "install": "^0.13.0",
     "jquery": "^3.5.1",
     "module-alias": "^2.2.2",
+    "mysql": "^2.18.1",
     "popper.js": "^1.16.0",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",

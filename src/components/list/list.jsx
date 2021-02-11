@@ -14,7 +14,7 @@ class List extends Component {
   // Retrieves the list of items from the Express app
   getList() {
     const { app } = store.getState();
-    axios.get("/api/getList").then(res => {
+    axios.get("/api/users").then(res => {
       // res.data;
       console.log("🚀 ~ file: list.jsx ~ line 14 ~ List ~ axios.get ~ res", res.data);
 

@@ -1,16 +1,36 @@
 const express = require("express");
 const path = require("path");
+const mysql = require("mysql");
 
 const app = express();
+const dbDetails = {
+	host: process.env.MYSQL_HOST,
+	user: process.env.MYSQL_USER,
+	password: process.env.MYSQL_PWD,
+	database: process.env.MYSQL_DB
+};
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "dist")));
+
+const pool = mysql.createPool(dbDetails);
+const con = mysql.createConnection(dbDetails);
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
 	const list = ["item1", "item2", "item3"];
 	res.json(list);
 	console.log("Sent list of items");
+});
+
+app.get("/api/users", (req, res) => {
+	pool.query("SELECT * FROM test", (err, rows) => {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(rows);
+		}
+	});
 });
 
 // Handles any requests that don't match the ones above
