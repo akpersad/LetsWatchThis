@@ -18,7 +18,6 @@ export const fetchNetflix = () => {
   //     end_year: "2021"
   //   },
   //   headers: {
-  //     "x-rapidapi-key": "b050c927a5mshd27df11ab788b18p193075jsna68064031a08",
   //     "x-rapidapi-host": "unogsng.p.rapidapi.com"
   //   }
   // };
