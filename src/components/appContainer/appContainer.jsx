@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchNetflix } from "../fetchNetflix/fetchNetflix";
+import HomeContainer from "../homeContainer/homeContainer";
 
 class AppContainer extends Component {
   componentDidMount() {
@@ -10,7 +11,12 @@ class AppContainer extends Component {
 
   render() {
     const { initialText } = this.props;
-    return <div>{initialText}</div>;
+    return (
+      <>
+        <div>{initialText}</div>
+        <HomeContainer />
+      </>
+    );
   }
 }
 

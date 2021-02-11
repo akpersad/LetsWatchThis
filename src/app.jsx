@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import "./styles/main.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import AppContainer from "./components/appContainer/appContainer";
+import List from "./components/list/list";
 
 class App extends Component {
   render() {
@@ -10,7 +11,7 @@ class App extends Component {
       <>
         <Switch>
           <Route path="/" exact component={AppContainer} />
-          <Route path="/something" component={AppContainer} />
+          <Route path="/list" component={List} />
         </Switch>
       </>
     );
