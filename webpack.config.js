@@ -68,6 +68,12 @@ module.exports = {
 		historyApiFallback: true,
 		contentBase: DIST_DIR,
 		hot: true,
-		port: 9000
+		port: 9000,
+		proxy: {
+			"/api/*": {
+				target: "http://localhost:5000",
+				secure: false
+			}
+		}
 	}
 };
