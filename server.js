@@ -23,8 +23,11 @@ app.get("/api/getList", (req, res) => {
 	console.log("Sent list of items");
 });
 
-app.get("/api/users", (req, res) => {
-	pool.query("SELECT * FROM test", (err, rows) => {
+app.get("/api/shows", (req, res) => {
+	const limit = req.query.limit || 100;
+	console.log("🚀 ~ file: server.js ~ line 28 ~ app.get ~ limit", limit);
+
+	pool.query(`SELECT * FROM netflix_shows LIMIT ${limit}`, (err, rows) => {
 		if (err) {
 			res.send(err);
 		} else {
