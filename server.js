@@ -1,3 +1,4 @@
+const port = process.env.PORT || 5000;
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
@@ -9,12 +10,10 @@ const dbDetails = {
 	password: process.env.MYSQL_PWD,
 	database: process.env.MYSQL_DB
 };
+const pool = mysql.createPool(dbDetails);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "dist")));
-
-const pool = mysql.createPool(dbDetails);
-const con = mysql.createConnection(dbDetails);
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
@@ -41,7 +40,5 @@ app.get("*", (req, res) => {
 	res.sendFile(path.join(`${__dirname}/dist/index.html`));
 });
 
-const port = process.env.PORT || 5000;
 app.listen(port);
-
 console.log(`App is listening on port ${port}`);
