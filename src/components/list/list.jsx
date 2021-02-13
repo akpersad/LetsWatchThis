@@ -14,11 +14,10 @@ class List extends Component {
   // Retrieves the list of items from the Express app
   getList() {
     const { app } = store.getState();
-    axios.get("/api/users").then(res => {
-      // res.data;
+    axios.get("/api/shows?limit=125").then(res => {
       console.log("🚀 ~ file: list.jsx ~ line 14 ~ List ~ axios.get ~ res", res.data);
 
-      app.testList = res.data;
+      app.showList = res.data;
 
       store.dispatch({
         type: "INITIAL_STATE",
@@ -27,22 +26,19 @@ class List extends Component {
     });
   }
 
+  setList() {
+    const { showList } = this.props;
+
+    return showList.map(item => {
+      return <li key={item.id}>{item.title}</li>;
+    });
+  }
+
   render() {
-    const { testList } = this.props;
     return (
       <div className="App">
-        <h1>List of Items</h1>
-        {testList.length ? (
-          <div>
-            {testList.map(item => {
-              return <div>{item}</div>;
-            })}
-          </div>
-        ) : (
-          <div>
-            <h2>No List Items Found</h2>
-          </div>
-        )}
+        <h1>List of Shows</h1>
+        <ul>{this.setList()}</ul>
       </div>
     );
   }
@@ -55,7 +51,7 @@ const mapStateToProps = state => {
 };
 
 List.propTypes = {
-  testList: PropTypes.array.isRequired
+  showList: PropTypes.array.isRequired
 };
 
 export default connect(mapStateToProps)(List);
