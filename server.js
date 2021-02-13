@@ -2,6 +2,7 @@ const port = process.env.PORT || 5000;
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
+const netflixDB = require("./expressFiles/netflixDB");
 
 const app = express();
 const dbDetails = {
@@ -23,10 +24,8 @@ app.get("/api/getList", (req, res) => {
 });
 
 app.get("/api/shows", (req, res) => {
-	const limit = req.query.limit || 100;
-	console.log("🚀 ~ file: server.js ~ line 28 ~ app.get ~ limit", limit);
-
-	pool.query(`SELECT * FROM netflix_shows LIMIT ${limit}`, (err, rows) => {
+	const queryStatement = netflixDB.createQuery(req);
+	pool.query(queryStatement, (err, rows) => {
 		if (err) {
 			res.send(err);
 		} else {
@@ -40,5 +39,6 @@ app.get("*", (req, res) => {
 	res.sendFile(path.join(`${__dirname}/dist/index.html`));
 });
 
-app.listen(port);
-console.log(`App is listening on port ${port}`);
+app.listen(port, function() {
+	console.log(`App is listening on port ${port}`);
+});
