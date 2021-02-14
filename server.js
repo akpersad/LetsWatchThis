@@ -5,6 +5,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
 const dbDetails = require("./serverApp/config/db.config");
 const netflixDB = require("./serverApp/models/netflixDB.model");
+const registrationCt = require("./serverApp/controllers/reg.controller");
 
 const app = express();
 const pool = mysql.createPool(dbDetails);
@@ -43,9 +44,42 @@ app.get("/api/test", (req, res) => {
 	});
 });
 
-app.post("/api/posttest", (req, res) => {
-	console.log("🚀 ~ file: server.js ~ line 45 ~ app.get ~ req", req);
-	res.send(true);
+app.post("/api/registration", (req, res) => {
+	const credentialsCombo = {
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password, salt)
+	};
+
+	pool.query(
+		`SELECT * FROM users WHERE username = '${credentialsCombo.username}'`,
+		(error, returnedRows) => {
+			let bool = false;
+			if (error) {
+				res.send(error);
+			} else {
+				bool = returnedRows.length === 0;
+			}
+
+			if (bool) {
+				const queryStatement = registrationCt.createQuery(credentialsCombo);
+				pool.query(queryStatement, (err, rows) => {
+					if (err) {
+						res.send(err);
+					} else {
+						res.send({ registationSuccess: true, rows });
+					}
+				});
+			} else {
+				res.send({ registationSuccess: false, message: "User already exists" });
+			}
+		}
+	);
+});
+
+app.post("/api/checkpassword", (req, res) => {
+	registrationCt.checkPassword(pool, req.body).then(response => {
+		res.send({ response });
+	});
 });
 
 // Handles any requests that don't match the ones above
