@@ -3,14 +3,17 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
-const netflixDB = require("./expressFiles/netflixDB");
 const dbDetails = require("./serverApp/config/db.config");
+const netflixDB = require("./serverApp/models/netflixDB.model");
 
 const app = express();
 const pool = mysql.createPool(dbDetails);
+const salt = bcrypt.genSaltSync(10);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
@@ -31,7 +34,6 @@ app.get("/api/shows", (req, res) => {
 });
 
 app.get("/api/test", (req, res) => {
-	const salt = bcrypt.genSaltSync(10);
 	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
 	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);
 
@@ -39,6 +41,11 @@ app.get("/api/test", (req, res) => {
 		console.log("🚀 ~ file: server.js ~ line 66 ~ bcrypt.compare ~ resp", resp);
 		res.send(resp);
 	});
+});
+
+app.post("/api/posttest", (req, res) => {
+	console.log("🚀 ~ file: server.js ~ line 45 ~ app.get ~ req", req);
+	res.send(true);
 });
 
 // Handles any requests that don't match the ones above
