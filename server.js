@@ -59,6 +59,12 @@ app.post("/api/registration", (req, res) => {
 	});
 });
 
+app.post("/api/checkpassword", (req, res) => {
+	registrationCt.checkPassword(pool, req.body).then(response => {
+		res.send({ response });
+	});
+});
+
 // Handles any requests that don't match the ones above
 app.get("*", (req, res) => {
 	res.sendFile(path.join(`${__dirname}/dist/index.html`));
