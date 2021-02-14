@@ -5,6 +5,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
 const dbDetails = require("./serverApp/config/db.config");
 const netflixDB = require("./serverApp/models/netflixDB.model");
+const registrationCt = require("./serverApp/controllers/reg.controller");
 
 const app = express();
 const pool = mysql.createPool(dbDetails);
@@ -43,9 +44,15 @@ app.get("/api/test", (req, res) => {
 	});
 });
 
-app.post("/api/posttest", (req, res) => {
-	console.log("🚀 ~ file: server.js ~ line 45 ~ app.get ~ req", req);
-	res.send(true);
+app.post("/api/registration", (req, res) => {
+	const queryStatement = registrationCt.createQuery(req.body);
+	pool.query(queryStatement, (err, rows) => {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(rows);
+		}
+	});
 });
 
 // Handles any requests that don't match the ones above
