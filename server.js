@@ -45,7 +45,11 @@ app.get("/api/test", (req, res) => {
 });
 
 app.post("/api/registration", (req, res) => {
-	const queryStatement = registrationCt.createQuery(req.body);
+	const credentialsCombo = {
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password, salt)
+	};
+	const queryStatement = registrationCt.createQuery(credentialsCombo);
 	pool.query(queryStatement, (err, rows) => {
 		if (err) {
 			res.send(err);
