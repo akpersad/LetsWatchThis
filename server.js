@@ -49,14 +49,31 @@ app.post("/api/registration", (req, res) => {
 		username: req.body.username,
 		password: bcrypt.hashSync(req.body.password, salt)
 	};
-	const queryStatement = registrationCt.createQuery(credentialsCombo);
-	pool.query(queryStatement, (err, rows) => {
-		if (err) {
-			res.send(err);
-		} else {
-			res.send(rows);
+
+	pool.query(
+		`SELECT * FROM users WHERE username = '${credentialsCombo.username}'`,
+		(error, returnedRows) => {
+			let bool = false;
+			if (error) {
+				res.send(error);
+			} else {
+				bool = returnedRows.length === 0;
+			}
+
+			if (bool) {
+				const queryStatement = registrationCt.createQuery(credentialsCombo);
+				pool.query(queryStatement, (err, rows) => {
+					if (err) {
+						res.send(err);
+					} else {
+						res.send({ registationSuccess: true, rows });
+					}
+				});
+			} else {
+				res.send({ registationSuccess: false, message: "User already exists" });
+			}
 		}
-	});
+	);
 });
 
 app.post("/api/checkpassword", (req, res) => {
