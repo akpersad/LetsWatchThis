@@ -86,7 +86,7 @@ app.post("/api/registration", (req, res) => {
 
 app.post("/api/checkpassword", cors(), (req, res) => {
 	registrationCt.checkPassword(pool, req.body).then(response => {
-		res.json({ response });
+		res.json(response);
 	});
 });
 

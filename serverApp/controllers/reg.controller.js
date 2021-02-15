@@ -17,7 +17,10 @@ const checkPassword = (pool, combo) => {
 			}
 
 			bcrypt.compare(combo.password, rows[0].password).then(resp => {
-				resolve(resp);
+				const returnedRes = resp
+					? { response: resp, username: rows[0].username, id: rows[0].id }
+					: { response: resp };
+				resolve(returnedRes);
 			});
 
 			return true;
