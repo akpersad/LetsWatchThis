@@ -7,12 +7,9 @@ class Login extends Component {
     super();
     this.state = {
       username: "",
-      password: "",
-      confirmPass: "",
-      validForm: false
+      password: ""
     };
 
-    this.confirmPassCheck = this.confirmPassCheck.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -38,43 +35,31 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    const { validForm, username, password } = this.state;
+    const { username, password } = this.state;
 
-    if (validForm) {
-      axios
-        .post(
-          "/api/checkpassword",
-          {
-            username,
-            password
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
+    axios
+      .post(
+        "/api/checkpassword",
+        {
+          username,
+          password
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
           }
-        )
-        .then(response => {
-          console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response.data);
-        })
-        .catch(error => {
-          console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
-        });
-    }
-  }
-
-  confirmPassCheck() {
-    const { password, confirmPass } = this.state;
-    if (password !== confirmPass || confirmPass === "") {
-      console.log("DOES NOT MATCH", confirmPass);
-    } else {
-      const hash = { validForm: true };
-      this.setState(hash);
-    }
+        }
+      )
+      .then(response => {
+        console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response.data);
+      })
+      .catch(error => {
+        console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
+      });
   }
 
   render() {
-    const { username, password, confirmPass } = this.state;
+    const { username, password } = this.state;
     return (
       <>
         <label htmlFor="test1">
@@ -98,23 +83,10 @@ class Login extends Component {
             onChange={e => this.handleChange(e)}
           />
         </label>
-
-        <label htmlFor="test3">
-          Confirm Password:
-          <input
-            id="test3"
-            type="password"
-            name="confirmPass"
-            value={confirmPass}
-            onChange={e => this.handleChange(e)}
-          />
-        </label>
         <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </>
     );
   }
 }
-
-// Login.propTypes = {};
 
 export default Login;
