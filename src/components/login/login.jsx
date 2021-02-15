@@ -39,17 +39,21 @@ class Login extends Component {
 
   handleSubmit() {
     const { validForm, username, password } = this.state;
-
+    debugger;
     if (validForm) {
-      axios({
-        method: "post",
-        url: "/api/checkpassword",
-        headers: {},
-        data: {
-          username,
-          password
-        }
-      })
+      axios
+        .post(
+          "/api/checkpassword",
+          {
+            username,
+            password
+          },
+          {
+            headers: {
+              "Content-Type": "text/plain"
+            }
+          }
+        )
         .then(function(response) {
           debugger;
           console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response);

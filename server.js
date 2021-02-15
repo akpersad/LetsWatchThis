@@ -13,8 +13,6 @@ const salt = bcrypt.genSaltSync(10);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "dist")));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
@@ -77,6 +75,7 @@ app.post("/api/registration", (req, res) => {
 });
 
 app.post("/api/checkpassword", (req, res) => {
+	console.log("🚀 ~ file: server.js ~ line 78 ~ app.post ~ req", req);
 	registrationCt.checkPassword(pool, req.body).then(response => {
 		res.send({ response });
 	});
@@ -90,9 +89,3 @@ app.get("*", (req, res) => {
 app.listen(port, function() {
 	console.log(`App is listening on port ${port}`);
 });
-
-// https://bezkoder.com/node-js-jwt-authentication-mysql/
-// db.sequelize.sync({ force: true }).then(() => {
-// 	console.log("Drop and Resync Db");
-// 	initial();
-// });
