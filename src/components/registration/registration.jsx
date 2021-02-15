@@ -43,7 +43,7 @@ class Registration extends Component {
     if (validForm) {
       axios
         .post(
-          "/api/checkpassword",
+          "/api/registration",
           {
             username,
             password

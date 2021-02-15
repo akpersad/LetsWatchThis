@@ -17,6 +17,12 @@ class HomeContainer extends Component {
             Login
           </button>
         </Link>
+
+        <Link to="./registration">
+          <button type="button" variant="raised">
+            Registration
+          </button>
+        </Link>
       </div>
     );
   }
