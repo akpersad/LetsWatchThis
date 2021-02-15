@@ -4,6 +4,7 @@ import "./styles/main.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import AppContainer from "./components/appContainer/appContainer";
 import List from "./components/list/list";
+import Login from "./components/login/login";
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Switch>
           <Route path="/" exact component={AppContainer} />
           <Route path="/list" component={List} />
+          <Route path="/login" component={Login} />
         </Switch>
       </>
     );

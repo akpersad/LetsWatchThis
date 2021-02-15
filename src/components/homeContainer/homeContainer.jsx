@@ -11,6 +11,12 @@ class HomeContainer extends Component {
             My List
           </button>
         </Link>
+
+        <Link to="./login">
+          <button type="button" variant="raised">
+            Login
+          </button>
+        </Link>
       </div>
     );
   }
