@@ -12,7 +12,7 @@
     "server": "node -r dotenv/config server.js",
     "express": "npm run server & npm run combine"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:6000",
   "crcf": [
     "scss",
     "jsx",

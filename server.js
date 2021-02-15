@@ -13,8 +13,8 @@ const salt = bcrypt.genSaltSync(10);
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "dist")));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {

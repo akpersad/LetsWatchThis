@@ -38,13 +38,26 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    const { validForm } = this.state;
+    const { validForm, username, password } = this.state;
 
     if (validForm) {
-      axios.post("/user", {
-        firstName: "Fred",
-        lastName: "Flintstone"
-      });
+      axios({
+        method: "post",
+        url: "/api/checkpassword",
+        headers: {},
+        data: {
+          username,
+          password
+        }
+      })
+        .then(function(response) {
+          debugger;
+          console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response);
+        })
+        .catch(function(error) {
+          debugger;
+          console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
+        });
     }
   }
 

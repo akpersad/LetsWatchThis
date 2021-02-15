@@ -10,6 +10,7 @@ const createQuery = request => {
 const checkPassword = (pool, combo) => {
 	return new Promise(resolve => {
 		const queryStatement = `SELECT * FROM ${dbName} WHERE username = '${combo.username}' LIMIT 1`;
+
 		pool.query(queryStatement, (err, rows) => {
 			if (err) {
 				return err;
