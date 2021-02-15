@@ -3,16 +3,26 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const dbDetails = require("./serverApp/config/db.config");
 const netflixDB = require("./serverApp/models/netflixDB.model");
 const registrationCt = require("./serverApp/controllers/reg.controller");
 
+const corsOptions = {
+	origin: "http://localhost:9000",
+	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 const app = express();
 const pool = mysql.createPool(dbDetails);
 const salt = bcrypt.genSaltSync(10);
 
 // Serve the static files from the React app
+app.use(cors(corsOptions));
+app.options("*", cors());
 app.use(express.static(path.join(__dirname, "dist")));
+app.use(bodyParser.json());
+app.use(express.json());
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
@@ -74,10 +84,9 @@ app.post("/api/registration", (req, res) => {
 	);
 });
 
-app.post("/api/checkpassword", (req, res) => {
-	console.log("🚀 ~ file: server.js ~ line 78 ~ app.post ~ req", req);
+app.post("/api/checkpassword", cors(), (req, res) => {
 	registrationCt.checkPassword(pool, req.body).then(response => {
-		res.send({ response });
+		res.json({ response });
 	});
 });
 

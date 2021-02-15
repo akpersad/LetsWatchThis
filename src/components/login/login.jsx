@@ -39,7 +39,7 @@ class Login extends Component {
 
   handleSubmit() {
     const { validForm, username, password } = this.state;
-    debugger;
+
     if (validForm) {
       axios
         .post(
@@ -50,16 +50,14 @@ class Login extends Component {
           },
           {
             headers: {
-              "Content-Type": "text/plain"
+              "Content-Type": "application/json"
             }
           }
         )
-        .then(function(response) {
-          debugger;
-          console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response);
+        .then(response => {
+          console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response.data);
         })
-        .catch(function(error) {
-          debugger;
+        .catch(error => {
           console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
         });
     }
@@ -67,7 +65,7 @@ class Login extends Component {
 
   confirmPassCheck() {
     const { password, confirmPass } = this.state;
-    if (password !== confirmPass) {
+    if (password !== confirmPass || confirmPass === "") {
       console.log("DOES NOT MATCH", confirmPass);
     } else {
       const hash = { validForm: true };
@@ -79,41 +77,39 @@ class Login extends Component {
     const { username, password, confirmPass } = this.state;
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="test1">
-            Username:
-            <input
-              id="test1"
-              type="text"
-              name="username"
-              value={username}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
+        <label htmlFor="test1">
+          Username:
+          <input
+            id="test1"
+            type="text"
+            name="username"
+            value={username}
+            onChange={e => this.handleChange(e)}
+          />
+        </label>
 
-          <label htmlFor="test2">
-            Password:
-            <input
-              id="test2"
-              type="text"
-              name="password"
-              value={password}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
+        <label htmlFor="test2">
+          Password:
+          <input
+            id="test2"
+            type="password"
+            name="password"
+            value={password}
+            onChange={e => this.handleChange(e)}
+          />
+        </label>
 
-          <label htmlFor="test3">
-            Confirm Password:
-            <input
-              id="test3"
-              type="text"
-              name="confirmPass"
-              value={confirmPass}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        <label htmlFor="test3">
+          Confirm Password:
+          <input
+            id="test3"
+            type="password"
+            name="confirmPass"
+            value={confirmPass}
+            onChange={e => this.handleChange(e)}
+          />
+        </label>
+        <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </>
     );
   }
