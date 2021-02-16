@@ -9,7 +9,7 @@ class Registration extends Component {
       username: "",
       password: "",
       confirmPass: "",
-      validForm: false
+      validForm: true
     };
 
     this.confirmPassCheck = this.confirmPassCheck.bind(this);
@@ -66,7 +66,8 @@ class Registration extends Component {
   confirmPassCheck() {
     const { password, confirmPass } = this.state;
     if (password !== confirmPass || confirmPass === "") {
-      console.log("DOES NOT MATCH", confirmPass);
+      const hash = { validForm: false };
+      this.setState(hash);
     } else {
       const hash = { validForm: true };
       this.setState(hash);
@@ -74,41 +75,54 @@ class Registration extends Component {
   }
 
   render() {
-    const { username, password, confirmPass } = this.state;
+    const { username, password, confirmPass, validForm } = this.state;
     return (
       <>
-        <label htmlFor="test1">
-          Username:
-          <input
-            id="test1"
-            type="text"
-            name="username"
-            value={username}
-            onChange={e => this.handleChange(e)}
-          />
-        </label>
+        <div className="form-group">
+          <label htmlFor="test1">
+            Username:
+            <input
+              id="test1"
+              type="text"
+              name="username"
+              value={username}
+              onChange={e => this.handleChange(e)}
+            />
+          </label>
+        </div>
 
-        <label htmlFor="test2">
-          Password:
-          <input
-            id="test2"
-            type="password"
-            name="password"
-            value={password}
-            onChange={e => this.handleChange(e)}
-          />
-        </label>
+        <div className="form-group">
+          <label htmlFor="test2">
+            Password:
+            <input
+              id="test2"
+              type="password"
+              name="password"
+              value={password}
+              onChange={e => this.handleChange(e)}
+            />
+          </label>
+        </div>
 
-        <label htmlFor="test3">
-          Confirm Password:
-          <input
-            id="test3"
-            type="password"
-            name="confirmPass"
-            value={confirmPass}
-            onChange={e => this.handleChange(e)}
-          />
-        </label>
+        <div className="form-group">
+          <label htmlFor="test3">
+            Confirm Password:
+            <input
+              id="test3"
+              type="password"
+              name="confirmPass"
+              value={confirmPass}
+              onChange={e => this.handleChange(e)}
+            />
+          </label>
+          {!validForm ? (
+            <div className="error-div">
+              <span>Passwords Do Not Match</span>
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
         <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </>
     );
