@@ -8,15 +8,19 @@ const createQuery = request => {
 };
 
 const checkPassword = (pool, combo) => {
-	return new Promise(resolve => {
+	return new Promise((resolve, reject) => {
 		const queryStatement = `SELECT * FROM ${dbName} WHERE username = '${combo.username}' LIMIT 1`;
+
 		pool.query(queryStatement, (err, rows) => {
 			if (err) {
-				return err;
+				reject(err);
 			}
 
 			bcrypt.compare(combo.password, rows[0].password).then(resp => {
-				resolve(resp);
+				const returnedRes = resp
+					? { response: resp, username: rows[0].username, id: rows[0].id }
+					: { response: resp };
+				resolve(returnedRes);
 			});
 
 			return true;

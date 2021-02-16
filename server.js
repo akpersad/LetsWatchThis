@@ -3,18 +3,26 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const dbDetails = require("./serverApp/config/db.config");
 const netflixDB = require("./serverApp/models/netflixDB.model");
 const registrationCt = require("./serverApp/controllers/reg.controller");
 
+const corsOptions = {
+	origin: "http://localhost:9000",
+	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 const app = express();
 const pool = mysql.createPool(dbDetails);
 const salt = bcrypt.genSaltSync(10);
 
 // Serve the static files from the React app
+app.use(cors(corsOptions));
+app.options("*", cors());
 app.use(express.static(path.join(__dirname, "dist")));
+app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
@@ -62,11 +70,20 @@ app.post("/api/registration", (req, res) => {
 
 			if (bool) {
 				const queryStatement = registrationCt.createQuery(credentialsCombo);
-				pool.query(queryStatement, (err, rows) => {
+				pool.query(queryStatement, (err, response) => {
 					if (err) {
 						res.send(err);
 					} else {
-						res.send({ registationSuccess: true, rows });
+						pool.query(
+							`SELECT id, username FROM users WHERE id = '${response.insertId}' LIMIT 1`,
+							(returnedError, registeredRow) => {
+								if (returnedError) {
+									res.send(returnedError);
+								} else {
+									res.send({ registationSuccess: true, registeredRow });
+								}
+							}
+						);
 					}
 				});
 			} else {
@@ -76,9 +93,9 @@ app.post("/api/registration", (req, res) => {
 	);
 });
 
-app.post("/api/checkpassword", (req, res) => {
+app.post("/api/checkpassword", cors(), (req, res) => {
 	registrationCt.checkPassword(pool, req.body).then(response => {
-		res.send({ response });
+		res.json(response);
 	});
 });
 
@@ -90,9 +107,3 @@ app.get("*", (req, res) => {
 app.listen(port, function() {
 	console.log(`App is listening on port ${port}`);
 });
-
-// https://bezkoder.com/node-js-jwt-authentication-mysql/
-// db.sequelize.sync({ force: true }).then(() => {
-// 	console.log("Drop and Resync Db");
-// 	initial();
-// });
