@@ -18,20 +18,9 @@ class Login extends Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
 
-    if (name !== "confirmPass") {
-      this.setState({
-        [name]: value
-      });
-    } else {
-      this.setState(
-        {
-          [name]: value
-        },
-        () => {
-          this.confirmPassCheck();
-        }
-      );
-    }
+    this.setState({
+      [name]: value
+    });
   }
 
   handleSubmit() {
