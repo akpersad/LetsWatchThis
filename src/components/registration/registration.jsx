@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import store from "../../config/store";
 
 class Registration extends Component {
   constructor() {
@@ -39,6 +41,8 @@ class Registration extends Component {
 
   handleSubmit() {
     const { validForm, username, password } = this.state;
+    const { app } = store.getState();
+    const { history } = this.props;
 
     if (validForm) {
       axios
@@ -55,7 +59,19 @@ class Registration extends Component {
           }
         )
         .then(response => {
-          console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response.data);
+          if (response.data.registationSuccess) {
+            app.userInfo.username = response.data.registeredRow[0].username;
+            app.userInfo.id = response.data.registeredRow[0].id;
+            app.isLoggedIn = true;
+
+            store.dispatch({
+              type: "INITIAL_STATE",
+              payload: app
+            });
+            history.push("/");
+          } else {
+            console.log(response.data.message);
+          }
         })
         .catch(error => {
           console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
@@ -129,4 +145,14 @@ class Registration extends Component {
   }
 }
 
-export default Registration;
+Registration.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    ...state.app
+  };
+};
+
+export default connect(mapStateToProps)(Registration);

@@ -70,11 +70,20 @@ app.post("/api/registration", (req, res) => {
 
 			if (bool) {
 				const queryStatement = registrationCt.createQuery(credentialsCombo);
-				pool.query(queryStatement, (err, rows) => {
+				pool.query(queryStatement, (err, response) => {
 					if (err) {
 						res.send(err);
 					} else {
-						res.send({ registationSuccess: true, rows });
+						pool.query(
+							`SELECT id, username FROM users WHERE id = '${response.insertId}' LIMIT 1`,
+							(returnedError, registeredRow) => {
+								if (returnedError) {
+									res.send(returnedError);
+								} else {
+									res.send({ registationSuccess: true, registeredRow });
+								}
+							}
+						);
 					}
 				});
 			} else {
