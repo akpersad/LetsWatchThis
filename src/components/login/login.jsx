@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
-// import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import store from "../../config/store";
 
 class Login extends Component {
   constructor() {
@@ -25,6 +28,8 @@ class Login extends Component {
 
   handleSubmit() {
     const { username, password } = this.state;
+    const { app } = store.getState();
+    const { history } = this.props;
 
     axios
       .post(
@@ -40,7 +45,18 @@ class Login extends Component {
         }
       )
       .then(response => {
-        console.log("🚀 ~ file: login.jsx ~ line 50 ~ Login ~ .then ~ response", response.data);
+        if (response.data.response) {
+          app.userInfo.username = response.data.username;
+          app.userInfo.id = response.data.id;
+          app.isLoggedIn = true;
+
+          store.dispatch({
+            type: "INITIAL_STATE",
+            payload: app
+          });
+          history.push("/");
+        }
+        console.log("INCORRECT");
       })
       .catch(error => {
         console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
@@ -82,4 +98,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    ...state.app
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(Login));

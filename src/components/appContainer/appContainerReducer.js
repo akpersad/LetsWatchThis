@@ -2,7 +2,7 @@ const initialState = {
 	initialText: "Hello World",
 	initialHash: {},
 	isLoggedIn: false,
-	userInfo: {},
+	userInfo: { username: "", id: "" },
 	showList: []
 };
 
