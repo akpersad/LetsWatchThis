@@ -55,7 +55,9 @@ app.get("/api/test", (req, res) => {
 app.post("/api/registration", (req, res) => {
 	const credentialsCombo = {
 		username: req.body.username,
-		password: bcrypt.hashSync(req.body.password, salt)
+		password: bcrypt.hashSync(req.body.password, salt),
+		first_name: req.body.firstName,
+		last_name: req.body.lastName
 	};
 
 	pool.query(
@@ -75,7 +77,7 @@ app.post("/api/registration", (req, res) => {
 						res.send(err);
 					} else {
 						pool.query(
-							`SELECT id, username FROM users WHERE id = '${response.insertId}' LIMIT 1`,
+							`SELECT * FROM users WHERE id = '${response.insertId}' LIMIT 1`,
 							(returnedError, registeredRow) => {
 								if (returnedError) {
 									res.send(returnedError);

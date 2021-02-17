@@ -10,6 +10,8 @@ class Registration extends Component {
     this.state = {
       username: "",
       password: "",
+      firstName: "",
+      lastName: "",
       confirmPass: "",
       validForm: true
     };
@@ -40,7 +42,7 @@ class Registration extends Component {
   }
 
   handleSubmit() {
-    const { validForm, username, password } = this.state;
+    const { validForm, username, password, firstName, lastName } = this.state;
     const { app } = store.getState();
     const { history } = this.props;
 
@@ -50,7 +52,9 @@ class Registration extends Component {
           "/api/registration",
           {
             username,
-            password
+            password,
+            firstName,
+            lastName
           },
           {
             headers: {
@@ -62,6 +66,8 @@ class Registration extends Component {
           if (response.data.registationSuccess) {
             app.userInfo.username = response.data.registeredRow[0].username;
             app.userInfo.id = response.data.registeredRow[0].id;
+            app.userInfo.firstName = response.data.registeredRow[0].first_name;
+            app.userInfo.lastName = response.data.registeredRow[0].last_name;
             app.isLoggedIn = true;
 
             store.dispatch({
@@ -93,7 +99,7 @@ class Registration extends Component {
   }
 
   render() {
-    const { username, password, confirmPass, validForm } = this.state;
+    const { username, password, firstName, lastName, confirmPass, validForm } = this.state;
     return (
       <>
         <div className="form-group">
@@ -104,6 +110,32 @@ class Registration extends Component {
               type="text"
               name="username"
               value={username}
+              onChange={e => this.handleChange(e)}
+            />
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="fName">
+            First Name:
+            <input
+              id="fName"
+              type="text"
+              name="firstName"
+              value={firstName}
+              onChange={e => this.handleChange(e)}
+            />
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="lName">
+            Last Name:
+            <input
+              id="lName"
+              type="text"
+              name="lastName"
+              value={lastName}
               onChange={e => this.handleChange(e)}
             />
           </label>

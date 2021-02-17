@@ -48,6 +48,8 @@ class Login extends Component {
         if (response.data.response) {
           app.userInfo.username = response.data.username;
           app.userInfo.id = response.data.id;
+          app.userInfo.firstName = response.data.first_name;
+          app.userInfo.lastName = response.data.last_name;
           app.isLoggedIn = true;
 
           store.dispatch({
