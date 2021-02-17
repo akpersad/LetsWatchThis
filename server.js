@@ -2,19 +2,27 @@ const port = process.env.PORT || 5000;
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
-const netflixDB = require("./expressFiles/netflixDB");
+const bcrypt = require("bcryptjs");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const dbDetails = require("./serverApp/config/db.config");
+const netflixDB = require("./serverApp/models/netflixDB.model");
+const registrationCt = require("./serverApp/controllers/reg.controller");
 
-const app = express();
-const dbDetails = {
-	host: process.env.MYSQL_HOST,
-	user: process.env.MYSQL_USER,
-	password: process.env.MYSQL_PWD,
-	database: process.env.MYSQL_DB
+const corsOptions = {
+	origin: "http://localhost:9000",
+	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
+const app = express();
 const pool = mysql.createPool(dbDetails);
+const salt = bcrypt.genSaltSync(10);
 
 // Serve the static files from the React app
+app.use(cors(corsOptions));
+app.options("*", cors());
 app.use(express.static(path.join(__dirname, "dist")));
+app.use(bodyParser.json());
+app.use(express.json());
 
 // An api endpoint that returns a short list of items
 app.get("/api/getList", (req, res) => {
@@ -31,6 +39,63 @@ app.get("/api/shows", (req, res) => {
 		} else {
 			res.send(rows);
 		}
+	});
+});
+
+app.get("/api/test", (req, res) => {
+	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
+	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);
+
+	bcrypt.compare("Andrew Is Cool", hash).then(resp => {
+		console.log("🚀 ~ file: server.js ~ line 66 ~ bcrypt.compare ~ resp", resp);
+		res.send(resp);
+	});
+});
+
+app.post("/api/registration", (req, res) => {
+	const credentialsCombo = {
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password, salt)
+	};
+
+	pool.query(
+		`SELECT * FROM users WHERE username = '${credentialsCombo.username}'`,
+		(error, returnedRows) => {
+			let bool = false;
+			if (error) {
+				res.send(error);
+			} else {
+				bool = returnedRows.length === 0;
+			}
+
+			if (bool) {
+				const queryStatement = registrationCt.createQuery(credentialsCombo);
+				pool.query(queryStatement, (err, response) => {
+					if (err) {
+						res.send(err);
+					} else {
+						pool.query(
+							`SELECT id, username FROM users WHERE id = '${response.insertId}' LIMIT 1`,
+							(returnedError, registeredRow) => {
+								if (returnedError) {
+									res.send(returnedError);
+								} else {
+									res.send({ registationSuccess: true, registeredRow });
+								}
+							}
+						);
+					}
+				});
+			} else {
+				res.send({ registationSuccess: false, message: "User already exists" });
+			}
+		}
+	);
+});
+
+app.post("/api/checkpassword", cors(), (req, res) => {
+	registrationCt.checkPassword(pool, req.body).then(response => {
+		res.json(response);
 	});
 });
 
