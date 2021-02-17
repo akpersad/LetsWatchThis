@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { checkUserLoggedIn } from "../../global/_util";
 
 class HomeContainer extends Component {
+  componentDidMount() {
+    checkUserLoggedIn();
+  }
+
   render() {
     const { initialText, isLoggedIn, userInfo } = this.props;
     return (
@@ -25,17 +30,23 @@ class HomeContainer extends Component {
           </button>
         </Link>
 
-        <Link to="./login">
-          <button type="button" variant="raised">
-            Login
-          </button>
-        </Link>
+        {!isLoggedIn ? (
+          <div>
+            <Link to="./login">
+              <button type="button" variant="raised">
+                Login
+              </button>
+            </Link>
 
-        <Link to="./registration">
-          <button type="button" variant="raised">
-            Registration
-          </button>
-        </Link>
+            <Link to="./registration">
+              <button type="button" variant="raised">
+                Registration
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <div>You are logged In</div>
+        )}
       </div>
     );
   }

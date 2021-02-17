@@ -54,9 +54,12 @@ class Login extends Component {
             type: "INITIAL_STATE",
             payload: app
           });
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
           history.push("/");
+        } else {
+          console.log("INCORRECT");
         }
-        console.log("INCORRECT");
       })
       .catch(error => {
         console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);

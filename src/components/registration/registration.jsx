@@ -68,6 +68,8 @@ class Registration extends Component {
               type: "INITIAL_STATE",
               payload: app
             });
+            localStorage.setItem("isLoggedIn", true);
+            localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
             history.push("/");
           } else {
             console.log(response.data.message);
