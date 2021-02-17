@@ -103,10 +103,10 @@ class Registration extends Component {
     return (
       <>
         <div className="form-group">
-          <label htmlFor="test1">
+          <label htmlFor="username">
             Username:
             <input
-              id="test1"
+              id="username"
               type="text"
               name="username"
               value={username}
@@ -142,10 +142,10 @@ class Registration extends Component {
         </div>
 
         <div className="form-group">
-          <label htmlFor="test2">
+          <label htmlFor="password">
             Password:
             <input
-              id="test2"
+              id="password"
               type="password"
               name="password"
               value={password}
@@ -155,10 +155,10 @@ class Registration extends Component {
         </div>
 
         <div className="form-group">
-          <label htmlFor="test3">
+          <label htmlFor="confirmPass">
             Confirm Password:
             <input
-              id="test3"
+              id="confirmPass"
               type="password"
               name="confirmPass"
               value={confirmPass}
