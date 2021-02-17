@@ -57,8 +57,7 @@ class Login extends Component {
           localStorage.setItem("isLoggedIn", true);
           localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
           history.push("/");
-        }
-        if (!response.data.response) {
+        } else {
           console.log("INCORRECT");
         }
       })

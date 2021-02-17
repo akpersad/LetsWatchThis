@@ -2,25 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import store from "../../config/store";
+import { checkUserLoggedIn } from "../../global/_util";
 
 class HomeContainer extends Component {
   componentDidMount() {
-    this.checkLocalStorage();
-  }
-
-  checkLocalStorage() {
-    if (localStorage.getItem("isLoggedIn") && localStorage.getItem("isLoggedIn") === "true") {
-      const { app } = store.getState();
-      const userInfoLocal = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo"))
-        : window.location.reload();
-      app.userInfo.username = userInfoLocal.username;
-      app.userInfo.id = userInfoLocal.id;
-      app.isLoggedIn = true;
-      return true;
-    }
-    return false;
+    checkUserLoggedIn();
   }
 
   render() {
@@ -44,17 +30,23 @@ class HomeContainer extends Component {
           </button>
         </Link>
 
-        <Link to="./login">
-          <button type="button" variant="raised">
-            Login
-          </button>
-        </Link>
+        {!isLoggedIn ? (
+          <div>
+            <Link to="./login">
+              <button type="button" variant="raised">
+                Login
+              </button>
+            </Link>
 
-        <Link to="./registration">
-          <button type="button" variant="raised">
-            Registration
-          </button>
-        </Link>
+            <Link to="./registration">
+              <button type="button" variant="raised">
+                Registration
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <div>You are logged In</div>
+        )}
       </div>
     );
   }
