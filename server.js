@@ -48,6 +48,17 @@ app.get("/api/getshowstolike", (req, res) => {
 	});
 });
 
+app.post("/api/sendrating", (req, res) => {
+	const queryInsert = `INSERT INTO user_likes (user_id, netflix_id, liked) VALUES ('${req.body.userId}', '${req.body.showId}', '${req.body.isLiked}')`;
+	pool.query(queryInsert, (err, rows) => {
+		if (err) {
+			res.send({ err, isSuccess: false });
+		} else {
+			res.send({ isSuccess: true, rows });
+		}
+	});
+});
+
 app.get("/api/test", (req, res) => {
 	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
 	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);

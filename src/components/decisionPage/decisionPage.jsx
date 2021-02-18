@@ -39,14 +39,15 @@ class DecisionPage extends Component {
   submitRating(event) {
     const { value } = event.target;
     const isLiked = value === "like" ? 1 : 0;
-    const { userInfo } = this.props;
-    debugger;
+    const { userInfo, showInfo } = this.props;
+
     axios
       .post(
         "/api/sendrating",
         {
           userId: userInfo.id,
-          isLiked
+          isLiked,
+          showId: showInfo[0].id
         },
         {
           headers: {
@@ -87,7 +88,8 @@ const mapStateToProps = state => {
 DecisionPage.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
-  userInfo: PropTypes.object.isRequired
+  userInfo: PropTypes.object.isRequired,
+  showInfo: PropTypes.array.isRequired
 };
 
 export default connect(mapStateToProps)(DecisionPage);
