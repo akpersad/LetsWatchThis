@@ -24,11 +24,6 @@ class HomeContainer extends Component {
           )}
         </h1>
         <h2>Project Home</h2>
-        <Link to="./list">
-          <button type="button" variant="raised">
-            My List
-          </button>
-        </Link>
 
         {!isLoggedIn ? (
           <div>
@@ -45,7 +40,14 @@ class HomeContainer extends Component {
             </Link>
           </div>
         ) : (
-          <div>You are logged In</div>
+          <>
+            <div>You are logged In</div>
+            <Link to="./choices">
+              <button type="button" variant="raised">
+                Would you watch these?
+              </button>
+            </Link>
+          </>
         )}
       </div>
     );
