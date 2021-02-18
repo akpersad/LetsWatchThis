@@ -42,6 +42,12 @@ app.get("/api/shows", (req, res) => {
 	});
 });
 
+app.get("/api/getshowstolike", (req, res) => {
+	netflixDB.getShowToLike(pool, req).then(response => {
+		res.json(response);
+	});
+});
+
 app.get("/api/test", (req, res) => {
 	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
 	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);
