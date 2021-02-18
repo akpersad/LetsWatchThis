@@ -3,7 +3,27 @@ const initialState = {
 	initialHash: {},
 	isLoggedIn: false,
 	userInfo: { username: "", id: "", firstName: "", lastName: "" },
-	showList: []
+	showList: [],
+	showInfo: [
+		{
+			id: "",
+			title: "",
+			img: "",
+			vtype: "",
+			nfid: "",
+			synopsis: "",
+			avgrating: "",
+			year: "",
+			runtime: "",
+			imdbid: "",
+			poster: "",
+			imdbrating: "",
+			top250: "",
+			top250tv: "",
+			clist: "",
+			titledate: ""
+		}
+	]
 };
 
 const appContainerReducer = (state = initialState, action) => {
