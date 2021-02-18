@@ -1,6 +1,9 @@
 const initialState = {
 	initialText: "Hello World",
-	initialHash: {}
+	initialHash: {},
+	isLoggedIn: false,
+	userInfo: { username: "", id: "", firstName: "", lastName: "" },
+	showList: []
 };
 
 const appContainerReducer = (state = initialState, action) => {
