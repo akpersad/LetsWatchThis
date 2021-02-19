@@ -1,5 +1,6 @@
 const profileObject = {
-	friendRequestSearch: ""
+	friendRequestSearch: "",
+	submitFriendBtnDisable: true
 };
 
 const profilePageContainerReducer = (state = profileObject, action) => {

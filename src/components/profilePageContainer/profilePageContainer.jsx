@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // import PropTypes from 'prop-types';
+import SubmitFriendRequest from "../submitFriendRequest/submitFriendRequest";
 
 class ProfilePageContainer extends Component {
   render() {
     return (
       <div>
         <div className="form-group">
-          <h3>Friend Requests:</h3>
-          Search Input
+          <SubmitFriendRequest />
         </div>
         <div className="form-group">
           <ul>
