@@ -12,7 +12,8 @@ class SubmitFriendRequest extends Component {
     this.handleFriendSubmit = this.handleFriendSubmit.bind(this);
 
     this.state = {
-      errorClass: "error-text_friend invisible"
+      errorClass: "error-text_friend invisible",
+      responseText: ""
     };
   }
 
@@ -33,7 +34,7 @@ class SubmitFriendRequest extends Component {
 
   handleFriendSubmit() {
     const { friendRequestSearch } = this.props;
-    const { app } = store.getState();
+    const { app, profile } = store.getState();
     axios
       .post(
         "/api/sendfriendrequest",
@@ -53,15 +54,30 @@ class SubmitFriendRequest extends Component {
             "🚀 ~ file: submitFriendRequest.jsx ~ line 52 ~ SubmitFriendRequest ~ handleFriendSubmit ~ response.data",
             response.data
           );
+          this.setState({
+            errorClass: "error-text_friend error-text visible",
+            responseText: response.data.responseText
+          });
         } else {
-          this.setState({ errorClass: "error-text_friend visible" });
+          this.setState({
+            errorClass: "error-text_friend success-text visible",
+            responseText: response.data.responseText
+          });
         }
+
+        profile.friendRequestSearch = "";
+        profile.submitFriendBtnDisable = true;
+
+        store.dispatch({
+          type: "UPDATE_PROFILE",
+          payload: profile
+        });
       });
   }
 
   render() {
     const { friendRequestSearch, submitFriendBtnDisable } = this.props;
-    const { errorClass } = this.state;
+    const { errorClass, responseText } = this.state;
     return (
       <div className="form-group">
         <label htmlFor="friend-request">
@@ -82,7 +98,7 @@ class SubmitFriendRequest extends Component {
           Add Friend
         </button>
 
-        <div className={errorClass}>The user does not exist</div>
+        <div className={errorClass}>{responseText}</div>
       </div>
     );
   }
