@@ -1,8 +1,10 @@
 import { combineReducers, createStore, compose } from "redux";
 import appContainerReducer from "../components/appContainer/appContainerReducer";
+import profilePageContainerReducer from "../components/profilePageContainer/profilePageContainerReducer";
 
 const rootReducer = combineReducers({
-	app: appContainerReducer
+	app: appContainerReducer,
+	profile: profilePageContainerReducer
 });
 
 /* eslint-disable no-underscore-dangle */
