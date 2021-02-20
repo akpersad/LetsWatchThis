@@ -84,6 +84,21 @@ app.get("/api/getfriendlist", (req, res) => {
 	});
 });
 
+app.get("/api/matches/:id", (req, res) => {
+	res.json(req.params);
+});
+
+app.post("/api/checkfriends", (req, res) => {
+	const queryCheckFriendship = `SELECT * FROM friendships WHERE id_first = ${req.body.userId} AND id_second = ${req.body.friendId}`;
+	pool.query(queryCheckFriendship, (error, returnedRows) => {
+		if (error) {
+			res.json(error);
+		} else {
+			res.json({ areFriends: returnedRows.length > 0 });
+		}
+	});
+});
+
 app.get("/api/test", (req, res) => {
 	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
 	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);
