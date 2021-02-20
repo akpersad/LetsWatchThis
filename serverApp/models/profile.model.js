@@ -9,38 +9,53 @@ const sendFriendRequest = (request, pool) => {
 					resolve({ isValidRequest: false, responseText: "User does not exist" });
 				} else {
 					const sentId = returnedRows[0].id;
-					const queryDoubleCheck = `SELECT * FROM pending_requests WHERE id_from = '${request.body.userId}'`;
-					pool.query(queryDoubleCheck, (errorSearch, checkedRows) => {
-						if (errorSearch) {
-							reject(errorSearch);
+					const queryFriendExits = `SELECT * FROM friendships WHERE id_first = ${request.body.userId} AND id_second = ${sentId}`;
+					pool.query(queryFriendExits, (errorFriendship, checkedFriendshipRows) => {
+						if (errorFriendship) {
+							reject(errorFriendship);
 						} else {
-							const returnedRequestIds = checkedRows.map(item => {
-								return item.id_to;
-							});
-
-							if (returnedRequestIds.includes(sentId)) {
-								resolve({
-									isValidRequest: false,
-									responseText: "Request Already Sent"
-								});
+							console.log(
+								"🚀 ~ file: profile.model.js ~ line 18 ~ pool.query ~ checkedFriendshipRows",
+								checkedFriendshipRows
+							);
+							if (checkedFriendshipRows.length > 0) {
+								resolve({ isValidRequest: false, responseText: "Already friends!" });
 							} else {
-								const queryInsert = `INSERT INTO pending_requests (id_from, id_to) VALUES ('${request.body.userId}', '${sentId}')`;
-								pool.query(queryInsert, (error, insertedRows) => {
-									if (error) {
-										reject(error);
+								const queryDoubleCheck = `SELECT * FROM pending_requests WHERE id_from = '${request.body.userId}'`;
+								pool.query(queryDoubleCheck, (errorSearch, checkedRows) => {
+									if (errorSearch) {
+										reject(errorSearch);
 									} else {
-										resolve({
-											isValidRequest: true,
-											returnedId: insertedRows.insertId,
-											responseText: "Request Sent"
+										const returnedRequestIds = checkedRows.map(item => {
+											return item.id_to;
 										});
+
+										if (returnedRequestIds.includes(sentId)) {
+											resolve({
+												isValidRequest: false,
+												responseText: "Request Already Sent"
+											});
+										} else {
+											const queryInsert = `INSERT INTO pending_requests (id_from, id_to) VALUES ('${request.body.userId}', '${sentId}')`;
+											pool.query(queryInsert, (error, insertedRows) => {
+												if (error) {
+													reject(error);
+												} else {
+													resolve({
+														isValidRequest: true,
+														returnedId: insertedRows.insertId,
+														responseText: "Request Sent"
+													});
+												}
+											});
+										}
 									}
 								});
 							}
 						}
 					});
 				}
-				console.log("INSERT DONE");
+				console.log("Request Sent");
 			}
 		});
 	});
