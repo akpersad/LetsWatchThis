@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const dbDetails = require("./serverApp/config/db.config");
 const netflixDB = require("./serverApp/models/netflixDB.model");
 const registrationCt = require("./serverApp/controllers/reg.controller");
+const profileModel = require("./serverApp/models/profile.model");
 
 const corsOptions = {
 	origin: "http://localhost:9000",
@@ -56,6 +57,30 @@ app.post("/api/sendrating", (req, res) => {
 		} else {
 			res.send({ isSuccess: true, rows });
 		}
+	});
+});
+
+app.post("/api/sendfriendrequest", (req, res) => {
+	profileModel.sendFriendRequest(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.get("/api/getpendingrequests", (req, res) => {
+	profileModel.getPendingRequets(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.post("/api/sendfrienddecision", (req, res) => {
+	profileModel.sendFriendDecision(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.get("/api/getfriendlist", (req, res) => {
+	profileModel.getFriendList(req, pool).then(response => {
+		res.json(response);
 	});
 });
 

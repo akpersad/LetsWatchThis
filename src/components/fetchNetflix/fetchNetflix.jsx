@@ -37,7 +37,6 @@ export const fetchNetflix = () => {
   //   });
 
   app.initialHash = dummyResults;
-  console.log("🚀 ~ file: fetchNetflix.jsx ~ line 41 ~ fetchNetflix ~ dummyResults", dummyResults);
 
   store.dispatch({
     type: "INITIAL_STATE",
