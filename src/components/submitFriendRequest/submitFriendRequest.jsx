@@ -17,6 +17,10 @@ class SubmitFriendRequest extends Component {
     };
   }
 
+  componentDidMount() {
+    checkUserLoggedIn();
+  }
+
   handleInputChange(event) {
     const { profile } = store.getState();
     profile.friendRequestSearch = event.target.value;
