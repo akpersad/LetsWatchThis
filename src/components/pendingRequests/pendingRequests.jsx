@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import axios from "axios";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -8,13 +7,13 @@ import { checkUserLoggedIn } from "../../global/_util";
 class PendingRequests extends Component {
   componentDidMount() {
     checkUserLoggedIn();
+    this.getPendingRequests();
+  }
+
+  getPendingRequests() {
     const { app, profile } = store.getState();
     const { userInfo } = app;
     axios.get(`/api/getpendingrequests?userid=${userInfo.id}`).then(response => {
-      console.log(
-        "🚀 ~ file: pendingRequests.jsx ~ line 12 ~ PendingRequests ~ axios.get ~ response",
-        response.data
-      );
       if (response.data.hasRequests) {
         profile.pendingRequestsReturn = response.data.returnedRows;
 
@@ -22,6 +21,7 @@ class PendingRequests extends Component {
           type: "UPDATE_PROFILE",
           payload: profile
         });
+
         this.formatPendingRequests();
       }
     });
@@ -31,7 +31,7 @@ class PendingRequests extends Component {
     const { profile } = store.getState();
     const formatedArr = profile.pendingRequestsReturn.map(item => {
       return (
-        <li>
+        <li key={item.id}>
           <span>
             {item.first_name}
             {}

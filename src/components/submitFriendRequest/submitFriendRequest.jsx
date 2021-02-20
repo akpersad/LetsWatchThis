@@ -50,10 +50,6 @@ class SubmitFriendRequest extends Component {
       )
       .then(response => {
         if (response.data.isValidRequest) {
-          console.log(
-            "🚀 ~ file: submitFriendRequest.jsx ~ line 52 ~ SubmitFriendRequest ~ handleFriendSubmit ~ response.data",
-            response.data
-          );
           this.setState({
             errorClass: "error-text_friend error-text visible",
             responseText: response.data.responseText

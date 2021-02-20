@@ -15,8 +15,6 @@ class List extends Component {
   getList() {
     const { app } = store.getState();
     axios.get("/api/shows?limit=125").then(res => {
-      console.log("🚀 ~ file: list.jsx ~ line 14 ~ List ~ axios.get ~ res", res.data);
-
       app.showList = res.data;
 
       store.dispatch({
