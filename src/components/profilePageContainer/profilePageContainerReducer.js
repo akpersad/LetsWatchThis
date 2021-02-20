@@ -2,14 +2,17 @@ const profileObject = {
 	friendRequestSearch: "",
 	submitFriendBtnDisable: true,
 	pendingRequestsReturn: [],
-	pendingRequestsFormatted: [],
-	friendList: [],
-	friendListFormatted: []
+	pendingRequestsFormatted: []
 };
 
 const profilePageContainerReducer = (state = profileObject, action) => {
 	switch (action.type) {
 		case "UPDATE_PROFILE":
+			return {
+				...action.payload
+			};
+
+		case "UPDATE_REQUESTS":
 			return {
 				...action.payload
 			};

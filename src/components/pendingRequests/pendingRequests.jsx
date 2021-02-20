@@ -98,7 +98,7 @@ class PendingRequests extends Component {
 
     profile.pendingRequestsFormatted = formatedArr;
     store.dispatch({
-      type: "UPDATE_PROFILE",
+      type: "UPDATE_REQUESTS",
       payload: profile
     });
   }

@@ -11,15 +11,15 @@ class FriendsList extends Component {
   }
 
   getFriendsList() {
-    const { app, profile } = store.getState();
+    const { app } = store.getState();
     const { userInfo } = app;
     axios.get(`/api/getfriendlist?userid=${userInfo.id}`).then(response => {
       if (response.data.hasFriends) {
-        profile.friendList = response.data.returnedRows;
+        app.friendList = response.data.returnedRows;
 
         store.dispatch({
-          type: "UPDATE_PROFILE",
-          payload: profile
+          type: "INITIAL_STATE",
+          payload: app
         });
 
         this.formatFriendList();
@@ -28,8 +28,8 @@ class FriendsList extends Component {
   }
 
   formatFriendList() {
-    const { profile } = store.getState();
-    const formatList = profile.friendList.map(item => {
+    const { app } = store.getState();
+    const formatList = app.friendList.map(item => {
       return (
         <li key={item.id}>
           <span>{item.first_name}</span>
@@ -38,17 +38,17 @@ class FriendsList extends Component {
         </li>
       );
     });
-    profile.friendListFormatted = formatList;
+    app.friendListFormatted = formatList;
 
     store.dispatch({
-      type: "UPDATE_PROFILE",
-      payload: profile
+      type: "INITIAL_STATE",
+      payload: app
     });
   }
 
   render() {
-    const { profile } = store.getState();
-    const { friendListFormatted } = profile;
+    const { app } = store.getState();
+    const { friendListFormatted } = app;
 
     return (
       <>
