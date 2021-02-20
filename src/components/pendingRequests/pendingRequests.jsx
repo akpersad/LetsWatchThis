@@ -121,12 +121,4 @@ const mapStateToProps = state => {
   };
 };
 
-// PendingRequests.propTypes = {
-//   pendingRequestsFormatted: PropTypes.array
-// };
-
-// PendingRequests.defaultProps = {
-//   pendingRequestsFormatted: []
-// };
-
 export default connect(mapStateToProps)(PendingRequests);
