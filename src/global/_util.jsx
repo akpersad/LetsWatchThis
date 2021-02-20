@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import store from "../config/store";
 
@@ -201,9 +202,11 @@ export const formatFriendList = () => {
   const formatList = app.friendList.map(item => {
     return (
       <li key={item.id}>
-        <span>{item.first_name}</span>
-        {}
-        <span>{item.last_name}</span>
+        <Link to={`./matches/${item.id}`}>
+          <span>{item.first_name}</span>
+          {}
+          <span>{item.last_name}</span>
+        </Link>
       </li>
     );
   });
