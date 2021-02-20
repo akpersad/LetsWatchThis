@@ -5,9 +5,38 @@ import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
 class PendingRequests extends Component {
+  constructor() {
+    super();
+    this.handleFriendDecision = this.handleFriendDecision.bind(this);
+  }
+
   componentDidMount() {
     checkUserLoggedIn();
     this.getPendingRequests();
+  }
+
+  handleFriendDecision(event) {
+    const { app } = store.getState();
+    const { dataset } = event.target;
+    axios
+      .post(
+        "/api/sendfrienddecision",
+        {
+          requestDecision: dataset.choice,
+          requestId: dataset.id,
+          userId: app.userInfo.id
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      )
+      .then(response => {
+        if (response.data.requestSuccessful) {
+          this.getPendingRequests();
+        }
+      });
   }
 
   getPendingRequests() {
@@ -41,7 +70,7 @@ class PendingRequests extends Component {
             type="button"
             data-id={item.id_from}
             data-choice="accept"
-            onClick={this.handleFriendSubmit}
+            onClick={e => this.handleFriendDecision(e)}
             className="submit-friend-request_yes"
           >
             Add
@@ -50,7 +79,7 @@ class PendingRequests extends Component {
             type="button"
             data-id={item.id_from}
             data-choice="deny"
-            onClick={this.handleFriendSubmit}
+            onClick={e => this.handleFriendDecision(e)}
             className="submit-friend-request_no"
           >
             Delete
