@@ -52,6 +52,14 @@ class PendingRequests extends Component {
         });
 
         this.formatPendingRequests();
+      } else {
+        profile.pendingRequestsReturn = [];
+        profile.pendingRequestsFormatted = [];
+
+        store.dispatch({
+          type: "UPDATE_PROFILE",
+          payload: profile
+        });
       }
     });
   }
