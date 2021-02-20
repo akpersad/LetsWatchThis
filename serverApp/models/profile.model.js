@@ -46,4 +46,21 @@ const sendFriendRequest = (request, pool) => {
 	});
 };
 
-module.exports = { sendFriendRequest };
+const getPendingRequets = (requests, pool) => {
+	return new Promise((resolve, reject) => {
+		const queryPendingRequests = `SELECT pending_requests.id, pending_requests.id_from, users.id, users.first_name, users.last_name, users.username
+FROM pending_requests
+INNER JOIN users ON pending_requests.id_from = users.id
+WHERE pending_requests.id_to = ${requests.query.userid};`;
+
+		pool.query(queryPendingRequests, (error, returnedRows) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve({ hasRequests: returnedRows.length > 0, returnedRows });
+			}
+		});
+	});
+};
+
+module.exports = { sendFriendRequest, getPendingRequets };
