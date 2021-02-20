@@ -96,4 +96,21 @@ const sendFriendDecision = (requests, pool) => {
 	});
 };
 
-module.exports = { sendFriendRequest, getPendingRequets, sendFriendDecision };
+const getFriendList = (request, pool) => {
+	return new Promise((resolve, reject) => {
+		const queryFriendList = `SELECT users.id, users.username, users.first_name, users.last_name
+FROM users
+INNER JOIN friendships ON friendships.id_second = users.id
+WHERE friendships.id_first = ${request.query.userid}`;
+
+		pool.query(queryFriendList, (error, returnedRows) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve({ hasFriends: returnedRows.length > 0, returnedRows });
+			}
+		});
+	});
+};
+
+module.exports = { sendFriendRequest, getPendingRequets, sendFriendDecision, getFriendList };
