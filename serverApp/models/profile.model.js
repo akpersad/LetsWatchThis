@@ -63,4 +63,37 @@ WHERE pending_requests.id_to = ${requests.query.userid};`;
 	});
 };
 
-module.exports = { sendFriendRequest, getPendingRequets };
+const sendFriendDecision = (requests, pool) => {
+	return new Promise((resolve, reject) => {
+		const queryCreateFriendship = `INSERT into friendships (id_first, id_second) VALUES ('${requests.body.userId}','${requests.body.requestId}'), ('${requests.body.requestId}','${requests.body.userId}')`;
+		const insertFriends = (query, poolSecond) => {
+			return new Promise(resolveTwo => {
+				if (requests.body.requestDecision === "accept") {
+					poolSecond.query(query, (error, returnedRows) => {
+						if (error) {
+							reject(error);
+						}
+						resolveTwo({ readyForDelete: true, returnedRows });
+					});
+				} else {
+					resolveTwo({ readyForDelete: true });
+				}
+			});
+		};
+
+		insertFriends(queryCreateFriendship, pool).then(response => {
+			if (response.readyForDelete) {
+				const queryDeleteRequest = `DELETE FROM pending_requests WHERE id_from = ${requests.body.requestId} AND id_to = ${requests.body.userId}`;
+				pool.query(queryDeleteRequest, (deleteError, returnedDeletedRows) => {
+					if (deleteError) {
+						reject(deleteError);
+					} else {
+						resolve({ requestSuccessful: true, returnedDeletedRows });
+					}
+				});
+			}
+		});
+	});
+};
+
+module.exports = { sendFriendRequest, getPendingRequets, sendFriendDecision };

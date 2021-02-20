@@ -72,6 +72,12 @@ app.get("/api/getpendingrequests", (req, res) => {
 	});
 });
 
+app.post("/api/sendfrienddecision", (req, res) => {
+	profileModel.sendFriendDecision(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
 app.get("/api/test", (req, res) => {
 	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
 	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);
