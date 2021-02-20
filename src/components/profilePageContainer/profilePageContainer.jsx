@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 // import PropTypes from 'prop-types';
 import SubmitFriendRequest from "../submitFriendRequest/submitFriendRequest";
 import PendingRequests from "../pendingRequests/pendingRequests";
+import FriendsList from "../friendsList/friendsList";
 
 class ProfilePageContainer extends Component {
   render() {
@@ -15,10 +16,7 @@ class ProfilePageContainer extends Component {
           <PendingRequests />
         </div>
         <div className="form-group">
-          Friend List
-          <ul>
-            <li>Friend 1</li>
-          </ul>
+          <FriendsList />
         </div>
       </div>
     );

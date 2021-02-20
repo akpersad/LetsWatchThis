@@ -12,6 +12,11 @@ const profilePageContainerReducer = (state = profileObject, action) => {
 				...action.payload
 			};
 
+		case "UPDATE_REQUESTS":
+			return {
+				...action.payload
+			};
+
 		default:
 			return state;
 	}

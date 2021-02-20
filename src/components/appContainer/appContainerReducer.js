@@ -23,7 +23,9 @@ const initialState = {
 			clist: "",
 			titledate: ""
 		}
-	]
+	],
+	friendList: [],
+	friendListFormatted: []
 };
 
 const appContainerReducer = (state = initialState, action) => {

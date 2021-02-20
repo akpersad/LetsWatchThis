@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import store from "../../config/store";
-import { checkUserLoggedIn } from "../../global/_util";
+import { checkUserLoggedIn, getFriendsList } from "../../global/_util";
 
 class PendingRequests extends Component {
   constructor() {
@@ -35,6 +35,7 @@ class PendingRequests extends Component {
       .then(response => {
         if (response.data.requestSuccessful) {
           this.getPendingRequests();
+          getFriendsList();
         }
       });
   }
@@ -98,7 +99,7 @@ class PendingRequests extends Component {
 
     profile.pendingRequestsFormatted = formatedArr;
     store.dispatch({
-      type: "UPDATE_PROFILE",
+      type: "UPDATE_REQUESTS",
       payload: profile
     });
   }
@@ -120,13 +121,5 @@ const mapStateToProps = state => {
     ...state
   };
 };
-
-// PendingRequests.propTypes = {
-//   pendingRequestsFormatted: PropTypes.array
-// };
-
-// PendingRequests.defaultProps = {
-//   pendingRequestsFormatted: []
-// };
 
 export default connect(mapStateToProps)(PendingRequests);
