@@ -7,7 +7,7 @@ import { checkUserLoggedIn } from "../../global/_util";
 class FriendsList extends Component {
   componentDidMount() {
     checkUserLoggedIn();
-    this.getPendingRequests();
+    this.getFriendsList();
   }
 
   getFriendsList() {
@@ -27,7 +27,24 @@ class FriendsList extends Component {
     });
   }
 
-  formatFriendList() {}
+  formatFriendList() {
+    const { profile } = store.getState();
+    const formatList = profile.friendList.map(item => {
+      return (
+        <li key={item.id}>
+          <span>{item.first_name}</span>
+          {}
+          <span>{item.last_name}</span>
+        </li>
+      );
+    });
+    profile.friendListFormatted = formatList;
+
+    store.dispatch({
+      type: "UPDATE_PROFILE",
+      payload: profile
+    });
+  }
 
   render() {
     const { profile } = store.getState();
