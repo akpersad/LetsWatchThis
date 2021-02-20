@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // import PropTypes from 'prop-types';
+import { checkUserLoggedIn } from "../../global/_util";
 import SubmitFriendRequest from "../submitFriendRequest/submitFriendRequest";
+import PendingRequests from "../pendingRequests/pendingRequests";
 
 class ProfilePageContainer extends Component {
+  componentDidMount() {
+    checkUserLoggedIn();
+  }
+
   render() {
     return (
       <div>
@@ -11,9 +17,7 @@ class ProfilePageContainer extends Component {
           <SubmitFriendRequest />
         </div>
         <div className="form-group">
-          <ul>
-            <li>Pending Requests</li>
-          </ul>
+          <PendingRequests />
         </div>
         <div className="form-group">
           Friend List

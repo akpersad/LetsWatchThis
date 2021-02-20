@@ -1,6 +1,8 @@
 const profileObject = {
 	friendRequestSearch: "",
-	submitFriendBtnDisable: true
+	submitFriendBtnDisable: true,
+	pendingRequestsReturn: [],
+	pendingRequestsFormatted: []
 };
 
 const profilePageContainerReducer = (state = profileObject, action) => {
