@@ -6,6 +6,8 @@ import AppContainer from "./components/appContainer/appContainer";
 import Login from "./components/login/login";
 import Registration from "./components/registration/registration";
 import DecisionPage from "./components/decisionPage/decisionPage";
+import ProfilePage from "./components/profilePageContainer/profilePageContainer";
+import FriendComparePage from "./components/friendComparePage/friendComparePage";
 
 class App extends Component {
   render() {
@@ -16,6 +18,8 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/registration" component={Registration} />
           <Route path="/choices" component={DecisionPage} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route path="/matches/:id" component={FriendComparePage} />
         </Switch>
       </>
     );

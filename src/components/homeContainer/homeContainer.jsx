@@ -25,6 +25,14 @@ class HomeContainer extends Component {
         </h1>
         <h2>Project Home</h2>
 
+        <div className="form-group">
+          <Link to="./profile">
+            <button type="button" variant="raised">
+              Your Profile
+            </button>
+          </Link>
+        </div>
+
         {!isLoggedIn ? (
           <div>
             <Link to="./login">

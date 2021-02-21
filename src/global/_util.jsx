@@ -1,3 +1,6 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import store from "../config/store";
 
 export const getAllChildrenNodes = (element = document.body) => {
@@ -192,4 +195,42 @@ export const checkUserLoggedIn = () => {
     return true;
   }
   return false;
+};
+
+export const formatFriendList = () => {
+  const { app } = store.getState();
+  const formatList = app.friendList.map(item => {
+    return (
+      <li key={item.id}>
+        <Link to={`./matches/${item.id}`}>
+          <span>{item.first_name}</span>
+          {}
+          <span>{item.last_name}</span>
+        </Link>
+      </li>
+    );
+  });
+  app.friendListFormatted = formatList;
+
+  store.dispatch({
+    type: "INITIAL_STATE",
+    payload: app
+  });
+};
+
+export const getFriendsList = () => {
+  const { app } = store.getState();
+  const { userInfo } = app;
+  axios.get(`/api/getfriendlist?userid=${userInfo.id}`).then(response => {
+    if (response.data.hasFriends) {
+      app.friendList = response.data.returnedRows;
+
+      store.dispatch({
+        type: "INITIAL_STATE",
+        payload: app
+      });
+
+      formatFriendList();
+    }
+  });
 };

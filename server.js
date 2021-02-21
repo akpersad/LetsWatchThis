@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const dbDetails = require("./serverApp/config/db.config");
 const netflixDB = require("./serverApp/models/netflixDB.model");
 const registrationCt = require("./serverApp/controllers/reg.controller");
+const profileModel = require("./serverApp/models/profile.model");
 
 const corsOptions = {
 	origin: "http://localhost:9000",
@@ -55,6 +56,73 @@ app.post("/api/sendrating", (req, res) => {
 			res.send({ err, isSuccess: false });
 		} else {
 			res.send({ isSuccess: true, rows });
+		}
+	});
+});
+
+app.post("/api/sendfriendrequest", (req, res) => {
+	profileModel.sendFriendRequest(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.get("/api/getpendingrequests", (req, res) => {
+	profileModel.getPendingRequets(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.post("/api/sendfrienddecision", (req, res) => {
+	profileModel.sendFriendDecision(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.get("/api/getfriendlist", (req, res) => {
+	profileModel.getFriendList(req, pool).then(response => {
+		res.json(response);
+	});
+});
+
+app.get("/api/matches/:id", (req, res) => {
+	res.json(req.params);
+});
+
+app.post("/api/checkfriends", (req, res) => {
+	const queryCheckFriendship = `SELECT * FROM friendships WHERE id_first = ${req.body.userId} AND id_second = ${req.body.friendId}`;
+	pool.query(queryCheckFriendship, (error, returnedRows) => {
+		if (error) {
+			res.json(error);
+		} else {
+			res.json({ areFriends: returnedRows.length > 0 });
+		}
+	});
+});
+
+app.post("/api/getlikesincommon", (req, res) => {
+	const userLikes = profileModel.getUserLikes(req.body.userId, pool);
+	const friendLikes = profileModel.getUserLikes(req.body.friendId, pool);
+
+	Promise.all([userLikes, friendLikes]).then(response => {
+		const userReturned = response[0];
+		const friendReturned = response[1];
+
+		if (!userReturned.hasLikes || !friendReturned.hasLikes) {
+			res.json({ haveLikesInCommon: false });
+		} else {
+			const userNFIDs = userReturned.returnedRows.map(item => {
+				return item.id;
+			});
+			const friendNFIDs = friendReturned.returnedRows.map(item => {
+				return item.id;
+			});
+			const sameId = userNFIDs.filter(item => {
+				return friendNFIDs.includes(item);
+			});
+			const formattedList = userReturned.returnedRows.filter(item => {
+				return sameId.includes(item.id);
+			});
+			res.json({ haveLikesInCommon: true, formattedList });
 		}
 	});
 });
