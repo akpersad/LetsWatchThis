@@ -99,6 +99,40 @@ app.post("/api/checkfriends", (req, res) => {
 	});
 });
 
+app.post("/api/getlikesincommon", (req, res) => {
+	const userLikes = profileModel.getUserLikes(req.body.userId, pool);
+	const friendLikes = profileModel.getUserLikes(req.body.friendId, pool);
+
+	Promise.all([userLikes, friendLikes]).then(response => {
+		const userReturned = response[0];
+		const friendReturned = response[1];
+
+		if (!userReturned.hasLikes || !friendReturned.hasLikes) {
+			res.json({ haveLikesInCommon: false });
+		} else {
+			const userNFIDs = userReturned.returnedRows.map(item => {
+				return item.id;
+			});
+			const friendNFIDs = friendReturned.returnedRows.map(item => {
+				return item.id;
+			});
+			const sameId = userNFIDs.filter(item => {
+				return friendNFIDs.includes(item);
+			});
+			const unformattedList = userReturned.returnedRows.map(item => {
+				if (sameId.includes(item.id)) {
+					return item;
+				}
+				return "";
+			});
+			const formattedLikeList = unformattedList.filter(item => {
+				return !!item;
+			});
+			res.json({ haveLikesInCommon: true, formattedLikeList });
+		}
+	});
+});
+
 app.get("/api/test", (req, res) => {
 	const hash = bcrypt.hashSync("Andrew Is Cool", salt);
 	console.log("🚀 ~ file: server.js ~ line 64 ~ app.listen ~ hash", hash);

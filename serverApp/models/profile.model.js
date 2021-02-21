@@ -128,4 +128,27 @@ WHERE friendships.id_first = ${request.query.userid}`;
 	});
 };
 
-module.exports = { sendFriendRequest, getPendingRequets, sendFriendDecision, getFriendList };
+const getUserLikes = (id, pool) => {
+	return new Promise((resolve, reject) => {
+		const queryCheckFriendship = `SELECT users.id AS userId, users.username, user_likes.id AS userLikedId, netflix_shows.*
+FROM users
+INNER JOIN user_likes ON users.id = user_likes.user_id
+INNER JOIN netflix_shows ON netflix_shows.id = user_likes.netflix_id
+WHERE users.id = ${id} and user_likes.liked = 1`;
+		pool.query(queryCheckFriendship, (error, returnedRows) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve({ hasLikes: returnedRows.length > 0, returnedRows });
+			}
+		});
+	});
+};
+
+module.exports = {
+	sendFriendRequest,
+	getPendingRequets,
+	sendFriendDecision,
+	getFriendList,
+	getUserLikes
+};
