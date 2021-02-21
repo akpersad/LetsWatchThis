@@ -35,6 +35,33 @@ class FriendComparePage extends Component {
       });
   }
 
+  getSameLikes() {
+    const { app } = store.getState();
+    const { userInfo } = app;
+    const { match } = this.props;
+    const { params } = match;
+    axios
+      .post(
+        "/api/getlikesincommon",
+        {
+          userId: userInfo.id,
+          friendId: params.id
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      )
+      .then(response => {
+        if (response.data.haveLikesInCommon) {
+          // update store
+        } else {
+          // update text "No likes in common"
+        }
+      });
+  }
+
   render() {
     return <div>FriendComparePage</div>;
   }
