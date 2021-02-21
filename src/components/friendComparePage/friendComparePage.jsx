@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
-// import { useParams } from "react-router";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
@@ -76,8 +75,10 @@ class FriendComparePage extends Component {
   formatMutualLike() {
     const { profile } = store.getState();
     const arrKeys = Object.keys(profile.mutualLikedLike[0]);
+    let counter = 0;
     const mutuals = profile.mutualLikedLike.map(item => {
-      return <ul>{this.test(item, arrKeys)}</ul>;
+      counter += 1;
+      return <ul key={counter}>{this.convertShowInfo(item, arrKeys)}</ul>;
     });
     profile.mutualLikedLikeFormatted = mutuals;
     store.dispatch({
@@ -86,10 +87,10 @@ class FriendComparePage extends Component {
     });
   }
 
-  test(obj, objKeys) {
+  convertShowInfo(obj, objKeys) {
     return objKeys.map(item => {
       return (
-        <li>
+        <li key={item}>
           <span>{item}</span>
           {obj[item]}
         </li>
