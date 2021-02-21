@@ -7,6 +7,13 @@ import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
 class FriendComparePage extends Component {
+  constructor() {
+    super();
+    this.state = {
+      hasMutual: false
+    };
+  }
+
   componentDidMount() {
     checkUserLoggedIn();
     const { app } = store.getState();
@@ -28,7 +35,7 @@ class FriendComparePage extends Component {
       )
       .then(response => {
         if (response.data.areFriends) {
-          // show likes logic
+          this.getSameLikes();
         } else {
           history.push("/");
         }
@@ -36,7 +43,7 @@ class FriendComparePage extends Component {
   }
 
   getSameLikes() {
-    const { app } = store.getState();
+    const { app, profile } = store.getState();
     const { userInfo } = app;
     const { match } = this.props;
     const { params } = match;
@@ -55,15 +62,53 @@ class FriendComparePage extends Component {
       )
       .then(response => {
         if (response.data.haveLikesInCommon) {
-          // update store
-        } else {
-          // update text "No likes in common"
+          profile.mutualLikedLike = response.data.formattedList;
+          store.dispatch({
+            type: "UPDATE_PROFILE",
+            payload: profile
+          });
+          this.formatMutualLike();
         }
+        this.setState({ hasMutual: response.data.haveLikesInCommon });
       });
   }
 
+  formatMutualLike() {
+    const { profile } = store.getState();
+    const arrKeys = Object.keys(profile.mutualLikedLike[0]);
+    const mutuals = profile.mutualLikedLike.map(item => {
+      return <ul>{this.test(item, arrKeys)}</ul>;
+    });
+    profile.mutualLikedLikeFormatted = mutuals;
+    store.dispatch({
+      type: "UPDATE_PROFILE",
+      payload: profile
+    });
+  }
+
+  test(obj, objKeys) {
+    return objKeys.map(item => {
+      return (
+        <li>
+          <span>{item}</span>
+          {obj[item]}
+        </li>
+      );
+    });
+  }
+
   render() {
-    return <div>FriendComparePage</div>;
+    const { hasMutual } = this.state;
+    const { profile } = store.getState();
+    return (
+      <>
+        {hasMutual ? (
+          <div>{profile.mutualLikedLikeFormatted}</div>
+        ) : (
+          <div>No liked shows or movies in common! Like some more.</div>
+        )}
+      </>
+    );
   }
 }
 

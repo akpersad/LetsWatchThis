@@ -2,7 +2,9 @@ const profileObject = {
 	friendRequestSearch: "",
 	submitFriendBtnDisable: true,
 	pendingRequestsReturn: [],
-	pendingRequestsFormatted: []
+	pendingRequestsFormatted: [],
+	mutualLikedLike: [],
+	mutualLikedLikeFormatted: []
 };
 
 const profilePageContainerReducer = (state = profileObject, action) => {
