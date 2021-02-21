@@ -119,16 +119,10 @@ app.post("/api/getlikesincommon", (req, res) => {
 			const sameId = userNFIDs.filter(item => {
 				return friendNFIDs.includes(item);
 			});
-			const unformattedList = userReturned.returnedRows.map(item => {
-				if (sameId.includes(item.id)) {
-					return item;
-				}
-				return "";
+			const formattedList = userReturned.returnedRows.filter(item => {
+				return sameId.includes(item.id);
 			});
-			const formattedLikeList = unformattedList.filter(item => {
-				return !!item;
-			});
-			res.json({ haveLikesInCommon: true, formattedLikeList });
+			res.json({ haveLikesInCommon: true, formattedList });
 		}
 	});
 });
