@@ -43,48 +43,50 @@ class Header extends Component {
 
     return (
       <div className="header-container">
-        <div className="header-left">Left</div>
-        <div className="header-right dropdown-container">
-          <button
-            type="button"
-            className="dropdown-header-text"
-            onClick={() => this.toggleDropdown()}
-          >
-            {isLoggedIn ? (
-              <>
-                <span>{`Hello, ${userInfo.firstName}!`}</span>
-                <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
-              </>
-            ) : (
-              <>
-                <span>Login</span>
-                <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
-              </>
-            )}
-          </button>
-          <div className="dropdown-box d-none">
-            {isLoggedIn ? (
-              <>
-                <Link to="./profile">
-                  <span>Your Profile</span>
-                </Link>
-                <Link to="./choices">
-                  <span>Would you watch these?</span>
-                </Link>
-                <button type="button" onClick={() => this.logout()}>
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="./login">
+        <div className="container">
+          <div className="header-left">Left</div>
+          <div className="header-right dropdown-container">
+            <button
+              type="button"
+              className="dropdown-header-text"
+              onClick={() => this.toggleDropdown()}
+            >
+              {isLoggedIn ? (
+                <>
+                  <span>{`Hello, ${userInfo.firstName}!`}</span>
+                  <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
+                </>
+              ) : (
+                <>
                   <span>Login</span>
-                </Link>
-                <Link to="./registration">
-                  <span>Register</span>
-                </Link>
-              </>
-            )}
+                  <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
+                </>
+              )}
+            </button>
+            <div className="dropdown-box d-none">
+              {isLoggedIn ? (
+                <>
+                  <Link to="./profile">
+                    <span>Your Profile</span>
+                  </Link>
+                  <Link to="./choices">
+                    <span>Would you watch these?</span>
+                  </Link>
+                  <button type="button" onClick={() => this.logout()}>
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="./login">
+                    <span>Login</span>
+                  </Link>
+                  <Link to="./registration">
+                    <span>Register</span>
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
