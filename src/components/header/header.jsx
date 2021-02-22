@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-// import store from "../../config/store";
+import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
 import "./_header.scss";
@@ -16,10 +16,23 @@ class Header extends Component {
     this.state = { chevronBool: true };
   }
 
-  toggleDropdown(event) {
+  toggleDropdown() {
     const { chevronBool } = this.state;
     document.querySelector(".dropdown-box").classList.toggle("d-none");
     this.setState({ chevronBool: !chevronBool });
+  }
+
+  logout() {
+    const { app } = store.getState();
+    this.toggleDropdown();
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("isLoggedIn");
+    app.isLoggedIn = false;
+    app.userInfo = { username: "", id: "", firstName: "", lastName: "" };
+    store.dispatch({
+      type: "INITIAL_STATE",
+      payload: app
+    });
   }
 
   render() {
@@ -35,9 +48,7 @@ class Header extends Component {
           <button
             type="button"
             className="dropdown-header-text"
-            onClick={e => {
-              this.toggleDropdown(e);
-            }}
+            onClick={() => this.toggleDropdown()}
           >
             {isLoggedIn ? (
               <>
@@ -45,7 +56,10 @@ class Header extends Component {
                 <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
               </>
             ) : (
-              "Login"
+              <>
+                <span>Login</span>
+                <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
+              </>
             )}
           </button>
           <div className="dropdown-box d-none">
@@ -57,6 +71,9 @@ class Header extends Component {
                 <Link to="./choices">
                   <span>Would you watch these?</span>
                 </Link>
+                <button type="button" onClick={() => this.logout()}>
+                  Logout
+                </button>
               </>
             ) : (
               <>
