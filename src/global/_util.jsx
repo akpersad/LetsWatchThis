@@ -190,8 +190,16 @@ export const checkUserLoggedIn = () => {
       ? JSON.parse(localStorage.getItem("userInfo"))
       : window.location.reload();
     app.userInfo.username = userInfoLocal.username;
+    app.userInfo.firstName = userInfoLocal.firstName;
+    app.userInfo.lastName = userInfoLocal.lastName;
     app.userInfo.id = userInfoLocal.id;
     app.isLoggedIn = true;
+
+    store.dispatch({
+      type: "INITIAL_STATE",
+      payload: app
+    });
+
     return true;
   }
   return false;
