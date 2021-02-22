@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // import PropTypes from 'prop-types';
+import Header from "../header/header";
 import SubmitFriendRequest from "../submitFriendRequest/submitFriendRequest";
 import PendingRequests from "../pendingRequests/pendingRequests";
 import FriendsList from "../friendsList/friendsList";
@@ -9,6 +10,7 @@ class ProfilePageContainer extends Component {
   render() {
     return (
       <div>
+        <Header />
         <div className="form-group">
           <SubmitFriendRequest />
         </div>

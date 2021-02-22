@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Header from "../header/header";
 
 class ShowContainer extends Component {
   constructor() {
@@ -27,6 +28,7 @@ class ShowContainer extends Component {
   render() {
     return (
       <div>
+        <Header />
         <ul>{this.displayShowInfo()}</ul>
       </div>
     );
