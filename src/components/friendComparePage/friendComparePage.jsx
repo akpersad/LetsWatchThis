@@ -101,10 +101,11 @@ class FriendComparePage extends Component {
 
   render() {
     const { hasMutual } = this.state;
+    const { history, match } = this.props;
     const { profile } = store.getState();
     return (
       <>
-        <Header />
+        <Header history={history} match={match} />
         {hasMutual ? (
           <div>{profile.mutualLikedLikeFormatted}</div>
         ) : (

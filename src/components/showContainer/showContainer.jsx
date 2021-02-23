@@ -26,16 +26,15 @@ class ShowContainer extends Component {
   }
 
   render() {
+    const { history, match } = this.props;
     return (
       <div>
-        <Header />
+        <Header history={history} match={match} />
         <ul>{this.displayShowInfo()}</ul>
       </div>
     );
   }
 }
-
-ShowContainer.propTypes = {};
 
 const mapStateToProps = state => {
   return {
@@ -44,7 +43,9 @@ const mapStateToProps = state => {
 };
 
 ShowContainer.propTypes = {
-  showInfo: PropTypes.array.isRequired
+  showInfo: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(ShowContainer);
