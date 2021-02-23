@@ -1,6 +1,9 @@
 .header-container {
   min-height: 90px;
+  width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
   .container {
     display: flex;
     flex-wrap: wrap;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
+import Header from "../header/header";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
@@ -103,6 +104,7 @@ class FriendComparePage extends Component {
     const { profile } = store.getState();
     return (
       <>
+        <Header />
         {hasMutual ? (
           <div>{profile.mutualLikedLikeFormatted}</div>
         ) : (

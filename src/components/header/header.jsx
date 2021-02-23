@@ -24,6 +24,7 @@ class Header extends Component {
 
   logout() {
     const { app } = store.getState();
+    const { history, match } = this.props;
     this.toggleDropdown();
     localStorage.removeItem("userInfo");
     localStorage.removeItem("isLoggedIn");
@@ -33,6 +34,10 @@ class Header extends Component {
       type: "INITIAL_STATE",
       payload: app
     });
+
+    if (match.path !== "/") {
+      history.push("/");
+    }
   }
 
   render() {
@@ -42,54 +47,56 @@ class Header extends Component {
     console.log("🚀 ~ file: header.jsx ~ line 17 ~ Header ~ render ~ isLoggedIn", isLoggedIn);
 
     return (
-      <div className="header-container">
-        <div className="container">
-          <div className="header-left">Left</div>
-          <div className="header-right dropdown-container">
-            <button
-              type="button"
-              className="dropdown-header-text"
-              onClick={() => this.toggleDropdown()}
-            >
-              {isLoggedIn ? (
-                <>
-                  <span>{`Hello, ${userInfo.firstName}!`}</span>
-                  <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
-                </>
-              ) : (
-                <>
-                  <span>Login</span>
-                  <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
-                </>
-              )}
-            </button>
-            <div className="dropdown-box d-none">
-              {isLoggedIn ? (
-                <>
-                  <Link to="./profile">
-                    <span>Your Profile</span>
-                  </Link>
-                  <Link to="./choices">
-                    <span>Would you watch these?</span>
-                  </Link>
-                  <button type="button" onClick={() => this.logout()}>
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="./login">
+      <>
+        <div className="header-container">
+          <div className="container">
+            <div className="header-left">Left</div>
+            <div className="header-right dropdown-container">
+              <button
+                type="button"
+                className="dropdown-header-text"
+                onClick={() => this.toggleDropdown()}
+              >
+                {isLoggedIn ? (
+                  <>
+                    <span>{`Hello, ${userInfo.firstName}!`}</span>
+                    <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
+                  </>
+                ) : (
+                  <>
                     <span>Login</span>
-                  </Link>
-                  <Link to="./registration">
-                    <span>Register</span>
-                  </Link>
-                </>
-              )}
+                    <FontAwesomeIcon icon={chevronBool ? faChevronDown : faChevronUp} />
+                  </>
+                )}
+              </button>
+              <div className="dropdown-box d-none">
+                {isLoggedIn ? (
+                  <>
+                    <Link to="./profile">
+                      <span>Your Profile</span>
+                    </Link>
+                    <Link to="./choices">
+                      <span>Would you watch these?</span>
+                    </Link>
+                    <button type="button" onClick={() => this.logout()}>
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="./login">
+                      <span>Login</span>
+                    </Link>
+                    <Link to="./registration">
+                      <span>Register</span>
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -102,7 +109,9 @@ const mapStateToProps = state => {
 
 Header.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  userInfo: PropTypes.object.isRequired
+  userInfo: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(Header);
