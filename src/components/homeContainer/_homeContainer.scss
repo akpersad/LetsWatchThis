@@ -1,0 +1,23 @@
+.home-container {
+  height: calc(100vh - 90px);
+  background: rgb(229, 9, 20);
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 1) 0%,
+    rgba(196, 72, 65, 0.9430147058823529) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &::before {
+    background-image: url("https://letswatchthis.s3.amazonaws.com/lights.png");
+    background-repeat: no-repeat;
+    background-size: 30vh;
+    display: inline-block;
+    width: 100%;
+    height: inherit;
+    content: "";
+    left: 0;
+    position: absolute;
+  }
+}

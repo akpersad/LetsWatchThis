@@ -12,9 +12,10 @@ class HomeContainer extends Component {
   render() {
     const { history, match } = this.props;
     return (
-      <div className="App">
+      <>
         <Header history={history} match={match} />
-      </div>
+        <div className="home-container">Hello</div>
+      </>
     );
   }
 }
