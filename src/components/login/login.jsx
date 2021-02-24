@@ -4,6 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import store from "../../config/store";
+import Header from "../header/header";
 
 class Login extends Component {
   constructor() {
@@ -70,41 +71,46 @@ class Login extends Component {
 
   render() {
     const { username, password } = this.state;
+    const { history, match } = this.props;
     return (
       <>
-        <div className="form-group">
-          <label htmlFor="username">
-            Username:
-            <input
-              id="username"
-              type="text"
-              name="username"
-              value={username}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-        </div>
+        <Header history={history} match={match} />
+        <div className="login-container">
+          <div className="form-group">
+            <label htmlFor="username">
+              Username:
+              <input
+                id="username"
+                type="text"
+                name="username"
+                value={username}
+                onChange={e => this.handleChange(e)}
+              />
+            </label>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="password">
-            Password:
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={password}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
+          <div className="form-group">
+            <label htmlFor="password">
+              Password:
+              <input
+                id="password"
+                type="password"
+                name="password"
+                value={password}
+                onChange={e => this.handleChange(e)}
+              />
+            </label>
+          </div>
+          <input type="submit" value="Submit" onClick={this.handleSubmit} />
         </div>
-        <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </>
     );
   }
 }
 
 Login.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

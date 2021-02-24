@@ -13,11 +13,15 @@
     align-items: center;
     min-height: 89px;
     .header-left {
+      // flex-basis: 50%;
       .header-logo {
         height: 88px;
       }
     }
     .header-right {
+      // flex-basis: 50%;
+      // margin-left: auto;
+      // text-align: right;
       &.dropdown-container {
         .dropdown-header-text {
           position: relative;
