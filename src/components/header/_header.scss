@@ -12,41 +12,48 @@
     justify-content: space-between;
     align-items: center;
     min-height: 89px;
-    .dropdown-container {
-      .dropdown-header-text {
-        position: relative;
-        background-color: transparent;
-        border: none;
-        span {
-          padding-right: 10px;
-        }
-        svg {
-          position: relative;
-          top: 3px;
-        }
+    .header-left {
+      .header-logo {
+        height: 88px;
       }
-      .dropdown-box {
-        position: absolute;
-        z-index: 1;
-        background-color: white;
-        border: 1px solid black;
-        display: flex;
-        flex-direction: column;
-        padding: 14px 0;
-        a,
-        button {
-          padding: 4px 7px;
-          color: teal;
-          text-decoration: none;
+    }
+    .header-right {
+      &.dropdown-container {
+        .dropdown-header-text {
+          position: relative;
           background-color: transparent;
           border: none;
-          text-align: left;
-          &:hover,
-          &:active,
-          &:focus {
-            background-color: lemonchiffon;
+          span {
+            padding-right: 10px;
+          }
+          svg {
+            position: relative;
+            top: 3px;
+          }
+        }
+        .dropdown-box {
+          position: absolute;
+          z-index: 1;
+          background-color: white;
+          border: 1px solid black;
+          display: flex;
+          flex-direction: column;
+          padding: 14px 0;
+          a,
+          button {
+            padding: 4px 7px;
+            color: teal;
             text-decoration: none;
-            outline: none;
+            background-color: transparent;
+            border: none;
+            text-align: left;
+            &:hover,
+            &:active,
+            &:focus {
+              background-color: lemonchiffon;
+              text-decoration: none;
+              outline: none;
+            }
           }
         }
       }

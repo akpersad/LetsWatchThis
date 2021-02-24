@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
+import Logo from "../../global/images/letswatch.png";
 
 import "./_header.scss";
 
@@ -50,7 +51,11 @@ class Header extends Component {
       <>
         <div className="header-container">
           <div className="container">
-            <div className="header-left">Left</div>
+            <div className="header-left">
+              <Link to="/">
+                <img alt="Logo" src={Logo} className="header-logo" />
+              </Link>
+            </div>
             <div className="header-right dropdown-container">
               <button
                 type="button"
