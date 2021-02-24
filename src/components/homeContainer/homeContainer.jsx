@@ -5,16 +5,36 @@ import PropTypes from "prop-types";
 import Header from "../header/header";
 
 class HomeContainer extends Component {
-  // componentDidMount() {
-  //   checkUserLoggedIn();
-  // }
-
   render() {
     const { history, match } = this.props;
     return (
-      <div className="App">
+      <>
         <Header history={history} match={match} />
-      </div>
+        <div className="context">
+          <p className="home-text_container">
+            <span className="text-middle">Let&apos;s Watch This!</span>
+            <span className="text-bottom">
+              Can&apos;t decide what you both want to watch? Like what shows you both are interested
+              in and see what you both have in common!
+            </span>
+          </p>
+        </div>
+
+        <div className="area">
+          <ul className="circles">
+            <li />
+            <li />
+            <li />
+            <li />
+            <li />
+            <li />
+            <li />
+            <li />
+            <li />
+            <li />
+          </ul>
+        </div>
+      </>
     );
   }
 }
