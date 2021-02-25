@@ -3,14 +3,17 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { TextField } from "@material-ui/core";
 import store from "../../config/store";
+import Header from "../header/header";
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      showError: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,6 +23,7 @@ class Login extends Component {
     const { target } = event;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
+    this.setState({ showError: false });
 
     this.setState({
       [name]: value
@@ -45,7 +49,7 @@ class Login extends Component {
         }
       )
       .then(response => {
-        if (response.data.response) {
+        if (response.data.loginSuccessful) {
           app.userInfo.username = response.data.username;
           app.userInfo.id = response.data.id;
           app.userInfo.firstName = response.data.first_name;
@@ -60,7 +64,7 @@ class Login extends Component {
           localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
           history.push("/");
         } else {
-          console.log("INCORRECT");
+          this.setState({ showError: true });
         }
       })
       .catch(error => {
@@ -68,43 +72,68 @@ class Login extends Component {
       });
   }
 
+  handleChangeTest(event) {
+    console.log(
+      "🚀 ~ file: login.jsx ~ line 74 ~ Login ~ handleChangeTest ~ event",
+      event.target.value
+    );
+  }
+
   render() {
-    const { username, password } = this.state;
+    const { history, match } = this.props;
+    const { showError } = this.state;
     return (
       <>
-        <div className="form-group">
-          <label htmlFor="username">
-            Username:
-            <input
-              id="username"
-              type="text"
-              name="username"
-              value={username}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-        </div>
+        <Header history={history} match={match} />
 
-        <div className="form-group">
-          <label htmlFor="password">
-            Password:
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={password}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
+        <div className="login-container">
+          <div className="login-container_inner">
+            <h2 className="login-header">Login</h2>
+            <div className="form-group">
+              <TextField
+                type="text"
+                className="login-input"
+                label="Username"
+                name="username"
+                autoComplete="off"
+                onChange={e => this.handleChange(e)}
+              />
+            </div>
+
+            <div className="form-group">
+              <TextField
+                type="password"
+                className="login-input"
+                label="Password"
+                name="password"
+                onChange={e => this.handleChange(e)}
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                className="submit-btn"
+                type="submit"
+                value="Submit"
+                onClick={this.handleSubmit}
+              />
+            </div>
+
+            <div className="form-group">
+              <div className={showError ? "error-container visible" : "error-container invisible"}>
+                The password you’ve entered is incorrect.
+              </div>
+            </div>
+          </div>
         </div>
-        <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </>
     );
   }
 }
 
 Login.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

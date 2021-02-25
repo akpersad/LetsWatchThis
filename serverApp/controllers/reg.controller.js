@@ -16,20 +16,22 @@ const checkPassword = (pool, combo) => {
 				reject(err);
 			}
 
-			bcrypt.compare(combo.password, rows[0].password).then(resp => {
-				const returnedRes = resp
-					? {
-							response: resp,
-							username: rows[0].username,
-							id: rows[0].id,
-							first_name: rows[0].first_name,
-							last_name: rows[0].last_name
-					  }
-					: { response: resp };
-				resolve(returnedRes);
-			});
-
-			return true;
+			if (rows.length > 0) {
+				bcrypt.compare(combo.password, rows[0].password).then(resp => {
+					const returnedRes = resp
+						? {
+								loginSuccessful: resp,
+								username: rows[0].username,
+								id: rows[0].id,
+								first_name: rows[0].first_name,
+								last_name: rows[0].last_name
+						  }
+						: { loginSuccessful: resp };
+					resolve(returnedRes);
+				});
+			} else {
+				resolve({ loginSuccessful: false });
+			}
 		});
 	});
 };
