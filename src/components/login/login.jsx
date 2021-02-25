@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { TextField } from "@material-ui/core";
 import store from "../../config/store";
 import Header from "../header/header";
 
@@ -11,7 +12,8 @@ class Login extends Component {
     super();
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      classList: "error-container invisible"
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,6 +64,7 @@ class Login extends Component {
           history.push("/");
         } else {
           console.log("INCORRECT");
+          this.setState({ classList: "error-container visible" });
         }
       })
       .catch(error => {
@@ -69,39 +72,57 @@ class Login extends Component {
       });
   }
 
+  handleChangeTest(event) {
+    console.log(
+      "🚀 ~ file: login.jsx ~ line 74 ~ Login ~ handleChangeTest ~ event",
+      event.target.value
+    );
+  }
+
   render() {
-    const { username, password } = this.state;
     const { history, match } = this.props;
+    const { classList } = this.state;
     return (
       <>
         <Header history={history} match={match} />
-        <div className="login-container">
-          <div className="form-group">
-            <label htmlFor="username">
-              Username:
-              <input
-                id="username"
-                type="text"
-                name="username"
-                value={username}
-                onChange={e => this.handleChange(e)}
-              />
-            </label>
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="password">
-              Password:
-              <input
-                id="password"
-                type="password"
-                name="password"
-                value={password}
+        <div className="login-container">
+          <div className="login-container_inner">
+            <h2 className="login-header">Login</h2>
+            <div className="form-group">
+              <TextField
+                type="text"
+                className="login-input"
+                label="Username"
+                name="username"
+                autoComplete="off"
                 onChange={e => this.handleChange(e)}
               />
-            </label>
+            </div>
+
+            <div className="form-group">
+              <TextField
+                type="password"
+                className="login-input"
+                label="Password"
+                name="password"
+                onChange={e => this.handleChange(e)}
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                className="submit-btn"
+                type="submit"
+                value="Submit"
+                onClick={this.handleSubmit}
+              />
+            </div>
+
+            <div className="form-group">
+              <div className={classList}>The password you’ve entered is incorrect.</div>
+            </div>
           </div>
-          <input type="submit" value="Submit" onClick={this.handleSubmit} />
         </div>
       </>
     );
