@@ -13,7 +13,7 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      classList: "error-container invisible"
+      showError: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +23,7 @@ class Login extends Component {
     const { target } = event;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
+    this.setState({ showError: false });
 
     this.setState({
       [name]: value
@@ -48,7 +49,7 @@ class Login extends Component {
         }
       )
       .then(response => {
-        if (response.data.response) {
+        if (response.data.loginSuccessful) {
           app.userInfo.username = response.data.username;
           app.userInfo.id = response.data.id;
           app.userInfo.firstName = response.data.first_name;
@@ -63,8 +64,7 @@ class Login extends Component {
           localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
           history.push("/");
         } else {
-          console.log("INCORRECT");
-          this.setState({ classList: "error-container visible" });
+          this.setState({ showError: true });
         }
       })
       .catch(error => {
@@ -81,7 +81,7 @@ class Login extends Component {
 
   render() {
     const { history, match } = this.props;
-    const { classList } = this.state;
+    const { showError } = this.state;
     return (
       <>
         <Header history={history} match={match} />
@@ -120,7 +120,9 @@ class Login extends Component {
             </div>
 
             <div className="form-group">
-              <div className={classList}>The password you’ve entered is incorrect.</div>
+              <div className={showError ? "error-container visible" : "error-container invisible"}>
+                The password you’ve entered is incorrect.
+              </div>
             </div>
           </div>
         </div>
