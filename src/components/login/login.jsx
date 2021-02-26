@@ -4,6 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { TextField } from "@material-ui/core";
+import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import Header from "../header/header";
 
@@ -13,7 +14,8 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      showError: false
+      showError: false,
+      loading: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,6 +37,7 @@ class Login extends Component {
     const { app } = store.getState();
     const { history } = this.props;
 
+    this.setState({ loading: true });
     axios
       .post(
         "/api/checkpassword",
@@ -62,9 +65,11 @@ class Login extends Component {
           });
           localStorage.setItem("isLoggedIn", true);
           localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
+          this.setState({ loading: false });
           history.push("/");
         } else {
           this.setState({ showError: true });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {
@@ -81,50 +86,58 @@ class Login extends Component {
 
   render() {
     const { history, match } = this.props;
-    const { showError } = this.state;
+    const { showError, loading } = this.state;
     return (
       <>
         <Header history={history} match={match} />
 
         <div className="login-container">
-          <div className="login-container_inner">
-            <h2 className="login-header">Login</h2>
-            <div className="form-group">
-              <TextField
-                type="text"
-                className="login-input"
-                label="Username"
-                name="username"
-                autoComplete="off"
-                onChange={e => this.handleChange(e)}
-              />
+          {loading ? (
+            <div className="login-container_inner loading-container">
+              <ScaleLoader color="#000000" loading={loading} size={350} />
             </div>
+          ) : (
+            <div className="login-container_inner">
+              <h2 className="login-header">Login</h2>
+              <div className="form-group">
+                <TextField
+                  type="text"
+                  className="login-input"
+                  label="Username"
+                  name="username"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
 
-            <div className="form-group">
-              <TextField
-                type="password"
-                className="login-input"
-                label="Password"
-                name="password"
-                onChange={e => this.handleChange(e)}
-              />
-            </div>
+              <div className="form-group">
+                <TextField
+                  type="password"
+                  className="login-input"
+                  label="Password"
+                  name="password"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
 
-            <div className="form-group">
-              <input
-                className="submit-btn"
-                type="submit"
-                value="Submit"
-                onClick={this.handleSubmit}
-              />
-            </div>
+              <div className="form-group">
+                <input
+                  className="submit-btn"
+                  type="submit"
+                  value="Submit"
+                  onClick={this.handleSubmit}
+                />
+              </div>
 
-            <div className="form-group">
-              <div className={showError ? "error-container visible" : "error-container invisible"}>
-                The password you’ve entered is incorrect.
+              <div className="form-group">
+                <div
+                  className={showError ? "error-container visible" : "error-container invisible"}
+                >
+                  The password you’ve entered is incorrect.
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </>
     );

@@ -1,6 +1,7 @@
+.registration-container,
 .login-container {
   background: linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);
-  height: calc(100vh - 90px);
+  min-height: calc(100vh - 90px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +13,7 @@
     border-radius: 5px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     padding: 60px;
+    margin: 30px;
     .login-header {
       font-size: 30px;
       text-transform: uppercase;
@@ -45,6 +47,11 @@
         border-radius: 5px;
         margin-top: 20px;
       }
+    }
+    &.loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
