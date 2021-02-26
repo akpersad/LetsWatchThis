@@ -15,7 +15,7 @@ class Login extends Component {
       username: "",
       password: "",
       showError: false,
-      loading: true
+      loading: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,10 +65,11 @@ class Login extends Component {
           });
           localStorage.setItem("isLoggedIn", true);
           localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
+          this.setState({ loading: false });
           history.push("/");
         } else {
           this.setState({ showError: true });
-          this.setState({ loading: true });
+          this.setState({ loading: false });
         }
       })
       .catch(error => {

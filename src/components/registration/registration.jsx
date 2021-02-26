@@ -3,6 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { TextField } from "@material-ui/core";
+import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import Header from "../header/header";
 
@@ -17,7 +18,8 @@ class Registration extends Component {
       confirmPass: "",
       validForm: true,
       regMessage: "",
-      formPostable: false
+      formPostable: false,
+      loading: false
     };
 
     this.confirmPassCheck = this.confirmPassCheck.bind(this);
@@ -56,6 +58,7 @@ class Registration extends Component {
     const { app } = store.getState();
     const { history } = this.props;
 
+    this.setState({ loading: true });
     if (validForm) {
       axios
         .post(
@@ -86,9 +89,11 @@ class Registration extends Component {
             });
             localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
+            this.setState({ loading: false });
             history.push("/");
           } else {
             this.setState({ regMessage: response.data.message });
+            this.setState({ loading: false });
           }
         })
         .catch(error => {
@@ -118,88 +123,94 @@ class Registration extends Component {
 
   render() {
     const { history, match } = this.props;
-    const { validForm, regMessage, formPostable } = this.state;
+    const { validForm, regMessage, formPostable, loading } = this.state;
     return (
       <>
         <Header history={history} match={match} />
 
         <div className="registration-container">
-          <div className="login-container_inner">
-            <h2 className="login-header">Register</h2>
-            <div className="form-group">
-              <TextField
-                type="email"
-                className="login-input"
-                label="Username"
-                name="username"
-                autoComplete="off"
-                onChange={e => this.handleChange(e)}
-              />
+          {loading ? (
+            <div className="login-container_inner loading-container">
+              <ScaleLoader color="#000000" loading={loading} size={350} />
             </div>
+          ) : (
+            <div className="login-container_inner">
+              <h2 className="login-header">Register</h2>
+              <div className="form-group">
+                <TextField
+                  type="email"
+                  className="login-input"
+                  label="Username"
+                  name="username"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
 
-            <div className="form-group">
-              <TextField
-                type="text"
-                className="login-input"
-                label="First Name"
-                name="firstName"
-                autoComplete="off"
-                onChange={e => this.handleChange(e)}
-              />
+              <div className="form-group">
+                <TextField
+                  type="text"
+                  className="login-input"
+                  label="First Name"
+                  name="firstName"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="text"
+                  className="login-input"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="password"
+                  className="login-input"
+                  label="Password"
+                  name="password"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="password"
+                  className="login-input"
+                  label="Confirm Password"
+                  name="confirmPass"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+                {!validForm ? (
+                  <div className="error-div">
+                    <span>Passwords Do Not Match</span>
+                  </div>
+                ) : (
+                  <div className="error-div-empty" />
+                )}
+              </div>
+
+              <div className="form-group">
+                <input
+                  className="submit-btn"
+                  type="submit"
+                  value="Submit"
+                  onClick={this.handleSubmit}
+                  disabled={!formPostable}
+                />
+              </div>
+
+              <div className="reg-fail">{regMessage}</div>
             </div>
-
-            <div className="form-group">
-              <TextField
-                type="text"
-                className="login-input"
-                label="Last Name"
-                name="lastName"
-                autoComplete="off"
-                onChange={e => this.handleChange(e)}
-              />
-            </div>
-
-            <div className="form-group">
-              <TextField
-                type="password"
-                className="login-input"
-                label="Password"
-                name="password"
-                autoComplete="off"
-                onChange={e => this.handleChange(e)}
-              />
-            </div>
-
-            <div className="form-group">
-              <TextField
-                type="password"
-                className="login-input"
-                label="Confirm Password"
-                name="confirmPass"
-                autoComplete="off"
-                onChange={e => this.handleChange(e)}
-              />
-              {!validForm ? (
-                <div className="error-div">
-                  <span>Passwords Do Not Match</span>
-                </div>
-              ) : (
-                <div className="error-div-empty" />
-              )}
-            </div>
-
-            <div className="form-group">
-              <input
-                className="submit-btn"
-                type="submit"
-                value="Submit"
-                onClick={this.handleSubmit}
-                disabled={!formPostable}
-              />
-            </div>
-
-            <div className="reg-fail">{regMessage}</div>
-          </div>
+          )}
         </div>
       </>
     );
