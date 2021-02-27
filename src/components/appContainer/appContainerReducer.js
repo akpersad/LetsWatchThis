@@ -25,7 +25,8 @@ const initialState = {
 		}
 	],
 	friendList: [],
-	friendListFormatted: []
+	friendListFormatted: [],
+	friendListLoading: true
 };
 
 const appContainerReducer = (state = initialState, action) => {

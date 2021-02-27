@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { AccountCircle } from "@material-ui/icons/";
+
 import store from "../config/store";
 
 export const getAllChildrenNodes = (element = document.body) => {
@@ -190,8 +192,16 @@ export const checkUserLoggedIn = () => {
       ? JSON.parse(localStorage.getItem("userInfo"))
       : window.location.reload();
     app.userInfo.username = userInfoLocal.username;
+    app.userInfo.firstName = userInfoLocal.firstName;
+    app.userInfo.lastName = userInfoLocal.lastName;
     app.userInfo.id = userInfoLocal.id;
     app.isLoggedIn = true;
+
+    store.dispatch({
+      type: "INITIAL_STATE",
+      payload: app
+    });
+
     return true;
   }
   return false;
@@ -201,16 +211,26 @@ export const formatFriendList = () => {
   const { app } = store.getState();
   const formatList = app.friendList.map(item => {
     return (
-      <li key={item.id}>
-        <Link to={`./matches/${item.id}`}>
-          <span>{item.first_name}</span>
-          {}
-          <span>{item.last_name}</span>
-        </Link>
-      </li>
+      <Link key={item.id} to={`./matches/${item.id}`}>
+        <li className="pending-request">
+          <div className="name-section">
+            <p className="names-line">
+              <span className="first-name">{item.first_name}</span>
+              <span className="last-name">{item.last_name}</span>
+            </p>
+            <p className="email-line">
+              <span>{item.username}</span>
+            </p>
+          </div>
+          <div className="btns-section">
+            <AccountCircle />
+          </div>
+        </li>
+      </Link>
     );
   });
   app.friendListFormatted = formatList;
+  app.friendListLoading = false;
 
   store.dispatch({
     type: "INITIAL_STATE",
@@ -221,6 +241,14 @@ export const formatFriendList = () => {
 export const getFriendsList = () => {
   const { app } = store.getState();
   const { userInfo } = app;
+
+  app.friendListLoading = true;
+
+  store.dispatch({
+    type: "INITIAL_STATE",
+    payload: app
+  });
+
   axios.get(`/api/getfriendlist?userid=${userInfo.id}`).then(response => {
     if (response.data.hasFriends) {
       app.friendList = response.data.returnedRows;

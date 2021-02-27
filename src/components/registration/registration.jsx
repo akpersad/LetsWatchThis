@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { TextField } from "@material-ui/core";
+import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
+import Header from "../header/header";
 
 class Registration extends Component {
   constructor() {
@@ -13,7 +16,10 @@ class Registration extends Component {
       firstName: "",
       lastName: "",
       confirmPass: "",
-      validForm: true
+      validForm: true,
+      regMessage: "",
+      formPostable: false,
+      loading: false
     };
 
     this.confirmPassCheck = this.confirmPassCheck.bind(this);
@@ -26,9 +32,14 @@ class Registration extends Component {
     const { name } = target;
 
     if (name !== "confirmPass") {
-      this.setState({
-        [name]: value
-      });
+      this.setState(
+        {
+          [name]: value
+        },
+        () => {
+          this.checkValidForm();
+        }
+      );
     } else {
       this.setState(
         {
@@ -36,6 +47,7 @@ class Registration extends Component {
         },
         () => {
           this.confirmPassCheck();
+          this.checkValidForm();
         }
       );
     }
@@ -46,6 +58,7 @@ class Registration extends Component {
     const { app } = store.getState();
     const { history } = this.props;
 
+    this.setState({ loading: true });
     if (validForm) {
       axios
         .post(
@@ -76,14 +89,24 @@ class Registration extends Component {
             });
             localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("userInfo", JSON.stringify(app.userInfo));
+            this.setState({ loading: false });
             history.push("/");
           } else {
-            console.log(response.data.message);
+            this.setState({ regMessage: response.data.message });
+            this.setState({ loading: false });
           }
         })
         .catch(error => {
           console.log("🚀 ~ file: login.jsx ~ line 53 ~ Login ~ handleSubmit ~ error", error);
         });
+    }
+  }
+
+  checkValidForm() {
+    const { username, password, firstName, lastName, confirmPass, validForm } = this.state;
+
+    if (username && password && firstName && lastName && confirmPass && validForm) {
+      this.setState({ formPostable: true });
     }
   }
 
@@ -99,88 +122,104 @@ class Registration extends Component {
   }
 
   render() {
-    const { username, password, firstName, lastName, confirmPass, validForm } = this.state;
+    const { history, match } = this.props;
+    const { validForm, regMessage, formPostable, loading } = this.state;
     return (
       <>
-        <div className="form-group">
-          <label htmlFor="username">
-            Username:
-            <input
-              id="username"
-              type="text"
-              name="username"
-              value={username}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-        </div>
+        <Header history={history} match={match} />
 
-        <div className="form-group">
-          <label htmlFor="fName">
-            First Name:
-            <input
-              id="fName"
-              type="text"
-              name="firstName"
-              value={firstName}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="lName">
-            Last Name:
-            <input
-              id="lName"
-              type="text"
-              name="lastName"
-              value={lastName}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password">
-            Password:
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={password}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="confirmPass">
-            Confirm Password:
-            <input
-              id="confirmPass"
-              type="password"
-              name="confirmPass"
-              value={confirmPass}
-              onChange={e => this.handleChange(e)}
-            />
-          </label>
-          {!validForm ? (
-            <div className="error-div">
-              <span>Passwords Do Not Match</span>
+        <div className="registration-container">
+          {loading ? (
+            <div className="login-container_inner loading-container">
+              <ScaleLoader color="#000000" loading={loading} size={350} />
             </div>
           ) : (
-            <div />
+            <div className="login-container_inner">
+              <h2 className="login-header">Register</h2>
+              <div className="form-group">
+                <TextField
+                  type="email"
+                  className="login-input"
+                  label="Username"
+                  name="username"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="text"
+                  className="login-input"
+                  label="First Name"
+                  name="firstName"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="text"
+                  className="login-input"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="password"
+                  className="login-input"
+                  label="Password"
+                  name="password"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+              </div>
+
+              <div className="form-group">
+                <TextField
+                  type="password"
+                  className="login-input"
+                  label="Confirm Password"
+                  name="confirmPass"
+                  autoComplete="off"
+                  onChange={e => this.handleChange(e)}
+                />
+                {!validForm ? (
+                  <div className="error-div">
+                    <span>Passwords Do Not Match</span>
+                  </div>
+                ) : (
+                  <div className="error-div-empty" />
+                )}
+              </div>
+
+              <div className="form-group">
+                <input
+                  className="submit-btn"
+                  type="submit"
+                  value="Submit"
+                  onClick={this.handleSubmit}
+                  disabled={!formPostable}
+                />
+              </div>
+
+              <div className="reg-fail">{regMessage}</div>
+            </div>
           )}
         </div>
-        <input type="submit" value="Submit" onClick={this.handleSubmit} />
       </>
     );
   }
 }
 
 Registration.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
