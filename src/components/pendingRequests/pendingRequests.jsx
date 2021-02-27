@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { IconButton } from "@material-ui/core/";
+import { Check, Close } from "@material-ui/icons/";
+import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import { checkUserLoggedIn, getFriendsList } from "../../global/_util";
 
@@ -8,6 +11,9 @@ class PendingRequests extends Component {
   constructor() {
     super();
     this.handleFriendDecision = this.handleFriendDecision.bind(this);
+    this.state = {
+      loading: false
+    };
   }
 
   componentDidMount() {
@@ -43,6 +49,7 @@ class PendingRequests extends Component {
   getPendingRequests() {
     const { app, profile } = store.getState();
     const { userInfo } = app;
+    this.setState({ loading: true });
     axios.get(`/api/getpendingrequests?userid=${userInfo.id}`).then(response => {
       if (response.data.hasRequests) {
         profile.pendingRequestsReturn = response.data.returnedRows;
@@ -53,6 +60,7 @@ class PendingRequests extends Component {
         });
 
         this.formatPendingRequests();
+        this.setState({ loading: false });
       } else {
         profile.pendingRequestsReturn = [];
         profile.pendingRequestsFormatted = [];
@@ -61,6 +69,7 @@ class PendingRequests extends Component {
           type: "UPDATE_PROFILE",
           payload: profile
         });
+        this.setState({ loading: false });
       }
     });
   }
@@ -69,30 +78,37 @@ class PendingRequests extends Component {
     const { profile } = store.getState();
     const formatedArr = profile.pendingRequestsReturn.map(item => {
       return (
-        <li key={item.id}>
-          <span>
-            {item.first_name}
-            {}
-            {item.last_name}
-          </span>
-          <button
-            type="button"
-            data-id={item.id_from}
-            data-choice="accept"
-            onClick={e => this.handleFriendDecision(e)}
-            className="submit-friend-request_yes"
-          >
-            Add
-          </button>
-          <button
-            type="button"
-            data-id={item.id_from}
-            data-choice="deny"
-            onClick={e => this.handleFriendDecision(e)}
-            className="submit-friend-request_no"
-          >
-            Delete
-          </button>
+        <li key={item.id} className="pending-request">
+          <div className="name-section">
+            <p className="names-line">
+              <span className="first-name">{item.first_name}</span>
+              <span className="last-name">{item.last_name}</span>
+            </p>
+            <p className="email-line">
+              <span>{item.username}</span>
+            </p>
+          </div>
+          <div className="btns-section">
+            <IconButton
+              data-id={item.id_from}
+              data-choice="accept"
+              onClick={e => this.handleFriendDecision(e)}
+              className="pending-request-btn submit-friend-request_yes"
+              aria-label="Add"
+            >
+              <Check />
+            </IconButton>
+
+            <IconButton
+              data-id={item.id_from}
+              data-choice="deny"
+              onClick={e => this.handleFriendDecision(e)}
+              className="pending-request-btn submit-friend-request_no"
+              aria-label="Deny"
+            >
+              <Close />
+            </IconButton>
+          </div>
         </li>
       );
     });
@@ -107,10 +123,17 @@ class PendingRequests extends Component {
   render() {
     const { profile } = store.getState();
     const { pendingRequestsFormatted } = profile;
+    const { loading } = this.state;
     return (
       <>
         <h3>Pending Requests:</h3>
-        <ul>{pendingRequestsFormatted}</ul>
+        <ul className="pending-friends-container">
+          {loading ? (
+            <ScaleLoader color="#000000" loading={loading} size={350} />
+          ) : (
+            pendingRequestsFormatted
+          )}
+        </ul>
       </>
     );
   }
