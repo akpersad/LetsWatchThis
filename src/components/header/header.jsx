@@ -77,10 +77,10 @@ class Header extends Component {
               <div className="dropdown-box d-none">
                 {isLoggedIn ? (
                   <>
-                    <Link to="./profile">
+                    <Link to="/profile">
                       <span>Your Profile</span>
                     </Link>
-                    <Link to="./choices">
+                    <Link to="/choices">
                       <span>Would you watch these?</span>
                     </Link>
                     <button type="button" onClick={() => this.logout()}>
@@ -89,10 +89,10 @@ class Header extends Component {
                   </>
                 ) : (
                   <>
-                    <Link to="./login">
+                    <Link to="/login">
                       <span>Login</span>
                     </Link>
-                    <Link to="./registration">
+                    <Link to="/registration">
                       <span>Register</span>
                     </Link>
                   </>
