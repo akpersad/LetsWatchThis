@@ -20,6 +20,14 @@
     border-left: 1px solid #008b8b;
     min-height: 175px;
     padding-left: 48px;
+    .name-line {
+      .name-header {
+        .last-name-span {
+          padding-left: 8px;
+          font-weight: 700;
+        }
+      }
+    }
     .link-line {
       .link {
         position: relative;
