@@ -1,0 +1,26 @@
+.friend-left {
+  .friend-request-btn {
+    width: 100%;
+    font-size: 20px;
+    &.MuiFormLabel-root.Mui-focused {
+      color: #e50914;
+    }
+    &.MuiInput-underline:after {
+      border-bottom-color: #e50914;
+    }
+    input {
+      padding-left: 8px;
+    }
+  }
+  .submit-friend-btn {
+    background-color: #e50914;
+    &:hover {
+      background-color: #96060d;
+    }
+  }
+  .error-text_friend {
+    font-size: 18px;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+}

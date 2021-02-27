@@ -17,7 +17,7 @@ class ProfilePageContainer extends Component {
           <ProfileHeader />
           <div className="container friends-section">
             <div className="friend-left">
-              <div className="form-group">
+              <div className="form-group friend-request-container">
                 <SubmitFriendRequest />
               </div>
               <div className="form-group">

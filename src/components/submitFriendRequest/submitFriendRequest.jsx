@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { Input, InputLabel, InputAdornment } from "@material-ui/core/";
+import { Input, Button, InputAdornment } from "@material-ui/core/";
 import { Search } from "@material-ui/icons/";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -15,7 +15,7 @@ class SubmitFriendRequest extends Component {
 
     this.state = {
       errorClass: "error-text_friend invisible",
-      responseText: ""
+      responseText: "Temp"
     };
   }
 
@@ -53,12 +53,12 @@ class SubmitFriendRequest extends Component {
       .then(response => {
         if (response.data.isValidRequest) {
           this.setState({
-            errorClass: "error-text_friend error-text visible",
+            errorClass: "error-text_friend success-text visible",
             responseText: response.data.responseText
           });
         } else {
           this.setState({
-            errorClass: "error-text_friend success-text visible",
+            errorClass: "error-text_friend error-text visible",
             responseText: response.data.responseText
           });
         }
@@ -78,6 +78,7 @@ class SubmitFriendRequest extends Component {
     const { errorClass, responseText } = this.state;
     return (
       <>
+        <h3 className="friend-section-header">Submit Friend Request:</h3>
         <div className="form-group">
           {/* <InputLabel htmlFor="input-with-icon-adornment">With a start adornment</InputLabel> */}
           <Input
@@ -93,15 +94,17 @@ class SubmitFriendRequest extends Component {
             }
           />
         </div>
+
         <div className="form-group">
-          <button
-            type="button"
+          <Button
+            variant="contained"
+            color="primary"
             onClick={this.handleFriendSubmit}
             className="submit-friend-btn"
             disabled={submitFriendBtnDisable}
           >
             Add Friend
-          </button>
+          </Button>
 
           <div className={errorClass}>{responseText}</div>
         </div>
