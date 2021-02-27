@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { IconButton } from "@material-ui/core/";
+import { Check, Close } from "@material-ui/icons/";
+import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import { checkUserLoggedIn, getFriendsList } from "../../global/_util";
 
@@ -80,24 +83,25 @@ class PendingRequests extends Component {
             </p>
           </div>
           <div className="btns-section">
-            <button
-              type="button"
+            <IconButton
               data-id={item.id_from}
               data-choice="accept"
               onClick={e => this.handleFriendDecision(e)}
-              className="submit-friend-request_yes"
+              className="pending-request-btn submit-friend-request_yes"
+              aria-label="Add"
             >
-              Add
-            </button>
-            <button
-              type="button"
+              <Check />
+            </IconButton>
+
+            <IconButton
               data-id={item.id_from}
               data-choice="deny"
               onClick={e => this.handleFriendDecision(e)}
-              className="submit-friend-request_no"
+              className="pending-request-btn submit-friend-request_no"
+              aria-label="Deny"
             >
-              Delete
-            </button>
+              <Close />
+            </IconButton>
           </div>
         </li>
       );

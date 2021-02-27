@@ -18,6 +18,7 @@
         line-height: 1;
       }
       .names-line {
+        font-weight: 600;
         .last-name {
           padding-left: 5px;
         }
@@ -30,6 +31,28 @@
     }
     .btns-section {
       margin-left: auto;
+      .pending-request-btn {
+        border: 1px solid;
+        padding: 6px;
+        &.submit-friend-request_yes {
+          color: #008a00;
+          background-color: #008a00;
+          margin-right: 8px;
+          svg {
+            fill: #fff;
+          }
+        }
+        &.submit-friend-request_no {
+          color: #e9e7e7;
+          background-color: #e9e7e7;
+          svg {
+            fill: #e50914;
+          }
+        }
+        &.Mui-focusVisible {
+          box-shadow: 0px 0px 0 2px rgba(#00ffff, 0.1);
+        }
+      }
     }
   }
 }
