@@ -28,6 +28,7 @@ body {
   overflow-x: hidden;
 }
 
+@import "../components/friendsList/friendsList";
 @import "../components/homeContainer/homeContainer";
 @import "../components/login/login";
 @import "../components/profileHeader/profileHeader";

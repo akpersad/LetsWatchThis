@@ -66,7 +66,8 @@ const getPendingRequets = (requests, pool) => {
 		const queryPendingRequests = `SELECT pending_requests.id, pending_requests.id_from, users.id, users.first_name, users.last_name, users.username
 FROM pending_requests
 INNER JOIN users ON pending_requests.id_from = users.id
-WHERE pending_requests.id_to = ${requests.query.userid};`;
+WHERE pending_requests.id_to = ${requests.query.userid}
+ORDER BY users.username;`;
 
 		pool.query(queryPendingRequests, (error, returnedRows) => {
 			if (error) {
@@ -116,7 +117,8 @@ const getFriendList = (request, pool) => {
 		const queryFriendList = `SELECT users.id, users.username, users.first_name, users.last_name
 FROM users
 INNER JOIN friendships ON friendships.id_second = users.id
-WHERE friendships.id_first = ${request.query.userid}`;
+WHERE friendships.id_first = ${request.query.userid}
+ORDER BY users.first_name`;
 
 		pool.query(queryFriendList, (error, returnedRows) => {
 			if (error) {

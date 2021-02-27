@@ -12,7 +12,8 @@ class PendingRequests extends Component {
     super();
     this.handleFriendDecision = this.handleFriendDecision.bind(this);
     this.state = {
-      loading: false
+      loading: false,
+      hasPendingFriends: false
     };
   }
 
@@ -23,7 +24,8 @@ class PendingRequests extends Component {
 
   handleFriendDecision(event) {
     const { app } = store.getState();
-    const { dataset } = event.target;
+    const buttonElement = this.getButtonElement(event.target);
+    const { dataset } = buttonElement;
     axios
       .post(
         "/api/sendfrienddecision",
@@ -46,6 +48,13 @@ class PendingRequests extends Component {
       });
   }
 
+  getButtonElement(element) {
+    if (element.tagName === "BUTTON") {
+      return element;
+    }
+    return this.getButtonElement(element.parentElement);
+  }
+
   getPendingRequests() {
     const { app, profile } = store.getState();
     const { userInfo } = app;
@@ -60,7 +69,7 @@ class PendingRequests extends Component {
         });
 
         this.formatPendingRequests();
-        this.setState({ loading: false });
+        this.setState({ loading: false, hasPendingFriends: true });
       } else {
         profile.pendingRequestsReturn = [];
         profile.pendingRequestsFormatted = [];
@@ -69,7 +78,7 @@ class PendingRequests extends Component {
           type: "UPDATE_PROFILE",
           payload: profile
         });
-        this.setState({ loading: false });
+        this.setState({ loading: false, hasPendingFriends: false });
       }
     });
   }
@@ -123,17 +132,23 @@ class PendingRequests extends Component {
   render() {
     const { profile } = store.getState();
     const { pendingRequestsFormatted } = profile;
-    const { loading } = this.state;
+    const { loading, hasPendingFriends } = this.state;
     return (
       <>
         <h3>Pending Requests:</h3>
-        <ul className="pending-friends-container">
-          {loading ? (
-            <ScaleLoader color="#000000" loading={loading} size={350} />
-          ) : (
-            pendingRequestsFormatted
-          )}
-        </ul>
+        {hasPendingFriends ? (
+          <ul className="pending-friends-container">
+            {loading ? (
+              <ScaleLoader color="#000000" loading={loading} size={350} />
+            ) : (
+              pendingRequestsFormatted
+            )}
+          </ul>
+        ) : (
+          <div className="no-pending">
+            <span>No Pending Requests At This Time!</span>
+          </div>
+        )}
       </>
     );
   }
