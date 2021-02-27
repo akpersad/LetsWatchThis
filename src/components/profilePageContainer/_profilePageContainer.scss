@@ -1,4 +1,22 @@
 .profile-page_container {
   background-color: #f1f2f7;
   min-height: calc(100vh - 90px);
+  .friends-section {
+    display: flex;
+    min-height: 300px;
+    .friend-left,
+    .friend-right {
+      flex-basis: 50%;
+    }
+    .friend-left {
+      padding-right: 20px;
+      border-right: 1px solid #008b8b;
+      .friend-request-container {
+        margin-bottom: 40px;
+      }
+    }
+    .friend-right {
+      padding-left: 20px;
+    }
+  }
 }
