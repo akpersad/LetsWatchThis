@@ -11,6 +11,9 @@ class PendingRequests extends Component {
   constructor() {
     super();
     this.handleFriendDecision = this.handleFriendDecision.bind(this);
+    this.state = {
+      loading: false
+    };
   }
 
   componentDidMount() {
@@ -46,6 +49,7 @@ class PendingRequests extends Component {
   getPendingRequests() {
     const { app, profile } = store.getState();
     const { userInfo } = app;
+    this.setState({ loading: true });
     axios.get(`/api/getpendingrequests?userid=${userInfo.id}`).then(response => {
       if (response.data.hasRequests) {
         profile.pendingRequestsReturn = response.data.returnedRows;
@@ -56,6 +60,7 @@ class PendingRequests extends Component {
         });
 
         this.formatPendingRequests();
+        this.setState({ loading: false });
       } else {
         profile.pendingRequestsReturn = [];
         profile.pendingRequestsFormatted = [];
@@ -64,6 +69,7 @@ class PendingRequests extends Component {
           type: "UPDATE_PROFILE",
           payload: profile
         });
+        this.setState({ loading: false });
       }
     });
   }
@@ -117,10 +123,17 @@ class PendingRequests extends Component {
   render() {
     const { profile } = store.getState();
     const { pendingRequestsFormatted } = profile;
+    const { loading } = this.state;
     return (
       <>
         <h3>Pending Requests:</h3>
-        <ul className="pending-friends-container">{pendingRequestsFormatted}</ul>
+        <ul className="pending-friends-container">
+          {loading ? (
+            <ScaleLoader color="#000000" loading={loading} size={350} />
+          ) : (
+            pendingRequestsFormatted
+          )}
+        </ul>
       </>
     );
   }
