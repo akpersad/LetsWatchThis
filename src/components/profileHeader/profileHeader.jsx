@@ -8,7 +8,8 @@ class ProfileHeader extends Component {
   constructor() {
     super();
     this.state = {
-      imgSrc: ""
+      imgSrc:
+        "https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Wayfarers&hairColor=Black&facialHairType=BeardLight&facialHairColor=Black&clotheType=BlazerShirt&eyeType=Dizzy&eyebrowType=DefaultNatural&mouthType=Smile&skinColor=Brown"
     };
   }
 

@@ -69,30 +69,36 @@ class PendingRequests extends Component {
     const { profile } = store.getState();
     const formatedArr = profile.pendingRequestsReturn.map(item => {
       return (
-        <li key={item.id}>
-          <span>
-            {item.first_name}
-            {}
-            {item.last_name}
-          </span>
-          <button
-            type="button"
-            data-id={item.id_from}
-            data-choice="accept"
-            onClick={e => this.handleFriendDecision(e)}
-            className="submit-friend-request_yes"
-          >
-            Add
-          </button>
-          <button
-            type="button"
-            data-id={item.id_from}
-            data-choice="deny"
-            onClick={e => this.handleFriendDecision(e)}
-            className="submit-friend-request_no"
-          >
-            Delete
-          </button>
+        <li key={item.id} className="pending-request">
+          <div className="name-section">
+            <p className="names-line">
+              <span className="first-name">{item.first_name}</span>
+              <span className="last-name">{item.last_name}</span>
+            </p>
+            <p className="email-line">
+              <span>{item.username}</span>
+            </p>
+          </div>
+          <div className="btns-section">
+            <button
+              type="button"
+              data-id={item.id_from}
+              data-choice="accept"
+              onClick={e => this.handleFriendDecision(e)}
+              className="submit-friend-request_yes"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              data-id={item.id_from}
+              data-choice="deny"
+              onClick={e => this.handleFriendDecision(e)}
+              className="submit-friend-request_no"
+            >
+              Delete
+            </button>
+          </div>
         </li>
       );
     });
@@ -110,7 +116,7 @@ class PendingRequests extends Component {
     return (
       <>
         <h3>Pending Requests:</h3>
-        <ul>{pendingRequestsFormatted}</ul>
+        <ul className="pending-friends-container">{pendingRequestsFormatted}</ul>
       </>
     );
   }

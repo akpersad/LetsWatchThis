@@ -1,0 +1,35 @@
+.pending-friends-container {
+  list-style: none;
+  padding: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  .pending-request {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: 4px 3px 10px 0px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    .name-section {
+      .names-line,
+      .email-line {
+        margin-bottom: 0;
+        line-height: 1;
+      }
+      .names-line {
+        .last-name {
+          padding-left: 5px;
+        }
+      }
+      .email-line {
+        span {
+          font-size: 16px;
+        }
+      }
+    }
+    .btns-section {
+      margin-left: auto;
+    }
+  }
+}
