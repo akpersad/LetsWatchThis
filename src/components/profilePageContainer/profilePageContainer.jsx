@@ -15,7 +15,7 @@ class ProfilePageContainer extends Component {
         <Header history={history} match={match} />
         <div className="profile-page_container">
           <ProfileHeader />
-          <div className="friends-section">
+          <div className="container friends-section">
             <div className="friend-left">
               <div className="form-group">
                 <SubmitFriendRequest />

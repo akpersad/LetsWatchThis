@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { Input, InputLabel, InputAdornment } from "@material-ui/core/";
+import { Search } from "@material-ui/icons/";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
@@ -72,30 +74,38 @@ class SubmitFriendRequest extends Component {
   }
 
   render() {
-    const { friendRequestSearch, submitFriendBtnDisable } = this.props;
+    const { submitFriendBtnDisable } = this.props;
     const { errorClass, responseText } = this.state;
     return (
-      <div className="form-group">
-        <label htmlFor="friend-request">
-          Friend Requests:
-          <input
-            id="friend-request"
+      <>
+        <div className="form-group">
+          {/* <InputLabel htmlFor="input-with-icon-adornment">With a start adornment</InputLabel> */}
+          <Input
+            className="friend-request-btn"
             placeholder="Enter Username"
-            value={friendRequestSearch}
             onChange={e => this.handleInputChange(e)}
+            startAdornment={
+              /* eslint-disable */
+              <InputAdornment position="end">
+                <Search />
+              </InputAdornment>
+              /* eslint-enable */
+            }
           />
-        </label>
-        <button
-          type="button"
-          onClick={this.handleFriendSubmit}
-          className="submit-friend-btn"
-          disabled={submitFriendBtnDisable}
-        >
-          Add Friend
-        </button>
+        </div>
+        <div className="form-group">
+          <button
+            type="button"
+            onClick={this.handleFriendSubmit}
+            className="submit-friend-btn"
+            disabled={submitFriendBtnDisable}
+          >
+            Add Friend
+          </button>
 
-        <div className={errorClass}>{responseText}</div>
-      </div>
+          <div className={errorClass}>{responseText}</div>
+        </div>
+      </>
     );
   }
 }
