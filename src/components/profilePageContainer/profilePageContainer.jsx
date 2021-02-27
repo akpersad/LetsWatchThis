@@ -15,14 +15,20 @@ class ProfilePageContainer extends Component {
         <Header history={history} match={match} />
         <div className="profile-page_container">
           <ProfileHeader />
-          <div className="form-group">
-            <SubmitFriendRequest />
-          </div>
-          <div className="form-group">
-            <PendingRequests />
-          </div>
-          <div className="form-group">
-            <FriendsList />
+          <div className="friends-section">
+            <div className="friend-left">
+              <div className="form-group">
+                <SubmitFriendRequest />
+              </div>
+              <div className="form-group">
+                <PendingRequests />
+              </div>
+            </div>
+            <div className="friend-right">
+              <div className="form-group">
+                <FriendsList />
+              </div>
+            </div>
           </div>
         </div>
       </>
