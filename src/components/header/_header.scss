@@ -23,6 +23,7 @@
       // margin-left: auto;
       // text-align: right;
       &.dropdown-container {
+        position: relative;
         .dropdown-header-text {
           position: relative;
           background-color: transparent;
@@ -46,6 +47,13 @@
           display: flex;
           flex-direction: column;
           padding: 14px 0;
+          min-width: 250px;
+          right: 5px;
+          @media (max-width: 768px) {
+            top: 57px;
+            width: 100vw;
+            right: -32px;
+          }
           a,
           button {
             padding: 4px 7px;
