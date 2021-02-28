@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
+import Modal from "react-modal";
 import Header from "../header/header";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -10,7 +11,8 @@ class FriendComparePage extends Component {
   constructor() {
     super();
     this.state = {
-      hasMutual: false
+      hasMutual: false,
+      openModal: false
     };
   }
 
@@ -35,11 +37,20 @@ class FriendComparePage extends Component {
       )
       .then(response => {
         if (response.data.areFriends) {
+          Modal.setAppElement(".photo-grid-container");
           this.getSameLikes();
         } else {
           history.push("/");
         }
       });
+  }
+
+  handleImageClick(event, obj) {
+    console.log(
+      "🚀 ~ file: friendComparePage.jsx ~ line 77 ~ FriendComparePage ~ handleImageClick ~ obj",
+      obj
+    );
+    this.setState({ openModal: true });
   }
 
   getSameLikes() {
@@ -67,20 +78,32 @@ class FriendComparePage extends Component {
             type: "UPDATE_PROFILE",
             payload: profile
           });
-          this.formatMutualLike();
+          this.formatImages();
         }
         this.setState({ hasMutual: response.data.haveLikesInCommon });
       });
   }
 
-  formatMutualLike() {
+  closeModal() {
+    this.setState({ openModal: false });
+  }
+
+  formatImages() {
     const { profile } = store.getState();
-    const arrKeys = Object.keys(profile.mutualLikedLike[0]);
-    let counter = 0;
     const mutuals = profile.mutualLikedLike.map(item => {
-      counter += 1;
-      return <ul key={counter}>{this.convertShowInfo(item, arrKeys)}</ul>;
+      return (
+        <button
+          key={item.id}
+          type="button"
+          onClick={e => {
+            this.handleImageClick(e, item);
+          }}
+        >
+          <img src={item.poster || item.img} alt="Poster" />
+        </button>
+      );
     });
+
     profile.mutualLikedLikeFormatted = mutuals;
     store.dispatch({
       type: "UPDATE_PROFILE",
@@ -88,29 +111,48 @@ class FriendComparePage extends Component {
     });
   }
 
-  convertShowInfo(obj, objKeys) {
-    return objKeys.map(item => {
-      return (
-        <li key={item}>
-          <span>{item}</span>
-          {obj[item]}
-        </li>
-      );
-    });
-  }
-
   render() {
-    const { hasMutual } = this.state;
+    const { hasMutual, openModal } = this.state;
     const { history, match } = this.props;
     const { profile } = store.getState();
     return (
       <>
         <Header history={history} match={match} />
-        {hasMutual ? (
-          <div>{profile.mutualLikedLikeFormatted}</div>
-        ) : (
-          <div>No liked shows or movies in common! Like some more.</div>
-        )}
+        <div className="photo-grid-container">
+          {hasMutual ? (
+            <div className="photos">{profile.mutualLikedLikeFormatted}</div>
+          ) : (
+            <div>No liked shows or movies in common! Like some more.</div>
+          )}
+        </div>
+
+        <Modal
+          isOpen={openModal}
+          // onAfterOpen={afterOpenModal}
+          onRequestClose={() => {
+            this.closeModal();
+          }}
+          // style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <h2>Hello</h2>
+          <button
+            type="button"
+            onClick={() => {
+              this.closeModal();
+            }}
+          >
+            Close
+          </button>
+          <div>I am a modal</div>
+          <form>
+            <input />
+            <button type="button">tab navigation</button>
+            <button type="button">stays</button>
+            <button type="button">inside</button>
+            <button type="button">the modal</button>
+          </form>
+        </Modal>
       </>
     );
   }
