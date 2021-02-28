@@ -139,3 +139,22 @@
     border-radius: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  .context {
+    overflow: hidden;
+    .home-text_container {
+      justify-content: flex-start;
+      margin-top: 100px;
+      width: 95%;
+      span {
+        &.text-middle {
+          font-size: 34px;
+        }
+        &.text-bottom {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
