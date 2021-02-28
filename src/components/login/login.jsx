@@ -77,13 +77,6 @@ class Login extends Component {
       });
   }
 
-  handleChangeTest(event) {
-    console.log(
-      "🚀 ~ file: login.jsx ~ line 74 ~ Login ~ handleChangeTest ~ event",
-      event.target.value
-    );
-  }
-
   render() {
     const { history, match } = this.props;
     const { showError, loading } = this.state;
