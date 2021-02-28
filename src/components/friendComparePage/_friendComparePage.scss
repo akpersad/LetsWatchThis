@@ -1,17 +1,22 @@
+:root {
+  --col-width: 5;
+  --item-width: 100%;
+}
+
 .photo-grid-container {
   width: 85vw;
-  margin: 60px auto 0;
+  margin: 30px auto 0;
   .photos {
     line-height: 0;
-    -webkit-column-count: 5;
+    -webkit-column-count: var(--col-width);
     -webkit-column-gap: 0px;
-    -moz-column-count: 5;
+    -moz-column-count: var(--col-width);
     -moz-column-gap: 0px;
-    column-count: 5;
+    column-count: var(--col-width);
     column-gap: 4px;
     button {
       /* Just in case there are inline attributes */
-      width: 100% !important;
+      width: var(--item-width) !important;
       height: auto !important;
       border: 1px solid black;
       padding: 0;
@@ -41,6 +46,10 @@
       -webkit-column-count: 1;
       column-count: 1;
     }
+  }
+  .filter-group {
+    margin-top: 0;
+    margin-bottom: 30px;
   }
 }
 

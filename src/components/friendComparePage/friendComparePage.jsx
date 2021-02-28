@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
 import Modal from "react-modal";
-import { IconButton /* RadioGroup, FormControlLabel, Radio, Select */ } from "@material-ui/core/";
+import { IconButton, RadioGroup, FormControlLabel, Radio, Select } from "@material-ui/core/";
 import { Close, Launch } from "@material-ui/icons/";
 import Header from "../header/header";
 import store from "../../config/store";
@@ -14,7 +14,13 @@ class FriendComparePage extends Component {
     super();
     this.state = {
       hasMutual: false,
-      openModal: false
+      openModal: false,
+      radioValue: "both",
+      sortValue: "titleDateDesc",
+      sortObj: {
+        column: "titledate",
+        direction: "DESC"
+      }
     };
   }
 
@@ -59,17 +65,45 @@ class FriendComparePage extends Component {
     this.setState({ openModal: true });
   }
 
+  handleRadioChange(event) {
+    this.setState({ radioValue: event.target.value }, () => {
+      this.getSameLikes();
+    });
+  }
+
+  handleSortChange(event) {
+    const { options } = event.target;
+    const filteredOption = [...options].filter(item => {
+      return item.value === event.target.value;
+    });
+    this.setState(
+      {
+        sortObj: {
+          column: filteredOption[0].dataset.column,
+          direction: filteredOption[0].dataset.direction
+        },
+        sortValue: event.target.value
+      },
+      () => {
+        this.getSameLikes();
+      }
+    );
+  }
+
   getSameLikes() {
     const { app, profile } = store.getState();
     const { userInfo } = app;
     const { match } = this.props;
+    const { sortObj, radioValue } = this.state;
     const { params } = match;
     axios
       .post(
         "/api/getlikesincommon",
         {
           userId: userInfo.id,
-          friendId: params.id
+          friendId: params.id,
+          sortObj,
+          radioValue
         },
         {
           headers: {
@@ -84,6 +118,36 @@ class FriendComparePage extends Component {
             type: "UPDATE_PROFILE",
             payload: profile
           });
+
+          if (response.data.formattedList.length === 4) {
+            document.documentElement.style.setProperty("--col-width", 4);
+            document.documentElement.style.setProperty(
+              "--item-width",
+              `calc(${100 / 4}% - ${2 * 4}px)`
+            );
+          } else if (response.data.formattedList.length === 3) {
+            document.documentElement.style.setProperty("--col-width", 3);
+            document.documentElement.style.setProperty(
+              "--item-width",
+              `calc(${100 / 4}% - ${2 * 3}px)`
+            );
+          } else if (response.data.formattedList.length === 2) {
+            document.documentElement.style.setProperty("--col-width", 2);
+            document.documentElement.style.setProperty(
+              "--item-width",
+              `calc(${100 / 4}% - ${2 * 2}px)`
+            );
+          } else if (response.data.formattedList.length === 1) {
+            document.documentElement.style.setProperty("--col-width", 1);
+            document.documentElement.style.setProperty(
+              "--item-width",
+              `calc(${100 / 4}% - ${2 * 1}px)`
+            );
+          } else {
+            document.documentElement.style.setProperty("--col-width", 5);
+            document.documentElement.style.setProperty("--item-width", "100%");
+          }
+
           this.formatImages();
         }
         this.setState({ hasMutual: response.data.haveLikesInCommon });
@@ -140,7 +204,7 @@ class FriendComparePage extends Component {
   }
 
   render() {
-    const { hasMutual, openModal } = this.state;
+    const { hasMutual, openModal, radioValue, sortValue } = this.state;
     const { history, match } = this.props;
     const { profile, app } = store.getState();
     return (
@@ -148,7 +212,60 @@ class FriendComparePage extends Component {
         <Header history={history} match={match} />
         <div className="photo-grid-container">
           {hasMutual ? (
-            <div className="photos">{profile.mutualLikedLikeFormatted}</div>
+            <>
+              <div className="filter-group">
+                <RadioGroup
+                  row
+                  aria-label="Video Type"
+                  name="video"
+                  value={radioValue}
+                  onChange={e => this.handleRadioChange(e)}
+                >
+                  <FormControlLabel
+                    className="radio-video"
+                    value="movie"
+                    control={<Radio />}
+                    label="Movie"
+                  />
+                  <FormControlLabel
+                    className="radio-video"
+                    value="series"
+                    control={<Radio />}
+                    label="Series"
+                  />
+                  <FormControlLabel
+                    className="radio-video"
+                    value="both"
+                    control={<Radio />}
+                    label="Both"
+                  />
+                </RadioGroup>
+
+                <div className="pipe-spacer">|</div>
+
+                <Select
+                  native
+                  value={sortValue}
+                  onChange={e => {
+                    this.handleSortChange(e);
+                  }}
+                >
+                  <option data-column="title" data-direction="ASC" value="titleAsc">
+                    Title: A - Z
+                  </option>
+                  <option data-column="title" data-direction="DESC" value="titleDesc">
+                    Title: Z - A
+                  </option>
+                  <option data-column="titledate" data-direction="ASC" value="titleDateAsc">
+                    Release Date: Older - Newer
+                  </option>
+                  <option data-column="titledate" data-direction="DESC" value="titleDateDesc">
+                    Release Date: Newer - Older
+                  </option>
+                </Select>
+              </div>
+              <div className="photos">{profile.mutualLikedLikeFormatted}</div>
+            </>
           ) : (
             <div>No liked shows or movies in common! Like some more.</div>
           )}
@@ -202,17 +319,21 @@ class FriendComparePage extends Component {
                       <Launch />
                     </a>
                   </span>
-                  <span className="show-link show-link_imdb">
-                    <a
-                      className="link"
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://www.imdb.com/title/${app.modalInfo.imdbid}/`}
-                    >
-                      <span data-content="IMDB">IMDB</span>
-                      <Launch />
-                    </a>
-                  </span>
+                  {app.modalInfo.imdbid ? (
+                    <span className="show-link show-link_imdb">
+                      <a
+                        className="link"
+                        target="_blank"
+                        rel="noreferrer"
+                        href={`https://www.imdb.com/title/${app.modalInfo.imdbid}/`}
+                      >
+                        <span data-content="IMDB">IMDB</span>
+                        <Launch />
+                      </a>
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </p>
                 <p className="show-p-section">
                   <span className="show-release_label">Release Date:</span>
