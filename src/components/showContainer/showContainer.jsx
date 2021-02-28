@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Launch } from "@material-ui/icons/";
 
 class ShowContainer extends Component {
   constructor() {
@@ -59,40 +60,44 @@ class ShowContainer extends Component {
             <img src={showObj.poster || showObj.img} alt="Poster" />
           </div>
           <div className="show-info">
-            <p>
-              <span>{showObj.title}</span>
+            <p className="show-p-section">
+              <span className="show-title">{showObj.title}</span>
+              <span className="show-vtype">{showObj.vtype}</span>
+              <span className="span-pipes">|</span>
+              <span className="show-year">{showObj.year}</span>
+              <span className="span-pipes">|</span>
+              <span className="show-time">{this.formatTime()}</span>
             </p>
-            <p>
-              <span>{showObj.vtype}</span>
-              <span>{showObj.year}</span>
-              <span>{this.formatTime()}</span>
+            <p className="show-p-section">
+              <span className="show-synopsis">{showObj.synopsis}</span>
             </p>
-            <p>
-              <span>{showObj.synopsis}</span>
-            </p>
-            <p>
-              <span>
+            <p className="show-p-section">
+              <span className="show-link show-link_netflix">
                 <a
+                  className="link"
                   target="_blank"
                   rel="noreferrer"
                   href={`https://www.netflix.com/title/${showObj.nfid}/`}
                 >
-                  Netflix Link
+                  <span data-content="Netflix">Netflix</span>
+                  <Launch />
                 </a>
               </span>
-              <span>
+              <span className="show-link show-link_imdb">
                 <a
+                  className="link"
                   target="_blank"
                   rel="noreferrer"
                   href={`https://www.imdb.com/title/${showObj.imdbid}/`}
                 >
-                  IMDB Link
+                  <span data-content="IMDB">IMDB</span>
+                  <Launch />
                 </a>
               </span>
             </p>
-            <p>
-              <span>Release Date:</span>
-              <span>{this.formatDate()}</span>
+            <p className="show-p-section">
+              <span className="show-release_label">Release Date:</span>
+              <span className="show-release_date">{this.formatDate()}</span>
             </p>
           </div>
         </div>
