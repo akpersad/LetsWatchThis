@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
+import { IconButton } from "@material-ui/core/";
+import { ThumbUp, ThumbDown } from "@material-ui/icons/";
 import ShowContainer from "../showContainer/showContainer";
 import { checkUserLoggedIn } from "../../global/_util";
 import store from "../../config/store";
@@ -37,9 +39,17 @@ class DecisionPage extends Component {
     });
   }
 
+  getButtonElement(element) {
+    if (element.tagName === "BUTTON") {
+      return element;
+    }
+    return this.getButtonElement(element.parentElement);
+  }
+
   submitRating(event) {
-    const { value } = event.target;
-    const isLiked = value === "like" ? 1 : 0;
+    const buttonElement = this.getButtonElement(event.target);
+    const { dataset } = buttonElement;
+    const isLiked = dataset.choice === "like" ? 1 : 0;
     const { userInfo, showInfo } = this.props;
 
     axios
@@ -72,12 +82,24 @@ class DecisionPage extends Component {
         <Header history={history} match={match} />
         <div className="show-container">
           <ShowContainer />
-          <button type="button" value="like" onClick={e => this.submitRating(e)}>
-            Like
-          </button>
-          <button type="button" value="dislike" onClick={e => this.submitRating(e)}>
-            Dislike
-          </button>
+          <div className="rating-btns_container">
+            <IconButton
+              data-choice="like"
+              onClick={e => this.submitRating(e)}
+              className="rating-btn rating-btn_like"
+              aria-label="Like"
+            >
+              <ThumbUp />
+            </IconButton>
+            <IconButton
+              data-choice="dislike"
+              onClick={e => this.submitRating(e)}
+              className="rating-btn rating-btn_dislike"
+              aria-label="Dislike"
+            >
+              <ThumbDown />
+            </IconButton>
+          </div>
         </div>
       </>
     );
