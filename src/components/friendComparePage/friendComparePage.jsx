@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 import { IconButton, RadioGroup, FormControlLabel, Radio, Select } from "@material-ui/core/";
 import { Close, Launch } from "@material-ui/icons/";
+import { ScaleLoader } from "react-spinners";
 import Header from "../header/header";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -20,7 +21,8 @@ class FriendComparePage extends Component {
       sortObj: {
         column: "titledate",
         direction: "DESC"
-      }
+      },
+      loading: false
     };
   }
 
@@ -96,6 +98,8 @@ class FriendComparePage extends Component {
     const { match } = this.props;
     const { sortObj, radioValue } = this.state;
     const { params } = match;
+
+    this.setState({ loading: true });
     axios
       .post(
         "/api/getlikesincommon",
@@ -149,8 +153,10 @@ class FriendComparePage extends Component {
           }
 
           this.formatImages();
+          this.setState({ loading: false });
         }
         this.setState({ hasMutual: response.data.haveLikesInCommon });
+        this.setState({ loading: false });
       });
   }
 
@@ -204,70 +210,76 @@ class FriendComparePage extends Component {
   }
 
   render() {
-    const { hasMutual, openModal, radioValue, sortValue } = this.state;
+    const { hasMutual, openModal, radioValue, sortValue, loading } = this.state;
     const { history, match } = this.props;
     const { profile, app } = store.getState();
     return (
       <>
         <Header history={history} match={match} />
         <div className="photo-grid-container">
-          {hasMutual ? (
-            <>
-              <div className="filter-group">
-                <RadioGroup
-                  row
-                  aria-label="Video Type"
-                  name="video"
-                  value={radioValue}
-                  onChange={e => this.handleRadioChange(e)}
-                >
-                  <FormControlLabel
-                    className="radio-video"
-                    value="movie"
-                    control={<Radio />}
-                    label="Movie"
-                  />
-                  <FormControlLabel
-                    className="radio-video"
-                    value="series"
-                    control={<Radio />}
-                    label="Series"
-                  />
-                  <FormControlLabel
-                    className="radio-video"
-                    value="both"
-                    control={<Radio />}
-                    label="Both"
-                  />
-                </RadioGroup>
-
-                <div className="pipe-spacer">|</div>
-
-                <Select
-                  native
-                  value={sortValue}
-                  onChange={e => {
-                    this.handleSortChange(e);
-                  }}
-                >
-                  <option data-column="title" data-direction="ASC" value="titleAsc">
-                    Title: A - Z
-                  </option>
-                  <option data-column="title" data-direction="DESC" value="titleDesc">
-                    Title: Z - A
-                  </option>
-                  <option data-column="titledate" data-direction="ASC" value="titleDateAsc">
-                    Release Date: Older - Newer
-                  </option>
-                  <option data-column="titledate" data-direction="DESC" value="titleDateDesc">
-                    Release Date: Newer - Older
-                  </option>
-                </Select>
-              </div>
-              <div className="photos">{profile.mutualLikedLikeFormatted}</div>
-            </>
+          {loading ? (
+            <ScaleLoader color="#000000" loading={loading} size={350} />
           ) : (
-            <div>No liked shows or movies in common! Like some more.</div>
+            <>
+              {hasMutual ? (
+                <>
+                  <div className="filter-group">
+                    <RadioGroup
+                      row
+                      aria-label="Video Type"
+                      name="video"
+                      value={radioValue}
+                      onChange={e => this.handleRadioChange(e)}
+                    >
+                      <FormControlLabel
+                        className="radio-video"
+                        value="movie"
+                        control={<Radio />}
+                        label="Movie"
+                      />
+                      <FormControlLabel
+                        className="radio-video"
+                        value="series"
+                        control={<Radio />}
+                        label="Series"
+                      />
+                      <FormControlLabel
+                        className="radio-video"
+                        value="both"
+                        control={<Radio />}
+                        label="Both"
+                      />
+                    </RadioGroup>
+
+                    <div className="pipe-spacer">|</div>
+
+                    <Select
+                      native
+                      value={sortValue}
+                      onChange={e => {
+                        this.handleSortChange(e);
+                      }}
+                    >
+                      <option data-column="title" data-direction="ASC" value="titleAsc">
+                        Title: A - Z
+                      </option>
+                      <option data-column="title" data-direction="DESC" value="titleDesc">
+                        Title: Z - A
+                      </option>
+                      <option data-column="titledate" data-direction="ASC" value="titleDateAsc">
+                        Release Date: Older - Newer
+                      </option>
+                      <option data-column="titledate" data-direction="DESC" value="titleDateDesc">
+                        Release Date: Newer - Older
+                      </option>
+                    </Select>
+                  </div>
+                  <div className="photos">{profile.mutualLikedLikeFormatted}</div>
+                </>
+              ) : (
+                <div>No liked shows or movies in common! Like some more.</div>
+              )}
+            </>
           )}
         </div>
 
