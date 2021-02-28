@@ -36,7 +36,6 @@ class ShowContainer extends Component {
       return `${month}/${day}/${year}`;
     }
     return "";
-    // return `${month}/${day}/${year}`;
   }
 
   formatTime() {

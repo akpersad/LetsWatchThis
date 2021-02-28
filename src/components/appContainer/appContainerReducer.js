@@ -26,7 +26,8 @@ const initialState = {
 	],
 	friendList: [],
 	friendListFormatted: [],
-	friendListLoading: true
+	friendListLoading: true,
+	modalInfo: {}
 };
 
 const appContainerReducer = (state = initialState, action) => {
