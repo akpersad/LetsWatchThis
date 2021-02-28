@@ -4,7 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 import { IconButton /* RadioGroup, FormControlLabel, Radio, Select */ } from "@material-ui/core/";
-import { Close } from "@material-ui/icons/";
+import { Close, Launch } from "@material-ui/icons/";
 import Header from "../header/header";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -163,7 +163,6 @@ class FriendComparePage extends Component {
           contentLabel="Example Modal"
         >
           <div className="modal-header">
-            <h2>Hello</h2>
             <IconButton
               onClick={() => {
                 this.closeModal();
@@ -200,7 +199,7 @@ class FriendComparePage extends Component {
                       href={`https://www.netflix.com/title/${app.modalInfo.nfid}/`}
                     >
                       <span data-content="Netflix">Netflix</span>
-                      {/* <Launch /> */}
+                      <Launch />
                     </a>
                   </span>
                   <span className="show-link show-link_imdb">
@@ -211,7 +210,7 @@ class FriendComparePage extends Component {
                       href={`https://www.imdb.com/title/${app.modalInfo.imdbid}/`}
                     >
                       <span data-content="IMDB">IMDB</span>
-                      {/* <Launch /> */}
+                      <Launch />
                     </a>
                   </span>
                 </p>
