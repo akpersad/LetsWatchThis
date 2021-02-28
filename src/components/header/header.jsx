@@ -44,8 +44,6 @@ class Header extends Component {
   render() {
     const { isLoggedIn, userInfo } = this.props;
     const { chevronBool } = this.state;
-    console.log("🚀 ~ file: header.jsx ~ line 17 ~ Header ~ render ~ userInfo", userInfo);
-    console.log("🚀 ~ file: header.jsx ~ line 17 ~ Header ~ render ~ isLoggedIn", isLoggedIn);
 
     return (
       <>

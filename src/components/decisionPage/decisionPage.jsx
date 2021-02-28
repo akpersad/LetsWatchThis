@@ -44,10 +44,6 @@ class DecisionPage extends Component {
     const filteredOption = [...options].filter(item => {
       return item.value === event.target.value;
     });
-    console.log(
-      "🚀 ~ file: decisionPage.jsx ~ line 43 ~ DecisionPage ~ handleChange ~ filteredOption",
-      filteredOption[0].dataset
-    );
     this.setState(
       {
         sortObj: {
