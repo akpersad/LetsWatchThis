@@ -5,6 +5,7 @@ import axios from "axios";
 import ShowContainer from "../showContainer/showContainer";
 import { checkUserLoggedIn } from "../../global/_util";
 import store from "../../config/store";
+import Header from "../header/header";
 
 class DecisionPage extends Component {
   constructor() {
@@ -65,16 +66,20 @@ class DecisionPage extends Component {
   }
 
   render() {
+    const { history, match } = this.props;
     return (
-      <div>
-        <button type="button" value="like" onClick={e => this.submitRating(e)}>
-          Like
-        </button>
-        <button type="button" value="dislike" onClick={e => this.submitRating(e)}>
-          Dislike
-        </button>
-        <ShowContainer />
-      </div>
+      <>
+        <Header history={history} match={match} />
+        <div className="show-container">
+          <ShowContainer />
+          <button type="button" value="like" onClick={e => this.submitRating(e)}>
+            Like
+          </button>
+          <button type="button" value="dislike" onClick={e => this.submitRating(e)}>
+            Dislike
+          </button>
+        </div>
+      </>
     );
   }
 }
@@ -88,6 +93,7 @@ const mapStateToProps = state => {
 DecisionPage.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   userInfo: PropTypes.object.isRequired,
   showInfo: PropTypes.array.isRequired
 };

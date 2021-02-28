@@ -28,6 +28,13 @@ body {
   overflow-x: hidden;
 }
 
+.show-mobile {
+  display: block;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
 @import "../components/friendsList/friendsList";
 @import "../components/homeContainer/homeContainer";
 @import "../components/login/login";
@@ -35,4 +42,5 @@ body {
 @import "../components/profilePageContainer/profilePageContainer";
 @import "../components/pendingRequests/pendingRequests";
 @import "../components/registration/registration";
+@import "../components/showContainer/showContainer";
 @import "../components/submitFriendRequest/submitFriendRequest";
