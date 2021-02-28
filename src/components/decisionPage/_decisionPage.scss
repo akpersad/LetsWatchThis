@@ -27,3 +27,34 @@
     }
   }
 }
+
+.filter-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  .pipe-spacer {
+    font-size: 25px;
+    margin-left: 10px;
+    margin-right: 8px;
+  }
+
+  .radio-video {
+    &.MuiFormControlLabel-root {
+      margin: 0;
+    }
+
+    .MuiButtonBase-root {
+      padding: 5px;
+    }
+    .MuiRadio-colorSecondary.Mui-checked {
+      color: #e50914;
+    }
+  }
+  .MuiInput-underline {
+    margin-left: 10px;
+    .MuiSelect-root {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}

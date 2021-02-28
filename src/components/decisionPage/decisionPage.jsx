@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
-import { IconButton } from "@material-ui/core/";
+import { IconButton, RadioGroup, FormControlLabel, Radio, Select } from "@material-ui/core/";
 import { ThumbUp, ThumbDown } from "@material-ui/icons/";
 import ShowContainer from "../showContainer/showContainer";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -13,6 +13,14 @@ class DecisionPage extends Component {
   constructor() {
     super();
     this.getShowToRate = this.getShowToRate.bind(this);
+    this.state = {
+      radioValue: "both",
+      sortValue: "titleDateDesc",
+      sortObj: {
+        column: "titledate",
+        direction: "DESC"
+      }
+    };
   }
 
   componentDidMount() {
@@ -25,18 +33,52 @@ class DecisionPage extends Component {
     }
   }
 
+  handleRadioChange(event) {
+    this.setState({ radioValue: event.target.value }, () => {
+      this.getShowToRate();
+    });
+  }
+
+  handleSortChange(event) {
+    const { options } = event.target;
+    const filteredOption = [...options].filter(item => {
+      return item.value === event.target.value;
+    });
+    console.log(
+      "🚀 ~ file: decisionPage.jsx ~ line 43 ~ DecisionPage ~ handleChange ~ filteredOption",
+      filteredOption[0].dataset
+    );
+    this.setState(
+      {
+        sortObj: {
+          column: filteredOption[0].dataset.column,
+          direction: filteredOption[0].dataset.direction
+        },
+        sortValue: event.target.value
+      },
+      () => {
+        this.getShowToRate();
+      }
+    );
+  }
+
   getShowToRate() {
     const { userInfo } = this.props;
-    axios.get(`/api/getshowstolike?id=${userInfo.id}`).then(res => {
-      const { app } = store.getState();
+    const { radioValue, sortObj } = this.state;
+    axios
+      .get(
+        `/api/getshowstolike?id=${userInfo.id}&radiochoice=${radioValue}&column=${sortObj.column}&direction=${sortObj.direction}`
+      )
+      .then(res => {
+        const { app } = store.getState();
 
-      app.showInfo = res.data;
+        app.showInfo = res.data;
 
-      store.dispatch({
-        type: "INITIAL_STATE",
-        payload: app
+        store.dispatch({
+          type: "INITIAL_STATE",
+          payload: app
+        });
       });
-    });
   }
 
   getButtonElement(element) {
@@ -77,9 +119,61 @@ class DecisionPage extends Component {
 
   render() {
     const { history, match } = this.props;
+    const { radioValue, sortValue } = this.state;
     return (
       <>
         <Header history={history} match={match} />
+        <div className="filter-group">
+          <RadioGroup
+            row
+            aria-label="Video Type"
+            name="video"
+            value={radioValue}
+            onChange={e => this.handleRadioChange(e)}
+          >
+            <FormControlLabel
+              className="radio-video"
+              value="movie"
+              control={<Radio />}
+              label="Movie"
+            />
+            <FormControlLabel
+              className="radio-video"
+              value="series"
+              control={<Radio />}
+              label="Series"
+            />
+            <FormControlLabel
+              className="radio-video"
+              value="both"
+              control={<Radio />}
+              label="Both"
+            />
+          </RadioGroup>
+
+          <div className="pipe-spacer">|</div>
+
+          <Select
+            native
+            value={sortValue}
+            onChange={e => {
+              this.handleSortChange(e);
+            }}
+          >
+            <option data-column="title" data-direction="ASC" value="titleAsc">
+              Title: A - Z
+            </option>
+            <option data-column="title" data-direction="DESC" value="titleDesc">
+              Title: Z - A
+            </option>
+            <option data-column="titledate" data-direction="ASC" value="titleDateAsc">
+              Release Date: Older - Newer
+            </option>
+            <option data-column="titledate" data-direction="DESC" value="titleDateDesc">
+              Release Date: Newer - Older
+            </option>
+          </Select>
+        </div>
         <div className="show-container">
           <ShowContainer />
           <div className="rating-btns_container">
