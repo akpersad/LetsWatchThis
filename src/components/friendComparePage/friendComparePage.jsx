@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { connect } from "react-redux";
 import Modal from "react-modal";
+import { IconButton /* RadioGroup, FormControlLabel, Radio, Select */ } from "@material-ui/core/";
+import { Close } from "@material-ui/icons/";
 import Header from "../header/header";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
@@ -46,10 +48,14 @@ class FriendComparePage extends Component {
   }
 
   handleImageClick(event, obj) {
-    console.log(
-      "🚀 ~ file: friendComparePage.jsx ~ line 77 ~ FriendComparePage ~ handleImageClick ~ obj",
-      obj
-    );
+    const { app } = store.getState();
+    app.modalInfo = obj;
+
+    store.dispatch({
+      type: "INITIAL_STATE",
+      payload: app
+    });
+
     this.setState({ openModal: true });
   }
 
@@ -111,10 +117,32 @@ class FriendComparePage extends Component {
     });
   }
 
+  formatDate() {
+    const { app } = this.props;
+    const { modalInfo } = app;
+    const date = modalInfo.titledate ? new Date(modalInfo.titledate) : "";
+    if (date) {
+      const month = date.getMonth() > 8 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
+      const day = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
+      const year = date.getFullYear();
+      return `${month}/${day}/${year}`;
+    }
+    return "";
+  }
+
+  formatTime() {
+    const { app } = this.props;
+    const { modalInfo } = app;
+    const numOfMinutes = modalInfo.runtime / 60;
+    const hours = parseInt(numOfMinutes / 60, 10);
+    const minutes = parseInt(numOfMinutes % 60, 10);
+    return `${hours}h ${minutes}min`;
+  }
+
   render() {
     const { hasMutual, openModal } = this.state;
     const { history, match } = this.props;
-    const { profile } = store.getState();
+    const { profile, app } = store.getState();
     return (
       <>
         <Header history={history} match={match} />
@@ -128,30 +156,72 @@ class FriendComparePage extends Component {
 
         <Modal
           isOpen={openModal}
-          // onAfterOpen={afterOpenModal}
+          className="modal-friend-compare"
           onRequestClose={() => {
             this.closeModal();
           }}
-          // style={customStyles}
           contentLabel="Example Modal"
         >
-          <h2>Hello</h2>
-          <button
-            type="button"
-            onClick={() => {
-              this.closeModal();
-            }}
-          >
-            Close
-          </button>
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button type="button">tab navigation</button>
-            <button type="button">stays</button>
-            <button type="button">inside</button>
-            <button type="button">the modal</button>
-          </form>
+          <div className="modal-header">
+            <h2>Hello</h2>
+            <IconButton
+              onClick={() => {
+                this.closeModal();
+              }}
+              className="close-btn"
+              aria-label="Close Modal"
+            >
+              <Close />
+            </IconButton>
+          </div>
+          <div className="modal-body">
+            <div className="inner-container">
+              <div className="image-section">
+                <img src={app.modalInfo.poster || app.modalInfo.img} alt="Poster" />
+              </div>
+              <div className="show-info">
+                <p className="show-p-section">
+                  <span className="show-title">{app.modalInfo.title}</span>
+                  <span className="show-vtype">{app.modalInfo.vtype}</span>
+                  <span className="span-pipes">|</span>
+                  <span className="show-year">{app.modalInfo.year}</span>
+                  <span className="span-pipes">|</span>
+                  <span className="show-time">{this.formatTime()}</span>
+                </p>
+                <p className="show-p-section">
+                  <span className="show-synopsis">{app.modalInfo.synopsis}</span>
+                </p>
+                <p className="show-p-section">
+                  <span className="show-link show-link_netflix">
+                    <a
+                      className="link"
+                      target="_blank"
+                      rel="noreferrer"
+                      href={`https://www.netflix.com/title/${app.modalInfo.nfid}/`}
+                    >
+                      <span data-content="Netflix">Netflix</span>
+                      {/* <Launch /> */}
+                    </a>
+                  </span>
+                  <span className="show-link show-link_imdb">
+                    <a
+                      className="link"
+                      target="_blank"
+                      rel="noreferrer"
+                      href={`https://www.imdb.com/title/${app.modalInfo.imdbid}/`}
+                    >
+                      <span data-content="IMDB">IMDB</span>
+                      {/* <Launch /> */}
+                    </a>
+                  </span>
+                </p>
+                <p className="show-p-section">
+                  <span className="show-release_label">Release Date:</span>
+                  <span className="show-release_date">{this.formatDate()}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </Modal>
       </>
     );
@@ -166,7 +236,8 @@ const mapStateToProps = state => {
 
 FriendComparePage.propTypes = {
   history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  app: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(FriendComparePage);

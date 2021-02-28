@@ -27,6 +27,9 @@
           position: relative;
           background-color: transparent;
           border: none;
+          @media (max-width: 500px) {
+            max-width: 140px;
+          }
           span {
             padding-right: 10px;
           }
