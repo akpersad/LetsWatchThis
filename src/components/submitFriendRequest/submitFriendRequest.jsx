@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import PropTypes from "prop-types";
+import { Input, Button, InputAdornment } from "@material-ui/core/";
+import { Search } from "@material-ui/icons/";
+import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
@@ -13,7 +16,8 @@ class SubmitFriendRequest extends Component {
 
     this.state = {
       errorClass: "error-text_friend invisible",
-      responseText: ""
+      responseText: "Temp",
+      loading: false
     };
   }
 
@@ -35,6 +39,7 @@ class SubmitFriendRequest extends Component {
   handleFriendSubmit() {
     const { friendRequestSearch } = this.props;
     const { app, profile } = store.getState();
+    this.setState({ loading: true });
     axios
       .post(
         "/api/sendfriendrequest",
@@ -51,13 +56,15 @@ class SubmitFriendRequest extends Component {
       .then(response => {
         if (response.data.isValidRequest) {
           this.setState({
-            errorClass: "error-text_friend error-text visible",
-            responseText: response.data.responseText
+            errorClass: "error-text_friend success-text visible",
+            responseText: response.data.responseText,
+            loading: false
           });
         } else {
           this.setState({
-            errorClass: "error-text_friend success-text visible",
-            responseText: response.data.responseText
+            errorClass: "error-text_friend error-text visible",
+            responseText: response.data.responseText,
+            loading: false
           });
         }
 
@@ -72,30 +79,49 @@ class SubmitFriendRequest extends Component {
   }
 
   render() {
-    const { friendRequestSearch, submitFriendBtnDisable } = this.props;
-    const { errorClass, responseText } = this.state;
+    const { submitFriendBtnDisable } = this.props;
+    const { errorClass, responseText, loading } = this.state;
     return (
-      <div className="form-group">
-        <label htmlFor="friend-request">
-          Friend Requests:
-          <input
-            id="friend-request"
-            placeholder="Enter Username"
-            value={friendRequestSearch}
-            onChange={e => this.handleInputChange(e)}
-          />
-        </label>
-        <button
-          type="button"
-          onClick={this.handleFriendSubmit}
-          className="submit-friend-btn"
-          disabled={submitFriendBtnDisable}
-        >
-          Add Friend
-        </button>
+      <>
+        <h3 className="friend-section-header">Submit Friend Request:</h3>
+        {loading ? (
+          <div className="loader-container">
+            <ScaleLoader color="#000000" loading={loading} size={350} />
+          </div>
+        ) : (
+          <>
+            <div className="form-group">
+              {/* <InputLabel htmlFor="input-with-icon-adornment">With a start adornment</InputLabel> */}
+              <Input
+                className="friend-request-btn"
+                placeholder="Enter Username"
+                onChange={e => this.handleInputChange(e)}
+                startAdornment={
+                  /* eslint-disable */
+                  <InputAdornment position="end">
+                    <Search />
+                  </InputAdornment>
+                  /* eslint-enable */
+                }
+              />
+            </div>
 
-        <div className={errorClass}>{responseText}</div>
-      </div>
+            <div className="form-group">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleFriendSubmit}
+                className="submit-friend-btn"
+                disabled={submitFriendBtnDisable}
+              >
+                Add Friend
+              </Button>
+
+              <div className={errorClass}>{responseText}</div>
+            </div>
+          </>
+        )}
+      </>
     );
   }
 }

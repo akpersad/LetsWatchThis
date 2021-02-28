@@ -100,8 +100,18 @@ app.post("/api/checkfriends", (req, res) => {
 });
 
 app.post("/api/getlikesincommon", (req, res) => {
-	const userLikes = profileModel.getUserLikes(req.body.userId, pool);
-	const friendLikes = profileModel.getUserLikes(req.body.friendId, pool);
+	const userLikes = profileModel.getUserLikes(
+		req.body.userId,
+		req.body.sortObj,
+		req.body.radioValue,
+		pool
+	);
+	const friendLikes = profileModel.getUserLikes(
+		req.body.friendId,
+		req.body.sortObj,
+		req.body.radioValue,
+		pool
+	);
 
 	Promise.all([userLikes, friendLikes]).then(response => {
 		const userReturned = response[0];

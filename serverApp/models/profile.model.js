@@ -66,7 +66,8 @@ const getPendingRequets = (requests, pool) => {
 		const queryPendingRequests = `SELECT pending_requests.id, pending_requests.id_from, users.id, users.first_name, users.last_name, users.username
 FROM pending_requests
 INNER JOIN users ON pending_requests.id_from = users.id
-WHERE pending_requests.id_to = ${requests.query.userid};`;
+WHERE pending_requests.id_to = ${requests.query.userid}
+ORDER BY users.username;`;
 
 		pool.query(queryPendingRequests, (error, returnedRows) => {
 			if (error) {
@@ -116,7 +117,8 @@ const getFriendList = (request, pool) => {
 		const queryFriendList = `SELECT users.id, users.username, users.first_name, users.last_name
 FROM users
 INNER JOIN friendships ON friendships.id_second = users.id
-WHERE friendships.id_first = ${request.query.userid}`;
+WHERE friendships.id_first = ${request.query.userid}
+ORDER BY users.first_name`;
 
 		pool.query(queryFriendList, (error, returnedRows) => {
 			if (error) {
@@ -128,13 +130,26 @@ WHERE friendships.id_first = ${request.query.userid}`;
 	});
 };
 
-const getUserLikes = (id, pool) => {
+const getUserLikes = (id, sortObj, radioValue, pool) => {
 	return new Promise((resolve, reject) => {
+		let videoType = "";
+
+		if (radioValue === "both") {
+			videoType = "(netflix_shows.vtype = 'series' OR netflix_shows.vtype = 'movie')";
+		} else if (radioValue === "movie") {
+			videoType = "netflix_shows.vtype = 'movie'";
+		} else if (radioValue === "series") {
+			videoType = "netflix_shows.vtype = 'series'";
+		} else {
+			videoType = "(netflix_shows.vtype = 'series' OR netflix_shows.vtype = 'movie')";
+		}
+
 		const queryCheckFriendship = `SELECT users.id AS userId, users.username, user_likes.id AS userLikedId, netflix_shows.*
 FROM users
 INNER JOIN user_likes ON users.id = user_likes.user_id
 INNER JOIN netflix_shows ON netflix_shows.id = user_likes.netflix_id
-WHERE users.id = ${id} and user_likes.liked = 1`;
+WHERE users.id = ${id} AND user_likes.liked = 1 AND ${videoType}
+ORDER BY netflix_shows.${sortObj.column} ${sortObj.direction}`;
 		pool.query(queryCheckFriendship, (error, returnedRows) => {
 			if (error) {
 				reject(error);

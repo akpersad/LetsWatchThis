@@ -1,0 +1,86 @@
+.show-container_show,
+.modal-friend-compare {
+  display: flex;
+  flex-direction: column;
+  .inner-container {
+    display: flex;
+    width: 40vw;
+    min-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #d9e3ec;
+    margin-top: 20px;
+    padding: 20px;
+    border-right: 8px;
+    .image-section {
+      width: 100%;
+      img {
+        height: 100%;
+      }
+    }
+    .show-info {
+      margin-left: 50px;
+      .show-p-section {
+        margin-bottom: 20px;
+        .show-title {
+          display: block;
+          font-size: 30px;
+          font-weight: 600;
+        }
+        .show-vtype,
+        .show-year,
+        .show-time {
+          font-size: 18px;
+        }
+        .span-pipes {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+        .show-vtype {
+          text-transform: capitalize;
+        }
+        .show-synopsis {
+          font-size: 16px;
+        }
+        .show-link {
+          .link {
+            position: relative;
+            transition: clip-path 275ms ease;
+            text-decoration: none;
+            color: #008b8b;
+            margin-right: 15px;
+            &:hover span::before,
+            &:focus span::before {
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            span {
+              position: relative;
+              display: inline-block;
+              color: #008b8b;
+              &::before {
+                position: absolute;
+                content: attr(data-content);
+                color: #008b8b;
+                text-decoration: underline;
+                text-decoration-color: #008b8b;
+                clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+                transition: clip-path 275ms ease;
+              }
+            }
+            svg {
+              height: 20px;
+              padding-left: 5px;
+            }
+          }
+        }
+        .show-release_label {
+          font-size: 14px;
+          padding-right: 5px;
+        }
+        .show-release_date {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

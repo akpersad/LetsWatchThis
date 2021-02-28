@@ -1,0 +1,59 @@
+.pending-friends-container,
+.friends-list-container {
+  list-style: none;
+  padding: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  .pending-request {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0px 2px 3px rgba(36, 46, 59, 0.1);
+    display: flex;
+    align-items: center;
+    .name-section {
+      .names-line,
+      .email-line {
+        margin-bottom: 0;
+        line-height: 1;
+      }
+      .names-line {
+        font-weight: 600;
+        .last-name {
+          padding-left: 5px;
+        }
+      }
+      .email-line {
+        span {
+          font-size: 16px;
+        }
+      }
+    }
+    .btns-section {
+      margin-left: auto;
+      .pending-request-btn {
+        border: 1px solid;
+        padding: 6px;
+        &.submit-friend-request_yes {
+          color: #008a00;
+          background-color: #008a00;
+          margin-right: 8px;
+          svg {
+            fill: #fff;
+          }
+        }
+        &.submit-friend-request_no {
+          color: #e9e7e7;
+          background-color: #e9e7e7;
+          svg {
+            fill: #e50914;
+          }
+        }
+        &.Mui-focusVisible {
+          box-shadow: 0px 0px 0 2px rgba(#00ffff, 0.1);
+        }
+      }
+    }
+  }
+}

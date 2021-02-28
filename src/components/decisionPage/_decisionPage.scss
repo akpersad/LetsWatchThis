@@ -1,0 +1,60 @@
+.rating-btns_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  .rating-btn {
+    border: 1px solid;
+    padding: 16px;
+    &.rating-btn_like {
+      color: #008a00;
+      background-color: #008a00;
+      margin-right: 8px;
+      svg {
+        fill: #fff;
+        height: 24px;
+      }
+    }
+    &.rating-btn_dislike {
+      color: #e9e7e7;
+      background-color: #e9e7e7;
+      svg {
+        fill: #e50914;
+        height: 24px;
+      }
+    }
+    &.Mui-focusVisible {
+      box-shadow: 0px 0px 0 2px rgba(#00ffff, 0.1);
+    }
+  }
+}
+
+.filter-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  .pipe-spacer {
+    font-size: 25px;
+    margin-left: 10px;
+    margin-right: 8px;
+  }
+
+  .radio-video {
+    &.MuiFormControlLabel-root {
+      margin: 0;
+    }
+
+    .MuiButtonBase-root {
+      padding: 5px;
+    }
+    .MuiRadio-colorSecondary.Mui-checked {
+      color: #e50914;
+    }
+  }
+  .MuiInput-underline {
+    margin-left: 10px;
+    .MuiSelect-root {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
