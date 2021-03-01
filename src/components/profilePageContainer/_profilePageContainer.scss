@@ -21,3 +21,46 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .profile-page_container {
+    .profile-header-container {
+      flex-wrap: wrap;
+      text-align: center;
+      justify-content: center;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-bottom: none;
+      .image-container {
+        flex-basis: 100%;
+        margin-bottom: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        img {
+          height: 125px;
+        }
+      }
+      .info-container {
+        border-left: none;
+        border-top: 1px solid #008b8b;
+        padding: 0;
+        justify-content: flex-start;
+        min-height: unset;
+        padding-top: 10px;
+        .name-line {
+          .name-header {
+            font-size: 22px;
+          }
+        }
+        .email-line {
+          .email-header {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    .friends-section {
+      flex-wrap: wrap;
+    }
+  }
+}
