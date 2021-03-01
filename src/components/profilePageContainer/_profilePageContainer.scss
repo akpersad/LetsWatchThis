@@ -98,6 +98,20 @@
           }
         }
       }
+      .friend-right {
+        flex-wrap: wrap;
+        flex-grow: 1;
+        padding: 0;
+        text-align: center;
+        .form-group {
+          h3 {
+            font-size: 20px;
+          }
+          .friends-list-container {
+            text-align: left;
+          }
+        }
+      }
     }
   }
 }
