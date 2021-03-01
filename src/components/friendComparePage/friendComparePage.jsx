@@ -124,28 +124,28 @@ class FriendComparePage extends Component {
           });
 
           if (response.data.formattedList.length === 4) {
-            document.documentElement.style.setProperty("--col-width", 4);
+            document.documentElement.style.setProperty("--col-width", "unset");
             document.documentElement.style.setProperty(
               "--item-width",
               `calc(${100 / 4}% - ${2 * 4}px)`
             );
           } else if (response.data.formattedList.length === 3) {
-            document.documentElement.style.setProperty("--col-width", 3);
+            document.documentElement.style.setProperty("--col-width", "unset");
             document.documentElement.style.setProperty(
               "--item-width",
-              `calc(${100 / 4}% - ${2 * 3}px)`
+              `calc(${100 / 3}% - ${2 * 3}px)`
             );
           } else if (response.data.formattedList.length === 2) {
-            document.documentElement.style.setProperty("--col-width", 2);
+            document.documentElement.style.setProperty("--col-width", "unset");
             document.documentElement.style.setProperty(
               "--item-width",
-              `calc(${100 / 4}% - ${2 * 2}px)`
+              `calc(${100 / 2}% - ${2 * 2}px)`
             );
           } else if (response.data.formattedList.length === 1) {
-            document.documentElement.style.setProperty("--col-width", 1);
+            document.documentElement.style.setProperty("--col-width", "unset");
             document.documentElement.style.setProperty(
               "--item-width",
-              `calc(${100 / 4}% - ${2 * 1}px)`
+              `calc(${100 / 1}% - ${2 * 1}px)`
             );
           } else {
             document.documentElement.style.setProperty("--col-width", 5);
@@ -313,8 +313,14 @@ class FriendComparePage extends Component {
                   <span className="show-vtype">{app.modalInfo.vtype}</span>
                   <span className="span-pipes">|</span>
                   <span className="show-year">{app.modalInfo.year}</span>
-                  <span className="span-pipes">|</span>
-                  <span className="show-time">{this.formatTime()}</span>
+                  {app.modalInfo.vtype === "series" ? (
+                    ""
+                  ) : (
+                    <>
+                      <span className="span-pipes">|</span>
+                      <span className="show-time">{this.formatTime()}</span>
+                    </>
+                  )}
                 </p>
                 <p className="show-p-section">
                   <span className="show-synopsis">{app.modalInfo.synopsis}</span>

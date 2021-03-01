@@ -64,8 +64,14 @@ class ShowContainer extends Component {
               <span className="show-vtype">{showObj.vtype}</span>
               <span className="span-pipes">|</span>
               <span className="show-year">{showObj.year}</span>
-              <span className="span-pipes">|</span>
-              <span className="show-time">{this.formatTime()}</span>
+              {showObj.vtype === "series" ? (
+                ""
+              ) : (
+                <>
+                  <span className="span-pipes">|</span>
+                  <span className="show-time">{this.formatTime()}</span>
+                </>
+              )}
             </p>
             <p className="show-p-section">
               <span className="show-synopsis">{showObj.synopsis}</span>
