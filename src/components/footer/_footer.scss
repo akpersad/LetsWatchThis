@@ -15,4 +15,30 @@
       padding-right: 10px;
     }
   }
+  .link {
+    position: relative;
+    transition: clip-path 275ms ease;
+    text-decoration: none;
+    color: #008b8b;
+    margin-right: 5px;
+    margin-left: 5px;
+    &:hover span::before,
+    &:focus span::before {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    span {
+      position: relative;
+      display: inline-block;
+      color: #008b8b;
+      &::before {
+        position: absolute;
+        content: attr(data-content);
+        color: #008b8b;
+        text-decoration: underline;
+        text-decoration-color: #008b8b;
+        clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+        transition: clip-path 275ms ease;
+      }
+    }
+  }
 }

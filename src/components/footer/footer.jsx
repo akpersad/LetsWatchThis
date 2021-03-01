@@ -52,7 +52,13 @@ class Footer extends Component {
     return (
       <footer className="footer-container">
         <div className="social-container">{this.formatSocialLinks()}</div>
-        <span>Made by Me! © 2021</span>
+        <span>
+          Made by
+          <a className="link" href="http://www.andrewpersad.com/" rel="noopener noreferrer">
+            <span data-content="Me!">Me!</span>
+          </a>
+          © 2021
+        </span>
       </footer>
     );
   }
