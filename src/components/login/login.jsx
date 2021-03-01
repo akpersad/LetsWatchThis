@@ -7,6 +7,7 @@ import { TextField } from "@material-ui/core";
 import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 class Login extends Component {
   constructor() {
@@ -132,6 +133,7 @@ class Login extends Component {
             </div>
           )}
         </div>
+        <Footer />
       </>
     );
   }

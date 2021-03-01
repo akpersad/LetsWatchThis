@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import { connect } from "react-redux";
-// import { checkUserLoggedIn } from "../../global/_util";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 class HomeContainer extends Component {
   render() {
@@ -34,6 +33,8 @@ class HomeContainer extends Component {
             <li />
           </ul>
         </div>
+
+        <Footer />
       </>
     );
   }

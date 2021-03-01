@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 import SubmitFriendRequest from "../submitFriendRequest/submitFriendRequest";
 import PendingRequests from "../pendingRequests/pendingRequests";
 import FriendsList from "../friendsList/friendsList";
@@ -31,6 +32,7 @@ class ProfilePageContainer extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }

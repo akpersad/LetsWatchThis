@@ -9,6 +9,7 @@ import ShowContainer from "../showContainer/showContainer";
 import { checkUserLoggedIn } from "../../global/_util";
 import store from "../../config/store";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 class DecisionPage extends Component {
   constructor() {
@@ -239,7 +240,6 @@ class DecisionPage extends Component {
             </IconButton>
           </div>
         </div>
-
         <Modal
           isOpen={openModal}
           className="modal-rating-mobile"
@@ -311,6 +311,7 @@ class DecisionPage extends Component {
             </div>
           </div>
         </Modal>
+        <Footer />
       </>
     );
   }
