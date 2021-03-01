@@ -71,6 +71,7 @@
       display: none;
     }
   }
+
   .show-container {
     .show-container_show {
       flex-wrap: wrap;
@@ -88,9 +89,109 @@
         padding-top: 5px;
         .image-section {
           width: 100%;
+          img {
+            width: 100%;
+          }
         }
         .show-info {
           display: none;
+        }
+      }
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    .show-modal-btn {
+      font-size: 20px;
+      border: 1px solid #4a94d5;
+      border-radius: 5px;
+      background-color: #4a94d5;
+      color: #fff;
+      padding: 5px 8px;
+    }
+  }
+
+  .modal-rating-mobile {
+    position: absolute;
+    border: 1px solid rgb(204, 204, 204);
+    background-color: #d9e3ec;
+    overflow: auto;
+    outline: none;
+    padding: 0 20px 20px 20px;
+    top: 110px;
+    width: 95vw;
+    left: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    .modal-header {
+      padding: 0;
+      .close-btn {
+        margin-left: auto;
+        margin-top: 10px;
+      }
+    }
+    .modal-body {
+      padding: 0;
+      .inner-container {
+        width: unset;
+        padding: 0;
+        margin: 0;
+        &.mobile-modal {
+          .show-info {
+            .show-p-section {
+              font-size: 16px;
+              .show-title {
+                display: block;
+                font-size: 26px;
+                margin-bottom: 10px;
+              }
+              .show-vtype {
+                text-transform: capitalize;
+              }
+              .span-pipes {
+                padding-left: 8px;
+                padding-right: 8px;
+              }
+              .show-link {
+                .link {
+                  position: relative;
+                  transition: clip-path 275ms ease;
+                  text-decoration: none;
+                  color: #008b8b;
+                  margin-right: 15px;
+                  &:hover span::before,
+                  &:focus span::before {
+                    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                  }
+                  span {
+                    position: relative;
+                    display: inline-block;
+                    color: #008b8b;
+                    &::before {
+                      position: absolute;
+                      content: attr(data-content);
+                      color: #008b8b;
+                      text-decoration: underline;
+                      text-decoration-color: #008b8b;
+                      clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+                      transition: clip-path 275ms ease;
+                    }
+                  }
+                  svg {
+                    height: 20px;
+                    padding-left: 5px;
+                  }
+                }
+              }
+
+              .show-release_label {
+                padding-right: 5px;
+              }
+            }
+          }
         }
       }
     }

@@ -313,8 +313,14 @@ class FriendComparePage extends Component {
                   <span className="show-vtype">{app.modalInfo.vtype}</span>
                   <span className="span-pipes">|</span>
                   <span className="show-year">{app.modalInfo.year}</span>
-                  <span className="span-pipes">|</span>
-                  <span className="show-time">{this.formatTime()}</span>
+                  {app.modalInfo.vtype === "series" ? (
+                    ""
+                  ) : (
+                    <>
+                      <span className="span-pipes">|</span>
+                      <span className="show-time">{this.formatTime()}</span>
+                    </>
+                  )}
                 </p>
                 <p className="show-p-section">
                   <span className="show-synopsis">{app.modalInfo.synopsis}</span>
