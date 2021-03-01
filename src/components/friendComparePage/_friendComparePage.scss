@@ -92,5 +92,26 @@ body.ReactModal__Body--open {
         margin: 0;
       }
     }
+
+    @media (max-width: 768px) {
+      height: unset;
+      inset: unset;
+      min-width: unset;
+      width: 95vw;
+      top: 110px;
+      .modal-body {
+        .inner-container {
+          flex-wrap: wrap;
+          width: 100%;
+          min-width: unset;
+          .image-section {
+            display: none;
+          }
+          .show-info {
+            margin: 0;
+          }
+        }
+      }
+    }
   }
 }
