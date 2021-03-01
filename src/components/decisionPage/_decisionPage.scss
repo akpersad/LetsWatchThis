@@ -58,3 +58,41 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .filter-group {
+    margin-top: 12px;
+    flex-wrap: wrap;
+    .MuiFormGroup-row,
+    .MuiInput-underline {
+      margin-bottom: 8px;
+    }
+    .pipe-spacer {
+      display: none;
+    }
+  }
+  .show-container {
+    .show-container_show {
+      flex-wrap: wrap;
+      .show-title {
+        text-align: center;
+        font-size: 28px;
+      }
+      .inner-container {
+        flex-wrap: wrap;
+        min-width: inherit;
+        width: 90vw;
+        text-align: center;
+        background-color: transparent;
+        margin-top: 0;
+        padding-top: 5px;
+        .image-section {
+          width: 100%;
+        }
+        .show-info {
+          display: none;
+        }
+      }
+    }
+  }
+}
