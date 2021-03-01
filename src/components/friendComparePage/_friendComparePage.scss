@@ -6,6 +6,7 @@
 .photo-grid-container {
   width: 85vw;
   margin: 30px auto 0;
+  min-height: calc(100vh - 210px);
   .photos {
     line-height: 0;
     -webkit-column-count: var(--col-width);

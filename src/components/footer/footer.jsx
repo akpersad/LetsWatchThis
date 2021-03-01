@@ -51,10 +51,8 @@ class Footer extends Component {
   render() {
     return (
       <footer className="footer-container">
-        <p>
-          <div className="social-container">{this.formatSocialLinks()}</div>
-          <span>Made by Me! © 2020</span>
-        </p>
+        <div className="social-container">{this.formatSocialLinks()}</div>
+        <span>Made by Me! © 2021</span>
       </footer>
     );
   }

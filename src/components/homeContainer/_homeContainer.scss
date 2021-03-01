@@ -158,3 +158,18 @@
     }
   }
 }
+
+.link-btn {
+  text-decoration: none;
+  border: 1px solid #4a94d5;
+  background-color: #4a94d5;
+  border-radius: 5px;
+  padding: 8px 12px;
+  margin-top: 25px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
