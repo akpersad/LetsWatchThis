@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config server.js",
     "build": "webpack -p --mode production & ./node_modules/.bin/webpack-dev-server --open --config ./webpack.config.js --mode development",
+    "heroku-postbuild": "webpack",
     "buildcopy": "./node_modules/.bin/webpack -p --mode production",
     "startcopy": "webpack -p --mode production --watch & ./node_modules/.bin/webpack-dev-server --open --config ./webpack.config.js --mode development",
     "lint": "eslint --fix --ext .js,.jsx .",
