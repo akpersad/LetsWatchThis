@@ -29,7 +29,8 @@
           background-color: transparent;
           border: none;
           @media (max-width: 500px) {
-            max-width: 140px;
+            max-width: 175px;
+            display: flex;
           }
           span {
             padding-right: 10px;
@@ -52,7 +53,7 @@
           @media (max-width: 768px) {
             top: 57px;
             width: 100vw;
-            right: -32px;
+            right: -16px;
           }
           a,
           button {
