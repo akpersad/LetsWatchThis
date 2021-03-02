@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -p --mode production --watch & ./node_modules/.bin/webpack-dev-server --open --config ./webpack.config.js --mode development",
-    "build": "./node_modules/.bin/webpack -p --mode production && npm run server",
+    "start": "node -r dotenv/config server.js",
+    "build": "webpack -p --mode production --watch & ./node_modules/.bin/webpack-dev-server --open --config ./webpack.config.js --mode development",
+    "buildcopy": "./node_modules/.bin/webpack -p --mode production && npm run server",
     "heroku-postbuild": "webpack",
     "lint": "eslint --fix --ext .js,.jsx .",
     "test": "echo \"Error: no test specified\" && exit 1",
