@@ -6,6 +6,7 @@ import { TextField } from "@material-ui/core";
 import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 class Registration extends Component {
   constructor() {
@@ -212,6 +213,7 @@ class Registration extends Component {
             </div>
           )}
         </div>
+        <Footer />
       </>
     );
   }

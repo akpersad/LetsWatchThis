@@ -9,6 +9,7 @@ import ShowContainer from "../showContainer/showContainer";
 import { checkUserLoggedIn } from "../../global/_util";
 import store from "../../config/store";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 class DecisionPage extends Component {
   constructor() {
@@ -153,93 +154,94 @@ class DecisionPage extends Component {
     return (
       <>
         <Header history={history} match={match} />
-        <div className="filter-group">
-          <RadioGroup
-            row
-            aria-label="Video Type"
-            name="video"
-            value={radioValue}
-            onChange={e => this.handleRadioChange(e)}
-          >
-            <FormControlLabel
-              className="radio-video"
-              value="movie"
-              control={<Radio />}
-              label="Movie"
-            />
-            <FormControlLabel
-              className="radio-video"
-              value="series"
-              control={<Radio />}
-              label="Series"
-            />
-            <FormControlLabel
-              className="radio-video"
-              value="both"
-              control={<Radio />}
-              label="Both"
-            />
-          </RadioGroup>
+        <div className="rating-container">
+          <div className="filter-group">
+            <RadioGroup
+              row
+              aria-label="Video Type"
+              name="video"
+              value={radioValue}
+              onChange={e => this.handleRadioChange(e)}
+            >
+              <FormControlLabel
+                className="radio-video"
+                value="movie"
+                control={<Radio />}
+                label="Movie"
+              />
+              <FormControlLabel
+                className="radio-video"
+                value="series"
+                control={<Radio />}
+                label="Series"
+              />
+              <FormControlLabel
+                className="radio-video"
+                value="both"
+                control={<Radio />}
+                label="Both"
+              />
+            </RadioGroup>
 
-          <div className="pipe-spacer">|</div>
+            <div className="pipe-spacer">|</div>
 
-          <Select
-            native
-            value={sortValue}
-            onChange={e => {
-              this.handleSortChange(e);
-            }}
-          >
-            <option data-column="title" data-direction="ASC" value="titleAsc">
-              Title: A - Z
-            </option>
-            <option data-column="title" data-direction="DESC" value="titleDesc">
-              Title: Z - A
-            </option>
-            <option data-column="titledate" data-direction="ASC" value="titleDateAsc">
-              Release Date: Older - Newer
-            </option>
-            <option data-column="titledate" data-direction="DESC" value="titleDateDesc">
-              Release Date: Newer - Older
-            </option>
-          </Select>
-        </div>
-        <div className="show-container">
-          <ShowContainer />
-
-          <div className="form-group show-mobile btn-container">
-            <button
-              className="show-modal-btn"
-              type="button"
-              value="Submit"
-              onClick={() => {
-                this.showShowModal();
+            <Select
+              native
+              value={sortValue}
+              onChange={e => {
+                this.handleSortChange(e);
               }}
             >
-              Show Information
-            </button>
+              <option data-column="title" data-direction="ASC" value="titleAsc">
+                Title: A - Z
+              </option>
+              <option data-column="title" data-direction="DESC" value="titleDesc">
+                Title: Z - A
+              </option>
+              <option data-column="titledate" data-direction="ASC" value="titleDateAsc">
+                Release Date: Older - Newer
+              </option>
+              <option data-column="titledate" data-direction="DESC" value="titleDateDesc">
+                Release Date: Newer - Older
+              </option>
+            </Select>
           </div>
+          <div className="show-container">
+            <ShowContainer />
 
-          <div className="rating-btns_container">
-            <IconButton
-              data-choice="like"
-              onClick={e => this.submitRating(e)}
-              className="rating-btn rating-btn_like"
-              aria-label="Like"
-            >
-              <ThumbUp />
-            </IconButton>
-            <IconButton
-              data-choice="dislike"
-              onClick={e => this.submitRating(e)}
-              className="rating-btn rating-btn_dislike"
-              aria-label="Dislike"
-            >
-              <ThumbDown />
-            </IconButton>
+            <div className="form-group show-mobile btn-container">
+              <button
+                className="show-modal-btn"
+                type="button"
+                value="Submit"
+                onClick={() => {
+                  this.showShowModal();
+                }}
+              >
+                Show Information
+              </button>
+            </div>
+
+            <div className="rating-btns_container">
+              <IconButton
+                data-choice="like"
+                onClick={e => this.submitRating(e)}
+                className="rating-btn rating-btn_like"
+                aria-label="Like"
+              >
+                <ThumbUp />
+              </IconButton>
+              <IconButton
+                data-choice="dislike"
+                onClick={e => this.submitRating(e)}
+                className="rating-btn rating-btn_dislike"
+                aria-label="Dislike"
+              >
+                <ThumbDown />
+              </IconButton>
+            </div>
           </div>
         </div>
-
         <Modal
           isOpen={openModal}
           className="modal-rating-mobile"
@@ -311,6 +313,7 @@ class DecisionPage extends Component {
             </div>
           </div>
         </Modal>
+        <Footer />
       </>
     );
   }

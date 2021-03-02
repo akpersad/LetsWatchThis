@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import { connect } from "react-redux";
-// import { checkUserLoggedIn } from "../../global/_util";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 
 class HomeContainer extends Component {
   render() {
-    const { history, match } = this.props;
+    const { history, match, isLoggedIn } = this.props;
     return (
       <>
         <Header history={history} match={match} />
@@ -17,6 +18,14 @@ class HomeContainer extends Component {
               Can&apos;t decide what you both want to watch? Like what shows you both are interested
               in and see what you both have in common!
             </span>
+
+            {isLoggedIn ? (
+              <Link className="link-btn" to="/choices">
+                <span>Start Rating!</span>
+              </Link>
+            ) : (
+              ""
+            )}
           </p>
         </div>
 
@@ -34,14 +43,23 @@ class HomeContainer extends Component {
             <li />
           </ul>
         </div>
+
+        <Footer />
       </>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    ...state.app
+  };
+};
+
 HomeContainer.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
 
-export default HomeContainer;
+export default connect(mapStateToProps)(HomeContainer);

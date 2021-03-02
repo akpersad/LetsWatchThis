@@ -1,3 +1,11 @@
+.show-container {
+  margin-bottom: 60px;
+}
+
+.rating-container {
+  min-height: calc(100vh - 300px);
+}
+
 .rating-btns_container {
   display: flex;
   justify-content: center;

@@ -1,6 +1,6 @@
 .context {
   width: 100%;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 180px);
   position: absolute;
   z-index: 2;
   .home-text_container {
@@ -30,7 +30,7 @@
   background: rgba(229, 9, 20, 1);
   background: linear-gradient(135deg, rgba(229, 9, 20, 1) 0%, rgba(196, 72, 65, 1) 100%);
   width: 100%;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 180px);
   .circles {
     position: absolute;
     top: 0;
@@ -156,5 +156,20 @@
         }
       }
     }
+  }
+}
+
+.link-btn {
+  text-decoration: none;
+  border: 1px solid #4a94d5;
+  background-color: #4a94d5;
+  border-radius: 5px;
+  padding: 8px 12px;
+  margin-top: 25px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  &:hover {
+    text-decoration: none;
   }
 }

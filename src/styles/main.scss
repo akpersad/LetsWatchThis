@@ -2,21 +2,12 @@
 
 // Globals
 @import "./partials/mixins";
-@import "./partials/colors";
 @import "./partials/breakpoints";
-@import "./partials/spacing";
-@import "./partials/grid-layout";
-@import "./partials/alignment";
-@import "./partials/shared-styles";
 @import "./partials/typography";
-@import "./partials/icons";
-@import "./partials/common-variables";
 @import "./partials/buttons";
-@import "./partials/forms";
-@import "./partials/z-index";
-@import "./partials/visibility";
-@import "./partials/accessibility";
 @import "./partials/imported";
+
+$OpenSans: "Open Sans", sans-serif;
 
 #root {
   font-family: $OpenSans;
@@ -36,6 +27,7 @@ body {
 }
 
 @import "../components/decisionPage/decisionPage";
+@import "../components/footer/footer";
 @import "../components/friendComparePage/friendComparePage";
 @import "../components/friendsList/friendsList";
 @import "../components/homeContainer/homeContainer";

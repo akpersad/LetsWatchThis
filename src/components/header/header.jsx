@@ -79,7 +79,7 @@ class Header extends Component {
                       <span>Your Profile</span>
                     </Link>
                     <Link to="/choices">
-                      <span>Would you watch these?</span>
+                      <span>Rate Them!</span>
                     </Link>
                     <button type="button" onClick={() => this.logout()}>
                       Logout

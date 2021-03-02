@@ -7,6 +7,7 @@ import { IconButton, RadioGroup, FormControlLabel, Radio, Select } from "@materi
 import { Close, Launch } from "@material-ui/icons/";
 import { ScaleLoader } from "react-spinners";
 import Header from "../header/header";
+import Footer from "../footer/footer";
 import store from "../../config/store";
 import { checkUserLoggedIn } from "../../global/_util";
 
@@ -361,6 +362,7 @@ class FriendComparePage extends Component {
             </div>
           </div>
         </Modal>
+        <Footer />
       </>
     );
   }
