@@ -1,0 +1,27 @@
+.registration-container {
+  .form-group {
+    .error-div {
+      margin-top: 12px;
+      color: #e50914;
+      font-size: 13px;
+      height: 20px;
+    }
+    .error-div-empty {
+      margin-top: 12px;
+      height: 20px;
+    }
+    &:nth-of-type(5) {
+      margin-bottom: 10px;
+    }
+    .reg-fail {
+      color: #e50914;
+      font-size: 16px;
+    }
+    .submit-btn {
+      &:disabled {
+        background-color: #778899;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+.profile-header-container {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-height: 215px;
+  border-bottom: 1px solid #008b8b;
+  margin-bottom: 30px;
+  .image-container {
+    text-align: center;
+    flex-basis: 25%;
+    .profile-image {
+      height: 175px;
+    }
+  }
+  .info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    border-left: 1px solid #008b8b;
+    min-height: 175px;
+    padding-left: 48px;
+    .name-line {
+      .name-header {
+        .last-name-span {
+          padding-left: 8px;
+          font-weight: 700;
+        }
+      }
+    }
+    .link-line {
+      .link {
+        position: relative;
+        transition: clip-path 275ms ease;
+        text-decoration: none;
+        color: #008b8b;
+        &:hover span::before,
+        &:focus span::before {
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        span {
+          position: relative;
+          display: inline-block;
+          color: #008b8b;
+          &::before {
+            position: absolute;
+            content: attr(data-content);
+            color: #008b8b;
+            text-decoration: underline;
+            text-decoration-color: #008b8b;
+            clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+            transition: clip-path 275ms ease;
+          }
+        }
+      }
+    }
+  }
+}

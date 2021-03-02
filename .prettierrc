@@ -1,21 +1,28 @@
 {
 	"printWidth": 100,
 	"singleQuote": false,
-	"tabWidth": 4,
+	"tabWidth": 2,
 	"useTabs": true,
 	"overrides": [
 		{
 			"files": "*.scss",
 			"options": {
 				"useTabs": false,
-				"tabWidth": 4
+				"tabWidth": 2
+			}
+		},
+		{
+			"files": "*.jsx",
+			"options": {
+				"useTabs": false,
+				"tabWidth": 2
 			}
 		},
 		{
 			"files": "package.json",
 			"options": {
 				"useTabs": false,
-				"tabWidth": 4
+				"tabWidth": 2
 			}
 		}
 	]

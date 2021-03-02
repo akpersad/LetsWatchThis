@@ -1,0 +1,118 @@
+:root {
+  --col-width: 5;
+  --item-width: 100%;
+}
+
+.photo-grid-container {
+  width: 85vw;
+  margin: 30px auto 0;
+  min-height: calc(100vh - 210px);
+  .photos {
+    line-height: 0;
+    -webkit-column-count: var(--col-width);
+    -webkit-column-gap: 0px;
+    -moz-column-count: var(--col-width);
+    -moz-column-gap: 0px;
+    column-count: var(--col-width);
+    column-gap: 4px;
+    button {
+      /* Just in case there are inline attributes */
+      width: var(--item-width) !important;
+      height: auto !important;
+      border: 1px solid black;
+      padding: 0;
+      margin: 2px;
+      img {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      -moz-column-count: 4;
+      -webkit-column-count: 4;
+      column-count: 4;
+    }
+    @media (max-width: 992px) {
+      -moz-column-count: 3;
+      -webkit-column-count: 3;
+      column-count: 3;
+    }
+    @media (max-width: 768px) {
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
+      column-count: 2;
+    }
+    @media (max-width: 500px) {
+      -moz-column-count: 1;
+      -webkit-column-count: 1;
+      column-count: 1;
+    }
+  }
+  .filter-group {
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+}
+
+body.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  .modal-friend-compare {
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background-color: #d9e3ec;
+    overflow: auto;
+    outline: none;
+    padding: 0 20px 20px 20px;
+    top: 110px;
+    width: 50vw;
+    min-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    height: 64vh;
+    @media (max-width: 500px) {
+      height: unset;
+    }
+    .modal-header {
+      padding: 0;
+      .close-btn {
+        margin-left: auto;
+        margin-top: 10px;
+      }
+    }
+    .modal-body {
+      padding: 0;
+      .inner-container {
+        width: unset;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      height: unset;
+      inset: unset;
+      min-width: unset;
+      width: 95vw;
+      top: 110px;
+      .modal-body {
+        .inner-container {
+          flex-wrap: wrap;
+          width: 100%;
+          min-width: unset;
+          .image-section {
+            display: none;
+          }
+          .show-info {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

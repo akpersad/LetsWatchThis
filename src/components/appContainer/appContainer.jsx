@@ -1,22 +1,14 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import HomeContainer from "../homeContainer/homeContainer";
 
 class AppContainer extends Component {
-	render() {
-		const { initialText } = this.props;
-		return <div>{initialText}</div>;
-	}
+  render() {
+    return (
+      <>
+        <HomeContainer />
+      </>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-	return {
-		...state.app
-	};
-};
-
-AppContainer.propTypes = {
-	initialText: PropTypes.string.isRequired
-};
-
-export default connect(mapStateToProps)(AppContainer);
+export default AppContainer;

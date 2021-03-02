@@ -1,5 +1,33 @@
 const initialState = {
-	initialText: "Hello World"
+	initialText: "Hello World",
+	initialHash: {},
+	isLoggedIn: false,
+	userInfo: { username: "", id: "", firstName: "", lastName: "" },
+	showList: [],
+	showInfo: [
+		{
+			id: "",
+			title: "",
+			img: "",
+			vtype: "",
+			nfid: "",
+			synopsis: "",
+			avgrating: "",
+			year: "",
+			runtime: "",
+			imdbid: "",
+			poster: "",
+			imdbrating: "",
+			top250: "",
+			top250tv: "",
+			clist: "",
+			titledate: ""
+		}
+	],
+	friendList: [],
+	friendListFormatted: [],
+	friendListLoading: true,
+	modalInfo: {}
 };
 
 const appContainerReducer = (state = initialState, action) => {

@@ -2,23 +2,39 @@
 
 // Globals
 @import "./partials/mixins";
-@import "./partials/colors";
 @import "./partials/breakpoints";
-@import "./partials/spacing";
-@import "./partials/grid-layout";
-@import "./partials/alignment";
-@import "./partials/shared-styles";
 @import "./partials/typography";
-@import "./partials/icons";
-@import "./partials/common-variables";
 @import "./partials/buttons";
-@import "./partials/forms";
-@import "./partials/z-index";
-@import "./partials/visibility";
-@import "./partials/accessibility";
 @import "./partials/imported";
 
+$OpenSans: "Open Sans", sans-serif;
+
 #root {
-    font-family: $OpenSans;
-    position: relative;
+  font-family: $OpenSans;
+  position: relative;
 }
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.show-mobile {
+  display: block;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+@import "../components/decisionPage/decisionPage";
+@import "../components/footer/footer";
+@import "../components/friendComparePage/friendComparePage";
+@import "../components/friendsList/friendsList";
+@import "../components/homeContainer/homeContainer";
+@import "../components/login/login";
+@import "../components/profileHeader/profileHeader";
+@import "../components/profilePageContainer/profilePageContainer";
+@import "../components/pendingRequests/pendingRequests";
+@import "../components/registration/registration";
+@import "../components/showContainer/showContainer";
+@import "../components/submitFriendRequest/submitFriendRequest";

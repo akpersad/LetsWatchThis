@@ -46,7 +46,10 @@ module.exports = {
 			},
 			{
 				test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
-				loader: "file-loader"
+				loader: "file-loader",
+				options: {
+					name: "[name].[ext]"
+				}
 			}
 		]
 	},
@@ -68,6 +71,12 @@ module.exports = {
 		historyApiFallback: true,
 		contentBase: DIST_DIR,
 		hot: true,
-		port: 9000
+		port: 9000,
+		proxy: {
+			"/api/*": {
+				target: "http://localhost:5000",
+				secure: false
+			}
+		}
 	}
 };

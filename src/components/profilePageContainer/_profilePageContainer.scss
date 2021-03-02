@@ -1,0 +1,117 @@
+.profile-page_container {
+  background-color: #f1f2f7;
+  min-height: calc(100vh - 90px);
+  padding-bottom: 30px;
+  .friends-section {
+    display: flex;
+    min-height: 300px;
+    .friend-left,
+    .friend-right {
+      flex-basis: 50%;
+    }
+    .friend-left {
+      padding-right: 20px;
+      border-right: 1px solid #008b8b;
+      .friend-request-container {
+        margin-bottom: 40px;
+      }
+    }
+    .friend-right {
+      padding-left: 20px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-page_container {
+    .profile-header-container {
+      flex-wrap: wrap;
+      text-align: center;
+      justify-content: center;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-bottom: none;
+      margin-bottom: 10px;
+      .image-container {
+        flex-basis: 100%;
+        margin-bottom: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        img {
+          height: 125px;
+        }
+      }
+      .info-container {
+        border-left: none;
+        border-top: 1px solid #008b8b;
+        padding: 0;
+        justify-content: flex-start;
+        min-height: unset;
+        padding-top: 10px;
+        .name-line {
+          .name-header {
+            font-size: 22px;
+          }
+        }
+        .email-line {
+          .email-header {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    .friends-section {
+      flex-wrap: wrap;
+      .friend-left {
+        flex-grow: 1;
+        padding: 0;
+        border-right: none;
+        text-align: center;
+        .friend-request-container {
+          margin-bottom: 10px;
+          .friend-section-header {
+            font-size: 20px;
+          }
+          .form-group {
+            &:last-of-type {
+              margin-bottom: 0;
+            }
+          }
+        }
+        .form-group {
+          &:last-of-type {
+            h3 {
+              font-size: 20px;
+            }
+            .pending-friends-container {
+              text-align: left;
+              .btns-section {
+                .pending-request-btn {
+                  padding: 4px;
+                  svg {
+                    height: 22px;
+                    width: 22px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .friend-right {
+        flex-wrap: wrap;
+        flex-grow: 1;
+        padding: 0;
+        text-align: center;
+        .form-group {
+          h3 {
+            font-size: 20px;
+          }
+          .friends-list-container {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
