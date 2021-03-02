@@ -22,6 +22,9 @@
     font-size: 18px;
     margin-top: 6px;
     font-weight: 500;
+    @media (max-width: 768px) {
+      color: #e50914;
+    }
   }
   .loader-container {
     height: 132px;
