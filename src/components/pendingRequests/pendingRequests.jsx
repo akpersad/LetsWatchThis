@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { IconButton } from "@material-ui/core/";
-import { Check, Close } from "@material-ui/icons/";
+import IconButton from "@material-ui/core/IconButton";
+import Check from "@material-ui/icons/Check";
+import Close from "@material-ui/icons/Close";
 import { ScaleLoader } from "react-spinners";
 import store from "../../config/store";
 import { checkUserLoggedIn, getFriendsList } from "../../global/_util";

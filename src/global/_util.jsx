@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { AccountCircle } from "@material-ui/icons/";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import store from "../config/store";
 

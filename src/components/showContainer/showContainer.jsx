@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Launch } from "@material-ui/icons/";
+import Launch from "@material-ui/icons/Launch";
 
 class ShowContainer extends Component {
   constructor() {

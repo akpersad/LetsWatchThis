@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ScaleLoader } from "react-spinners";
-import { Launch } from "@material-ui/icons/";
+import Launch from "@material-ui/icons/Launch";
 import store from "../../config/store";
 import { checkUserLoggedIn, getFriendsList } from "../../global/_util";
 
